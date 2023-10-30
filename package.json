@@ -20,7 +20,8 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx,css,md,json}": "yarn format"
+    "*.{ts,tsx,css,md,json}": "yarn format",
+    "**/*.ts": "tsc-files --noEmit"
   },
   "devDependencies": {
     "@types/node": "^20",
