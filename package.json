@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write .",
-    "check-types": "tsc --noEmit"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "next": "13.5.4",
@@ -22,7 +21,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,css,md,json}": "yarn format",
-    "**/*.ts": "yarn check-types"
+    "**/*.ts": "tsc-files --noEmit"
   },
   "devDependencies": {
     "@types/node": "^20",
@@ -32,6 +31,7 @@
     "eslint-config-next": "13.5.4",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.3",
+    "tsc-files": "^1.1.4",
     "typescript": "^5"
   }
 }
