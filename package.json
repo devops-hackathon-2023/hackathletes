@@ -20,7 +20,7 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx}": "yarn format"
+    "*.{ts,tsx,css,md,json}": "yarn format"
   },
   "devDependencies": {
     "@types/node": "^20",
