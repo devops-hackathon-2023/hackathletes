@@ -24,8 +24,8 @@ Package manager: `yarn`
 Please use absolute imports when importing code from a different folder. The root is configured to be `@/*`, for example:
 
 ```javascript
-import ConfirmDialog from "@/components/ConfirmDialog";
-import useAuth from "@/hooks/useAuth";
+import ConfirmDialog from '@/components/ConfirmDialog';
+import useAuth from '@/hooks/useAuth';
 ```
 
 ## Git
