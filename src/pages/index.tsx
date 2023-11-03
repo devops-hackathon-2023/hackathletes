@@ -1,12 +1,27 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import AllSases from '@/components/sections/AllSases';
+import { Navbar } from '@/components/menu/Navbar';
+import RecentSases from '@/components/sections/RecentSases';
+import { Stack } from '@mui/material';
+import { atomRecentSases } from '@/constants/state/atoms';
+import { useAtom } from 'jotai';
 
-import { Home } from './home';
+const Home= () => {
+    const [recentSasess, setRecentSasess] = useAtom(atomRecentSases);
 
-const queryClient = new QueryClient();
-export default function root() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Home />
-    </QueryClientProvider>
-  );
+    const clearRecentSases = () => {
+        setRecentSasess((prev) => (prev = []));
+    };
+
+    return (
+        <>
+            <Navbar />
+            <button onClick={() => clearRecentSases()}>clear recent sases</button>
+            <Stack paddingX={15} spacing={2} paddingTop={2}>
+                <RecentSases />
+                <AllSases />
+            </Stack>
+        </>
+    );
 }
+
+export default Home;
