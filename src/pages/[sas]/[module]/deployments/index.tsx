@@ -1,4 +1,4 @@
-import { Layout } from '@/components/menu/Layout';
+import { Layout } from '@/components/module-details/Layout';
 
 const DeploymentsPage = () => {
   return (

@@ -12,6 +12,10 @@ declare module '@mui/material/styles' {
   interface Theme {
     palette: {
       primary: PaletteColorOptions;
+      common: {
+        white: string;
+        black: string;
+      };
     };
   }
 }

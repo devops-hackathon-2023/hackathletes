@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from '@/components/menu/Layout';
+import { Layout } from '@/components/module-details/Layout';
 
 const DashboardPage: React.FC = () => {
   return (

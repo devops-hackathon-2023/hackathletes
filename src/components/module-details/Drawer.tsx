@@ -13,7 +13,7 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import { useRouter } from 'next/router';
 import { useIsMobile, usePageTitle } from '@/hooks';
 import Image from 'next/image';
-import DrawerButton from '@/components/menu/DrawerButton';
+import DrawerButton from '@/components/module-details/DrawerButton';
 import { Theme } from '@mui/material/styles';
 
 const menuItems = [

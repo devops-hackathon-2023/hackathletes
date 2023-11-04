@@ -1,7 +1,7 @@
 import { Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 
 import AllItemsGrid from '@/components/AllItemsGrid';
-import Menubar from '@/components/menu/Menubar';
+import Menubar from '@/components/main-page/Menubar';
 import { useLocales } from '@/locales';
 
 export default function AllSases() {

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { useFetchAppModuleImage } from '@/queries';
 import { useRouter } from 'next/router';
-import { ListItemButton } from '@/components/menu/Drawer';
+import { ListItemButton } from '@/components/module-details/Drawer';
 
 const DrawerButton = () => {
   const { sas, module } = useRouter().query;

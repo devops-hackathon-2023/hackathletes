@@ -1,10 +1,10 @@
 // components/Layout.tsx
 import React, { ReactNode, useState } from 'react';
 import { Box, CssBaseline, Toolbar, useTheme, useMediaQuery } from '@mui/material';
-import AppBar from '@/components/menu/AppBar';
-import Drawer from '@/components/menu/Drawer';
+import AppBar from '@/components/module-details/AppBar';
+import Drawer from '@/components/module-details/Drawer';
 import { usePageTitle } from '@/hooks';
-import { drawerWidth } from '@/components/menu/Drawer';
+import { drawerWidth } from '@/components/module-details/Drawer';
 interface LayoutProps {
   children: ReactNode;
 }

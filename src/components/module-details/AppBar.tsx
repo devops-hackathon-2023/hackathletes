@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar as MuiAppBar, Toolbar, IconButton, Typography, useTheme, useMediaQuery } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { CustomAvatar } from '@/components/CustomAvatar';
-import { drawerWidth } from '@/components/menu/Drawer';
+import { drawerWidth } from '@/components/module-details/Drawer';
 interface CustomAppBarProps {
   title: string;
   onMenuClick?: () => void;

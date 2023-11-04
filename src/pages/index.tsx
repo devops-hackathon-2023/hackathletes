@@ -1,5 +1,5 @@
 import AllSases from '@/components/sections/AllSases';
-import { Navbar } from '@/components/menu/Navbar';
+import { AppBar } from '@/components/main-page/AppBar';
 import RecentSases from '@/components/sections/RecentSases';
 import { Stack } from '@mui/material';
 import { atomRecentSases } from '@/constants/state/atoms';
@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
+      <AppBar />
       <button onClick={() => clearRecentSases()}>clear recent sases</button>
       <Stack paddingX={15} spacing={2} paddingTop={2}>
         <RecentSases />
