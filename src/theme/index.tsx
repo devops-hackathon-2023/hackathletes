@@ -3,8 +3,11 @@ import { createTheme, ThemeProvider as MuiThemeProvider, ThemeOptions } from '@m
 import { palette } from './palette';
 import { typography } from './typography';
 import { componentsOverrides } from './overrides';
+import { useLocales } from '@/locales';
 
 export default function ThemeProvider({ children }: PropsWithChildren) {
+  const { currentLang } = useLocales();
+
   const baseOption = useMemo(
     () => ({
       palette: palette('light'),
@@ -18,8 +21,7 @@ export default function ThemeProvider({ children }: PropsWithChildren) {
 
   theme.components = componentsOverrides(theme);
 
-  // TODO: Uncomment after localization implementation and replace theme with themeWithLocale
-  // const themeWithLocale = useMemo(() => createTheme(theme, currentLang.systemValue), [currentLang.systemValue, theme]);
+  const themeWithLocale = useMemo(() => createTheme(theme, currentLang.systemValue), [currentLang.systemValue, theme]);
 
-  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
+  return <MuiThemeProvider theme={themeWithLocale}>{children}</MuiThemeProvider>;
 }

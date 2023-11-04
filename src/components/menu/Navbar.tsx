@@ -1,7 +1,6 @@
 import { CustomAvatar } from '../CustomAvatar';
 import Image from 'next/image';
 import { Stack } from '@mui/material';
-import img from '../../../public/ceska_sporitelna.png';
 
 export function Navbar() {
   return (
@@ -14,7 +13,7 @@ export function Navbar() {
       paddingLeft={15}
       color={'white'}
     >
-      <Image alt={'img'} src={img} width={114} height={51} />
+      <Image alt="img" src="/ceska_sporitelna.png" width={114} height={51} />
       <CustomAvatar />
     </Stack>
   );

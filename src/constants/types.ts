@@ -9,6 +9,6 @@ export type sasItem = {
 };
 
 export type appModule = {
-    id: string;
-    name: string;
-}
+  id: string;
+  name: string;
+};

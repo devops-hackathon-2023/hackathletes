@@ -2,8 +2,11 @@ import { Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@
 
 import AllItemsGrid from '@/components/AllItemsGrid';
 import Menubar from '@/components/menu/Menubar';
+import { useLocales } from '@/locales';
 
 export default function AllSases() {
+  const { t } = useLocales();
+
   return (
     <>
       <Typography>Všechny moduly</Typography>

@@ -14,13 +14,18 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.16",
-    "lodash": "^4.17.21",
+    "@mui/x-date-pickers": "^6.17.0",
     "axios": "^1.6.0",
+    "i18next": "^23.6.0",
+    "i18next-browser-languagedetector": "^7.1.0",
     "jotai": "^2.5.0",
+    "lodash": "^4.17.21",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
-    "react-query": "^3.39.3"
+    "react-i18next": "^13.3.1",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.18.0"
   },
   "husky": {
     "hooks": {
@@ -28,10 +33,12 @@
     }
   },
   "devDependencies": {
+    "@types/date-fns": "^2.6.0",
     "@types/lodash": "^4.14.200",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "date-fns": "^2.30.0",
     "eslint": "^8",
     "eslint-config-next": "13.5.4",
     "eslint-config-prettier": "^9.0.0",
