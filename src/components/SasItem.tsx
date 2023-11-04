@@ -1,8 +1,9 @@
 import { Card, CardContent, CardMedia, Paper, Stack, Typography } from '@mui/material';
 
 import { useRouter } from 'next/router';
+import { sasItem } from '@/constants/types';
 
-export function SasItem({ item }: any) {
+export function SasItem({ item }: { item: sasItem }) {
   const { push } = useRouter();
 
   return (
