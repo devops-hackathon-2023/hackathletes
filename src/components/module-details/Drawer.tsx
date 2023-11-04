@@ -6,10 +6,12 @@ import {
   ListItemButton as MuiListItemButton,
   ListItemIcon,
   ListItemText,
+  Divider as MuiDivider,
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LoopIcon from '@mui/icons-material/Loop';
 import InsightsIcon from '@mui/icons-material/Insights';
+import HomeIcon from '@mui/icons-material/Home';
 import { useRouter } from 'next/router';
 import { useIsMobile, usePageTitle } from '@/hooks';
 import Image from 'next/image';
@@ -33,7 +35,6 @@ const menuItems = [
 
 export const drawerWidth = 240;
 
-// Styled components using MUI's styled API
 const Drawer = styled(MuiDrawer)(({ theme }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -58,6 +59,13 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }: { theme: The
   },
 }));
 
+const Divider = styled(MuiDivider)(({ theme }) => ({
+  width: '85%',
+  backgroundColor: theme.palette.primary.light,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+}));
+
 const ListItemIconStyled = styled(ListItemIcon)(({ theme }) => ({
   color: theme.palette.primary.light,
 }));
@@ -80,6 +88,7 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
     <Drawer anchor="left" variant={isMobile ? 'temporary' : 'permanent'} open={open} onClose={onClose}>
       <Image alt="img" src="/ceska_sporitelna.png" width={114} height={51} style={{ margin: '20px 30px 10px' }} />
       <DrawerButton />
+      <Divider />
       <List>
         {menuItems.map(({ icon, name }) => (
           <ListItemButton selected={name === pageTitle} key={name} onClick={() => navigateTo(name.toLowerCase())}>
@@ -87,6 +96,13 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
             <ListItemText primary={name} sx={{ color: 'white' }} />
           </ListItemButton>
         ))}
+        <Divider />
+        <ListItemButton key={'Home'} onClick={() => router.push('/')}>
+          <ListItemIconStyled>
+            <HomeIcon />
+          </ListItemIconStyled>
+          <ListItemText primary={'Home'} sx={{ color: 'white' }} />
+        </ListItemButton>
       </List>
     </Drawer>
   );
