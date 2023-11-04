@@ -1,7 +1,7 @@
-import { alpha } from '@mui/material/styles';
+import { alpha, PaletteOptions } from '@mui/material/styles';
+import { PaletteMode } from '@mui/material';
 
 // Example of palette
-// TODO: customize
 const GREY = {
   0: '#ffffff',
   100: '#f7f9fc',
@@ -61,12 +61,11 @@ const ERROR = {
 };
 
 const PRIMARY = {
-  lighter: '#e1f5fe',
-  light: '#03a9f4',
-  main: '#0288d1',
-  dark: '#01579b',
-  darker: '#01579b',
-  contrastText: '#fff',
+  lighter: '#F8F8F8',
+  light: '#BFD3FF',
+  main: '#2870ED',
+  darker: '#182D59',
+  dark: '#101F40',
 };
 
 const COMMON = {
@@ -92,8 +91,8 @@ const COMMON = {
  * @param {string} mode - light (default), dark
  * @returns palette with preferred mode
  */
-export function palette(mode: 'light' | 'dark') {
-  const light = {
+export function palette(mode: PaletteMode): PaletteOptions {
+  const light: PaletteOptions = {
     ...COMMON,
     mode: 'light',
     text: {
@@ -104,14 +103,13 @@ export function palette(mode: 'light' | 'dark') {
     background: {
       paper: '#ffffff',
       default: '#f1f3f4',
-      neutral: '#f1f3f4',
     },
     action: {
       active: '#000000',
     },
   };
 
-  const dark = {
+  const dark: PaletteOptions = {
     ...COMMON,
     mode: 'dark',
     text: {
@@ -122,7 +120,6 @@ export function palette(mode: 'light' | 'dark') {
     background: {
       paper: '#424242',
       default: '#121212',
-      neutral: '#121212',
     },
     action: {
       active: '#ffffff',

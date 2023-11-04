@@ -19,7 +19,7 @@ export default function Menubar() {
     return <h2>{error.message}</h2>;
   } else {
     return (
-      <Stack bgcolor={'#F8F8F8'} padding={2} borderRadius={4} spacing={1}>
+      <Stack bgcolor={'primary.lighter'} padding={2} borderRadius={4} spacing={1}>
         <ToggleButtonGroup orientation="vertical" value={view} exclusive onChange={handleChange}>
           <ToggleButton value="list" sx={{ border: 'none' }}>
             <Typography sx={{ textTransform: 'none' }} noWrap>

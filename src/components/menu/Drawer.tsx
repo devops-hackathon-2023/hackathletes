@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { useIsMobile, usePageTitle } from '@/hooks';
 import Image from 'next/image';
 import DrawerButton from '@/components/menu/DrawerButton';
+import { Theme } from '@mui/material/styles';
 
 const menuItems = [
   {
@@ -39,17 +40,17 @@ const Drawer = styled(MuiDrawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     width: drawerWidth,
     boxSizing: 'border-box',
-    backgroundColor: '#101F40',
+    backgroundColor: theme.palette.primary.dark,
   },
 }));
 
-export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
-  margin: '0.5rem', // Adjust the margin to achieve 90% width effect
-  width: 'calc(100% - 1rem)', // Adjust the width to achieve 90% width effect
+export const ListItemButton = styled(MuiListItemButton)(({ theme }: { theme: Theme }) => ({
+  margin: '0.5rem',
+  width: 'calc(100% - 1rem)',
   '&.Mui-selected': {
-    backgroundColor: '#182D59',
+    backgroundColor: theme.palette.primary.darker,
     '&:hover': {
-      backgroundColor: '#182D59',
+      backgroundColor: theme.palette.primary.darker,
     },
   },
   '&:hover': {
@@ -57,9 +58,9 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => ({
   },
 }));
 
-const ListItemIconStyled = styled(ListItemIcon)({
-  color: '#BFD3FF',
-});
+const ListItemIconStyled = styled(ListItemIcon)(({ theme }) => ({
+  color: theme.palette.primary.light,
+}));
 
 interface PersistentDrawerProps {
   open: boolean;

@@ -22,7 +22,7 @@ const DrawerButton = () => {
       <Image alt="Module logo" src={image.src} width={50} height={50} style={{ borderRadius: '4px' }} />
       <Stack>
         <Typography>{module}</Typography>
-        <Typography variant="caption" color={'#2870ED'}>
+        <Typography variant="caption" color={'primary.main'}>
           {sas}
         </Typography>
       </Stack>

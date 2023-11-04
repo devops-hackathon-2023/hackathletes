@@ -34,7 +34,13 @@ export const SasModules = ({ sasItem }: { sasItem: sasItem }) => {
             alignItems="center"
             onClick={() => onClick(sasItem, moduleName)}
           >
-            <Stack bgcolor={'#2870ED'} height={'100px'} alignItems={'center'} justifyContent={'center'} width={150}>
+            <Stack
+              bgcolor={'primary.main'}
+              height={'100px'}
+              alignItems={'center'}
+              justifyContent={'center'}
+              width={150}
+            >
               img
             </Stack>
             <Typography>{moduleName}</Typography>

@@ -8,7 +8,7 @@ export function Navbar() {
       direction={'row'}
       justifyContent={'space-between'}
       alignItems={'center'}
-      bgcolor={'#101F40'}
+      bgcolor={'primary.dark'}
       padding={0.5}
       paddingLeft={15}
       color={'white'}

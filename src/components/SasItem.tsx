@@ -10,7 +10,7 @@ export function SasItem({ item }: { item: sasItem }) {
     <Card>
       <CardMedia>
         <Stack
-          bgcolor={'#2870ED'}
+          bgcolor={'primary.main'}
           height={'100px'}
           alignItems={'center'}
           justifyContent={'center'}

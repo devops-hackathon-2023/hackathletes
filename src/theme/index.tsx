@@ -17,11 +17,14 @@ export default function ThemeProvider({ children }: PropsWithChildren) {
     []
   );
 
-  const theme = createTheme(baseOption as ThemeOptions);
+  const theme = createTheme(baseOption);
 
   theme.components = componentsOverrides(theme);
 
-  const themeWithLocale = useMemo(() => createTheme(theme, currentLang.systemValue), [currentLang.systemValue, theme]);
+  const themeWithLocale = useMemo(
+    () => createTheme(theme as ThemeOptions, currentLang.systemValue),
+    [currentLang.systemValue, theme]
+  );
 
   return <MuiThemeProvider theme={themeWithLocale}>{children}</MuiThemeProvider>;
 }
