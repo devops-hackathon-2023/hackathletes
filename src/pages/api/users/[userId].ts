@@ -3,9 +3,10 @@ import User from '@/types/User';
 export const users: User[] = [
   {
     id: '1',
-    name: 'John Doe',
+    name: 'František Fousek',
+    role: 'DevOps',
     password: 'password123',
-    profilePicture: '/profile-pictures/johndoe.jpg',
+    profilePicture: '/profile-pictures/fousek.jpg',
     sases: [
       {
         id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',

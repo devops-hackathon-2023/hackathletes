@@ -1,4 +1,4 @@
-import { Avatar, Stack, Typography } from '@mui/material';
+import { Avatar, Stack, Typography, ListItemButton } from '@mui/material';
 
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { useFetchUser } from '@/queries';
@@ -10,14 +10,18 @@ export function CustomAvatar() {
   if (isError) return <div>Error fetching user</div>;
 
   return (
-    <Stack direction="row" alignItems={'center'} padding={1} spacing={2}>
+    <ListItemButton
+      sx={{
+        gap: 2,
+        flexGrow: 0,
+      }}
+    >
       <Avatar alt={user.name} src={user.profilePicture} />
       <Stack>
         <Typography>{user.name}</Typography>
-        {/*todo - tady by měl být vybraný SAS, ne ten první, ke kterému má uživatel přístup*/}
-        <Typography variant="caption">{user.sases.length > 0 ? user.sases[0].name : 'No SAS Access'}</Typography>
+        <Typography variant="caption">{user.role}</Typography>
       </Stack>
       <UnfoldMoreIcon />
-    </Stack>
+    </ListItemButton>
   );
 }

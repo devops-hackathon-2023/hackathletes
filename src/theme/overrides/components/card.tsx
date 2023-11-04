@@ -7,7 +7,7 @@ export function card(theme: Theme) {
     MuiCard: {
       styleOverrides: {
         root: {
-          position: 'relative',
+          position: 'relative' as const,
           borderRadius: theme.shape.borderRadius * 2,
         },
       },

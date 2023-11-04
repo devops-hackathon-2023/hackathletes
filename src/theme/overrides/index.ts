@@ -1,9 +1,8 @@
-import merge from 'lodash/merge';
-import { Theme } from '@mui/material/styles';
+import { Components, Theme } from '@mui/material/styles';
 import { card } from './components/card';
+import { listItemButton } from '@/theme/overrides/components/listItemButton';
+import { merge } from 'lodash';
 
-export function componentsOverrides(theme: Theme) {
-  const components = merge(card(theme));
-
-  return components;
+export function componentsOverrides(theme: Theme): Components {
+  return merge({}, card(theme), listItemButton(theme));
 }

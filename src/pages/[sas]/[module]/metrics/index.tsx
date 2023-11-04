@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout } from '@/components/menu/Layout';
 
-const DashboardPage: React.FC = () => {
+const MetricsPage: React.FC = () => {
   return (
     <Layout>
-      <h1>Dashboard page</h1>
+      <h1>Metrics page</h1>
     </Layout>
   );
 };
 
-export default DashboardPage;
+export default MetricsPage;

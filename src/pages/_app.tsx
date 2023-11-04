@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <LocalizationProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />)
+          <Component {...pageProps} />
         </QueryClientProvider>
       </ThemeProvider>
     </LocalizationProvider>

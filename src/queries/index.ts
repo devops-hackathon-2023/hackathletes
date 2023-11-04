@@ -26,3 +26,11 @@ export const useFetchUser = (userId: string): UseQueryResult<any, AxiosError> =>
     const response = await axios.get(`${MOCK_API_URL}/users/${userId}`);
     return response.data;
   });
+
+export const useFetchAppModuleImage = (sas: string, moduleName: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['appModuleImage', sas, moduleName], async () => {
+    const response = await axios.get(`${MOCK_API_URL}/app-module-images`, {
+      params: { sas, module: moduleName },
+    });
+    return response.data;
+  });
