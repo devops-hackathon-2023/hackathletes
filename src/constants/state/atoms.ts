@@ -1,4 +1,4 @@
 import { atomWithStorage } from 'jotai/utils';
-import { sasItem } from '../types';
+import { SasItem } from '../types';
 
-export const atomRecentSases = atomWithStorage<sasItem[]>('recentSases', []);
+export const atomRecentSases = atomWithStorage<SasItem[]>('recentSases', []);

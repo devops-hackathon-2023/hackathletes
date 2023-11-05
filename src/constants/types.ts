@@ -1,9 +1,9 @@
-export type sasItem = {
+export type SasItem = {
   id: string;
   name: string;
 };
 
-export type appModule = {
+export type AppModule = {
   id: string;
   name: string;
 };

@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  styled,
-  Drawer as MuiDrawer,
-  List,
-  ListItemButton as MuiListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Divider as MuiDivider,
-} from '@mui/material';
+import { styled, Drawer as MuiDrawer, List, ListItemIcon, ListItemText, Divider as MuiDivider } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LoopIcon from '@mui/icons-material/Loop';
 import InsightsIcon from '@mui/icons-material/Insights';
@@ -15,8 +7,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useRouter } from 'next/router';
 import { useIsMobile, usePageTitle } from '@/hooks';
 import Image from 'next/image';
-import DrawerButton from '@/components/module-details/DrawerButton';
-import { Theme } from '@mui/material/styles';
+import { ListItemButton } from '@/components/module-details/ListItemButton';
+import DrawerButton from '@/components/module-details//DrawerButton';
 
 const menuItems = [
   {
@@ -45,20 +37,6 @@ const Drawer = styled(MuiDrawer)(({ theme }) => ({
   },
 }));
 
-export const ListItemButton = styled(MuiListItemButton)(({ theme }: { theme: Theme }) => ({
-  margin: '0.5rem',
-  width: 'calc(100% - 1rem)',
-  '&.Mui-selected': {
-    backgroundColor: theme.palette.primary.darker,
-    '&:hover': {
-      backgroundColor: theme.palette.primary.darker,
-    },
-  },
-  '&:hover': {
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-  },
-}));
-
 const Divider = styled(MuiDivider)(({ theme }) => ({
   width: '85%',
   backgroundColor: theme.palette.primary.light,
@@ -77,12 +55,16 @@ interface PersistentDrawerProps {
 
 export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClose }) => {
   const router = useRouter();
+
   const { sas, module } = router.query;
+
   const isMobile = useIsMobile();
+
+  const pageTitle = usePageTitle();
+
   const navigateTo = (path: string) => {
     router.push(`/${sas}/${module}/${path}`);
   };
-  const pageTitle = usePageTitle();
 
   return (
     <Drawer anchor="left" variant={isMobile ? 'temporary' : 'permanent'} open={open} onClose={onClose}>
@@ -97,11 +79,11 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
           </ListItemButton>
         ))}
         <Divider />
-        <ListItemButton key={'Home'} onClick={() => router.push('/')}>
+        <ListItemButton key="Home" onClick={() => router.push('/')}>
           <ListItemIconStyled>
             <HomeIcon />
           </ListItemIconStyled>
-          <ListItemText primary={'Home'} sx={{ color: 'white' }} />
+          <ListItemText primary="Home" sx={{ color: 'white' }} />
         </ListItemButton>
       </List>
     </Drawer>

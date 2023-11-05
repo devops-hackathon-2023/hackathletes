@@ -1,15 +1,15 @@
 // components/Layout.tsx
 import React, { ReactNode, useState } from 'react';
-import { Box, CssBaseline, Toolbar, useTheme, useMediaQuery } from '@mui/material';
-import AppBar from '@/components/module-details/AppBar';
-import Drawer from '@/components/module-details/Drawer';
+import { Box, CssBaseline, Toolbar } from '@mui/material';
 import { usePageTitle } from '@/hooks';
-import { drawerWidth } from '@/components/module-details/Drawer';
+import Drawer, { drawerWidth } from '@/components/module-details/Drawer';
+import { AppBar } from '@/components/module-details/AppBar';
+
 interface LayoutProps {
   children: ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout = ({ children }: LayoutProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const pageTitle = usePageTitle();

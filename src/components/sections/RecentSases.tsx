@@ -1,10 +1,9 @@
-import { Stack, TextField, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-
+import { Typography } from '@mui/material';
 import { SasGrid } from '@/components/SasGrid';
 import { atomRecentSases } from '@/constants/state/atoms';
 import { useAtom } from 'jotai';
 
-export default function RecentSases() {
+const RecentSases = () => {
   const [recentSasess] = useAtom(atomRecentSases);
 
   return (
@@ -13,4 +12,6 @@ export default function RecentSases() {
       <SasGrid items={recentSasess} />
     </>
   );
-}
+};
+
+export default RecentSases;

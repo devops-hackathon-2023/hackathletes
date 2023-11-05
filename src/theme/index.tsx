@@ -1,11 +1,11 @@
 import { useMemo, PropsWithChildren } from 'react';
-import { createTheme, ThemeProvider as MuiThemeProvider, ThemeOptions } from '@mui/material/styles';
+import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material';
+import { useLocales } from '@/locales';
 import { palette } from './palette';
 import { typography } from './typography';
 import { componentsOverrides } from './overrides';
-import { useLocales } from '@/locales';
 
-export default function ThemeProvider({ children }: PropsWithChildren) {
+const ThemeProvider = ({ children }: PropsWithChildren) => {
   const { currentLang } = useLocales();
 
   const baseOption = useMemo(
@@ -21,10 +21,9 @@ export default function ThemeProvider({ children }: PropsWithChildren) {
 
   theme.components = componentsOverrides(theme);
 
-  const themeWithLocale = useMemo(
-    () => createTheme(theme as ThemeOptions, currentLang.systemValue),
-    [currentLang.systemValue, theme]
-  );
+  const themeWithLocale = useMemo(() => createTheme(theme, currentLang.systemValue), [currentLang.systemValue, theme]);
 
   return <MuiThemeProvider theme={themeWithLocale}>{children}</MuiThemeProvider>;
-}
+};
+
+export default ThemeProvider;

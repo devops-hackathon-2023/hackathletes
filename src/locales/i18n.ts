@@ -1,10 +1,10 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
+import { localStorageAvailable } from '@/utils/local-storage-available';
 import translationEn from './langs/en.json';
 import translationCs from './langs/cs.json';
-import { defaultLang } from './config-langs';
-import { localStorageAvailable } from '@/utils/local-storage-available';
+import { defaultLang } from './configLangs';
 
 let lng = defaultLang.value;
 

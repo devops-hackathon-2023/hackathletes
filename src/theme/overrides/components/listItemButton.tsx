@@ -1,13 +1,11 @@
 import { Theme } from '@mui/material/styles';
 
-export function listItemButton(theme: Theme) {
-  return {
-    MuiListItemButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: theme.shape.borderRadius,
-        },
+export const listItemButton = (theme: Theme) => ({
+  MuiListItemButton: {
+    styleOverrides: {
+      root: {
+        borderRadius: theme.shape.borderRadius,
       },
     },
-  };
-}
+  },
+});

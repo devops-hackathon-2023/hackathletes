@@ -1,14 +1,17 @@
-import { Avatar, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import Image from 'next/image';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { useFetchAppModuleImage } from '@/queries';
 import { useRouter } from 'next/router';
-import { ListItemButton } from '@/components/module-details/Drawer';
+import { ListItemButton } from '@/components/module-details/ListItemButton';
 
 const DrawerButton = () => {
   const { sas, module } = useRouter().query;
+
   const { data: image, isLoading, isError } = useFetchAppModuleImage(sas as string, module as string);
+
   if (isLoading) return <div>Loading...</div>;
+
   if (isError) return <div>Error fetching the image</div>;
 
   return (
@@ -22,7 +25,7 @@ const DrawerButton = () => {
       <Image alt="Module logo" src={image.src} width={50} height={50} style={{ borderRadius: '4px' }} />
       <Stack>
         <Typography>{module}</Typography>
-        <Typography variant="caption" color={'primary.main'}>
+        <Typography variant="caption" color="primary.main">
           {sas}
         </Typography>
       </Stack>

@@ -1,5 +1,15 @@
-import { alpha, PaletteOptions } from '@mui/material/styles';
-import { PaletteMode } from '@mui/material';
+import { alpha, PaletteOptions, PaletteMode } from '@mui/material';
+
+declare module '@mui/material/styles/createPalette' {
+  interface SimplePaletteColorOptions {
+    lighter: string;
+    darker: string;
+  }
+  interface PaletteColor {
+    lighter: string;
+    darker: string;
+  }
+}
 
 // Example of palette
 const GREY = {
@@ -91,7 +101,7 @@ const COMMON = {
  * @param {string} mode - light (default), dark
  * @returns palette with preferred mode
  */
-export function palette(mode: PaletteMode): PaletteOptions {
+export const palette = (mode: PaletteMode): PaletteOptions => {
   const light: PaletteOptions = {
     ...COMMON,
     mode: 'light',
@@ -127,4 +137,4 @@ export function palette(mode: PaletteMode): PaletteOptions {
   };
 
   return mode === 'light' ? light : dark;
-}
+};

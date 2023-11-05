@@ -1,3 +1,3 @@
-export * from './config-langs';
-export * from './use-locales';
-export * from './localization-provider';
+export * from './configLangs';
+export * from './useLocales';
+export * from './LocalizationProvider';

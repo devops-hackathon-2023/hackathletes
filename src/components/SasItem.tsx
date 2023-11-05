@@ -1,19 +1,22 @@
-import { Card, CardContent, CardMedia, Paper, Stack, Typography } from '@mui/material';
-
+import { Card, CardContent, CardMedia, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
-import { sasItem } from '@/constants/types';
+import { SasItem as SasItemType } from '@/constants/types';
 
-export function SasItem({ item }: { item: sasItem }) {
+interface SasItemProps {
+  item: SasItemType;
+}
+
+export const SasItem = ({ item }: SasItemProps) => {
   const { push } = useRouter();
 
   return (
     <Card>
       <CardMedia>
         <Stack
-          bgcolor={'primary.main'}
-          height={'100px'}
-          alignItems={'center'}
-          justifyContent={'center'}
+          bgcolor="primary.main"
+          height="100px"
+          alignItems="center"
+          justifyContent="center"
           onClick={() => {
             push({
               pathname: '/dashboard',
@@ -29,4 +32,4 @@ export function SasItem({ item }: { item: sasItem }) {
       </CardContent>
     </Card>
   );
-}
+};

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import User from '@/types/User';
+
 export const users: User[] = [
   {
     id: '1',
@@ -19,14 +20,17 @@ export const users: User[] = [
     ],
   },
 ];
-export default function userHandler(req: NextApiRequest, res: NextApiResponse) {
+
+const userHandler = (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = req.query;
 
-  const user = users.find((user) => user.id === userId);
+  const user = users.find(({ id }) => id === userId);
 
   if (user) {
     res.status(200).json(user);
   } else {
     res.status(404).json({ message: 'User not found' });
   }
-}
+};
+
+export default userHandler;

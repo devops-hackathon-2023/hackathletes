@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { allLangs, defaultLang } from './config-langs';
 import { useCallback } from 'react';
 import { localStorageAvailable } from '@/utils/local-storage-available';
+import { allLangs, defaultLang } from './configLangs';
 
-export function useLocales() {
+export const useLocales = () => {
   const { i18n, t } = useTranslation();
 
   const storageAvailable = localStorageAvailable();
@@ -20,4 +20,4 @@ export function useLocales() {
   );
 
   return { currentLang, t, onChangeLang };
-}
+};

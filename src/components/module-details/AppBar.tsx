@@ -3,13 +3,15 @@ import { AppBar as MuiAppBar, Toolbar, IconButton, Typography, useTheme, useMedi
 import MenuIcon from '@mui/icons-material/Menu';
 import { CustomAvatar } from '@/components/CustomAvatar';
 import { drawerWidth } from '@/components/module-details/Drawer';
+
 interface CustomAppBarProps {
   title: string;
   onMenuClick?: () => void;
 }
 
-export const AppBar: React.FC<CustomAppBarProps> = ({ title, onMenuClick }) => {
+export const AppBar = ({ title, onMenuClick }: CustomAppBarProps) => {
   const theme = useTheme();
+
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   return (

@@ -6,16 +6,16 @@ import { atomRecentSases } from '@/constants/state/atoms';
 import { useAtom } from 'jotai';
 
 const Home = () => {
-  const [recentSasess, setRecentSasess] = useAtom(atomRecentSases);
+  const [, setRecentSasess] = useAtom(atomRecentSases);
 
-  const clearRecentSases = () => {
-    setRecentSasess((prev) => (prev = []));
-  };
+  const clearRecentSases = () => setRecentSasess([]);
 
   return (
     <>
       <AppBar />
-      <button onClick={() => clearRecentSases()}>clear recent sases</button>
+      <button type="button" onClick={clearRecentSases}>
+        clear recent sases
+      </button>
       <Stack paddingX={15} spacing={2} paddingTop={2}>
         <RecentSases />
         <AllSases />
