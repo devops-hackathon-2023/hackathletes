@@ -1,15 +1,20 @@
-import { useFetchAppModuleLatestDeploymentUnits, useFetchLatestDeploymentUnitVersion } from '@/queries';
-import { Chip, Stack, Typography } from '@mui/material';
+import { useFetchLatestDeployments, useFetchLatestDeploymentUnitVersion } from '@/queries';
+import { Chip, Skeleton, Stack, Typography } from '@mui/material';
+import { Deployment } from '@/types';
 
+const resolveBadgeColor = (deployments: Deployment[] | undefined) => {
+  if (deployments?.every((deployment: Deployment) => deployment.status === 'SUCCESS')) {
+    return 'success';
+  }
+  if (deployments?.every((deployment: Deployment) => deployment.status === 'FAILED')) {
+    return 'error';
+  }
+  return 'warning';
+};
 const ModuleDeployments = ({ deploymentUnit }: any) => {
   const latestDeploymentUnitVersion = useFetchLatestDeploymentUnitVersion(deploymentUnit.id);
-  console.log('latestDeploymentUnitVersion: ', JSON.stringify(latestDeploymentUnitVersion));
-  // const { data: deployment } = useFetchDeployment(latestDeploymentUnit?.id);
-  // todo - fetchnout deploymenty podle id, a získat statusy environmentů z tama
-  // barva badge by měla odrážet status všech environmentů
-  // v případě, že všechny environmenty jsou SUCCESS, tak zelená
-  // v případě, že jsou všechny environmenty failed, tak červená
-  // v ostatních případech žlutá
+  const { data: latestDeployments, isLoading } = useFetchLatestDeployments(latestDeploymentUnitVersion?.id);
+  const chipColor = resolveBadgeColor(latestDeployments);
 
   return (
     <Stack direction="row" spacing={2} alignItems="center">
@@ -17,18 +22,22 @@ const ModuleDeployments = ({ deploymentUnit }: any) => {
         <Typography variant="body2" color="text.secondary">
           {deploymentUnit.name}
         </Typography>
-        <Chip
-          sx={{
-            height: '20px',
-            fontSize: '0.7rem',
-            '& .MuiChip-label': {
-              padding: '0 8px',
-            },
-          }}
-          size="small"
-          color={['success', 'error', 'warning'][Math.floor(Math.random() * 3)] as 'success' | 'error' | 'warning'}
-          label={latestDeploymentUnitVersion?.version}
-        />
+        {isLoading ? (
+          <Skeleton variant="text" width={37} height={29} />
+        ) : (
+          <Chip
+            sx={{
+              height: '20px',
+              fontSize: '0.7rem',
+              '& .MuiChip-label': {
+                padding: '0 8px',
+              },
+            }}
+            size="small"
+            color={chipColor}
+            label={latestDeploymentUnitVersion?.version}
+          />
+        )}
       </Stack>
     </Stack>
   );

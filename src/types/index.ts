@@ -1,3 +1,19 @@
+export type Deployment = {
+  id: string;
+  versionId: string;
+  deploymentUnitId: string;
+  appModuleId: string;
+  sasId: string;
+  environment: string;
+  status: string;
+  changeTicketId: string;
+  deployer: string;
+  platform: string;
+  startedAt: string;
+  finishedAt: string;
+  duration: number;
+};
+
 export type DeploymentUnit = {
   id: string;
   sasId: string;

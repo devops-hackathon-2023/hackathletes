@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { useQueries, useQuery, UseQueryResult } from 'react-query';
-import { DeploymentUnit, DeploymentUnitVersion } from '@/types';
+import { Deployment, DeploymentUnit, DeploymentUnitVersion } from '@/types';
 
 const apiConfig = {
   headers: {
@@ -119,6 +119,27 @@ export const useFetchAllDeployments = (): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>('allDeployments', async () => {
     const response = await axios.get(`${API_URL}/deployments`, apiConfig);
     return response.data;
+  });
+
+export const useFetchLatestDeployments = (versionId: string): UseQueryResult<Deployment[], AxiosError> =>
+  useQuery<any, AxiosError>(['latestDeployments', versionId], async () => {
+    const response = await axios.get(
+      `${API_URL}/deployments?size=100&versionId=${versionId}&sort=startedAt&order=desc`,
+      apiConfig
+    );
+    const deployments = response.data.page;
+    const latestDeploymentsByEnvironment: { [key: string]: any } = {};
+    deployments.forEach((deployment: any) => {
+      const env = deployment.environment;
+      if (
+        !latestDeploymentsByEnvironment[env] ||
+        new Date(deployment.startedAt) > new Date(latestDeploymentsByEnvironment[env].startedAt)
+      ) {
+        latestDeploymentsByEnvironment[env] = deployment;
+      }
+    });
+
+    return Object.values(latestDeploymentsByEnvironment);
   });
 
 export const useFetchQualityGate = (deploymentVersionId: string): UseQueryResult<any, AxiosError> =>
