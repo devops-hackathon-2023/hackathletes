@@ -7,9 +7,10 @@ import { Chip, Grid, Stack, Typography } from '@mui/material';
 
 interface SasModulesProps {
   sasItem: SasItem;
+  searchTerm: string;
 }
 
-export const SasModules = ({ sasItem }: SasModulesProps) => {
+export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
   const { isLoading, error, data } = useFetchSasModules(sasItem.id);
 
   const [, setRecentSases] = useAtom(atomRecentSases);
@@ -22,7 +23,6 @@ export const SasModules = ({ sasItem }: SasModulesProps) => {
     await push(`/${sasName}/${moduleName}/dashboard`);
 
     setRecentSases((prev: SasItem[]) => {
-      console.log(prev);
       if (prev.filter((prevItem: SasItem) => prevItem.name === sasName).length > 0) {
         return prev;
       }
@@ -30,11 +30,13 @@ export const SasModules = ({ sasItem }: SasModulesProps) => {
     });
   };
 
+  const filteredData = searchTerm ? data?.page.filter(({ name }: AppModule) => name.includes(searchTerm)) : data?.page;
+
   if (isLoading) return <h2>Loading...</h2>;
 
   if (error) return <h2>{error.message}</h2>;
 
-  return data?.page.map(({ name: moduleName, id }: AppModule) => (
+  return filteredData.map(({ name: moduleName, id }: AppModule) => (
     <Grid item xs={12} key={id}>
       <Stack
         direction="row"

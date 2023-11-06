@@ -1,16 +1,16 @@
 import { Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
-import { useState } from 'react';
 import { useFetchAllSasses } from '@/queries';
-import { AppModule } from '@/constants/types';
+import { SasItem } from '@/constants/types';
 
-const MenuBar = () => {
-  const [view, setView] = useState('list');
+interface MenuBarProps {
+  selectedSasId: string;
+  setSelectedSasId: (id: string) => void;
+}
 
+const MenuBar = ({ selectedSasId, setSelectedSasId }: MenuBarProps) => {
   const { isLoading, error, data } = useFetchAllSasses();
 
-  const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
-    setView(nextView);
-  };
+  const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => setSelectedSasId(nextView);
 
   if (isLoading) return <h2>Loading ...</h2>;
 
@@ -18,16 +18,16 @@ const MenuBar = () => {
 
   return (
     <Stack bgcolor="primary.lighter" padding={2} borderRadius={4} spacing={1}>
-      <ToggleButtonGroup orientation="vertical" value={view} exclusive onChange={handleChange}>
-        <ToggleButton value="list" sx={{ border: 'none' }}>
+      <ToggleButtonGroup orientation="vertical" value={selectedSasId} exclusive onChange={handleChange}>
+        <ToggleButton value="all" sx={{ border: 'none' }}>
           <Typography sx={{ textTransform: 'none' }} noWrap>
             Všechny aplikace
           </Typography>
         </ToggleButton>
-        {data?.page.map(({ name: moduleName, id }: AppModule) => (
-          <ToggleButton key={id} value={moduleName} sx={{ border: 'none' }}>
+        {data?.page.map(({ name, id }: SasItem) => (
+          <ToggleButton key={id} value={id} sx={{ border: 'none' }}>
             <Typography sx={{ textTransform: 'none' }} noWrap>
-              {moduleName}
+              {name}
             </Typography>
           </ToggleButton>
         ))}
