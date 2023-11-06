@@ -1,6 +1,7 @@
 import { Card, CardContent, CardMedia, Stack, Typography } from '@mui/material';
-import { useFetchAppModuleDeploymentUnits } from '@/queries';
+import { useFetchAppModuleDeploymentUnits, useFetchDeployment } from '@/queries';
 import ModuleDeployments from '@/components/ModuleDeployments';
+
 interface ModuleCardProps {
   module: any;
   onClick?: () => void;
@@ -11,9 +12,9 @@ const ModuleCard = ({ module, onClick }: ModuleCardProps) => {
   const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(module.id);
   return (
     <Card onClick={onClick} sx={{ cursor: 'pointer' }}>
-      <CardMedia image={'/app-module-images/placeholder.png'} title={module.name} style={{ height: '100px' }} />
+      <CardMedia image="/app-module-images/placeholder.png" title={module.name} style={{ height: '100px' }} />
       <CardContent>
-        <Typography variant={'h6'} gutterBottom>
+        <Typography variant="h6" gutterBottom>
           {module.name}
         </Typography>
         <Stack direction="column" spacing={1}>
