@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled, Drawer as MuiDrawer, List, ListItemIcon, ListItemText, Divider as MuiDivider } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LoopIcon from '@mui/icons-material/Loop';
@@ -9,6 +9,7 @@ import { useIsMobile, usePageTitle } from '@/hooks';
 import Image from 'next/image';
 import { ListItemButton } from '@/components/module-details/ListItemButton';
 import DrawerButton from '@/components/module-details//DrawerButton';
+import ModulesDialog from '@/components/ModulesDialog';
 
 const menuItems = [
   {
@@ -61,7 +62,7 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
   const isMobile = useIsMobile();
 
   const pageTitle = usePageTitle();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigateTo = (path: string) => {
     router.push(`/${sas}/${module}/${path}`);
   };
@@ -69,7 +70,8 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
   return (
     <Drawer anchor="left" variant={isMobile ? 'temporary' : 'permanent'} open={open} onClose={onClose}>
       <Image alt="img" src="/ceska_sporitelna.png" width={114} height={51} style={{ margin: '20px 30px 10px' }} />
-      <DrawerButton />
+      <DrawerButton onClick={() => setIsModalOpen(true)} />
+      <ModulesDialog open={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <Divider />
       <List>
         {menuItems.map(({ icon, name }) => (

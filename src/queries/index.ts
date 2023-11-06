@@ -39,3 +39,30 @@ export const useFetchAppModuleImage = (sas: string, moduleName: string): UseQuer
 
     return response.data;
   });
+
+export const useFetchAppModuleDeploymentUnits = (moduleId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['appModuleDeploymentUnits', moduleId], async () => {
+    const response = await axios.get(`${API_URL}/app-modules/${moduleId}/deployment-units`, apiConfig);
+    return response.data;
+  });
+
+export const useFetchDeploymentUnitVersions = (deploymentUnitId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deploymentUnitVersions', deploymentUnitId], async () => {
+    const response = await axios.get(
+      `${API_URL}/deployment-units/${deploymentUnitId}/deployment-unit-versions`,
+      apiConfig
+    );
+    return response.data;
+  });
+
+export const useFetchDeployment = (deploymentId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deployment', deploymentId], async () => {
+    const response = await axios.get(`${API_URL}/deployments/${deploymentId}`, apiConfig);
+    return response.data;
+  });
+
+export const useFetchAllDeployments = (): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>('allDeployments', async () => {
+    const response = await axios.get(`${API_URL}/deployments`, apiConfig);
+    return response.data;
+  });

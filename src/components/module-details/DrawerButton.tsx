@@ -5,7 +5,11 @@ import { useFetchAppModuleImage } from '@/queries';
 import { useRouter } from 'next/router';
 import { ListItemButton } from '@/components/module-details/ListItemButton';
 
-const DrawerButton = () => {
+interface DrawerButtonProps {
+  onClick?: (event: any) => void;
+}
+
+const DrawerButton = ({ onClick }: DrawerButtonProps) => {
   const { sas, module } = useRouter().query;
 
   const { data: image, isLoading, isError } = useFetchAppModuleImage(sas as string, module as string);
@@ -21,6 +25,7 @@ const DrawerButton = () => {
         flexGrow: 0,
         color: 'white',
       }}
+      onClick={onClick}
     >
       <Image alt="Module logo" src={image.src} width={50} height={50} style={{ borderRadius: '4px' }} />
       <Stack>
