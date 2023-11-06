@@ -1,3 +1,8 @@
 {
-  "example": "příklad"
+  "logIn": "Přihlásit se",
+  "logInDopo": "Přihlášení do systému DOPO",
+  "logWithMail": "Přihlásit se pomocí e-mailu",
+  "logWithGitHub": "Přihlásit se pomocí GitHub",
+  "noAccYet": "Ještě nemáte účet?",
+  "signUp": "Zaregistrujte se"
 }

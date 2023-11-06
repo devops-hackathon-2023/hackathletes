@@ -1,3 +1,8 @@
 {
-  "example": "Example"
+  "logIn": "Log In",
+  "logInDopo": "Loggin in to the DOPO System",
+  "logWithMail": "Log in with Email",
+  "logWithGitHub": "Log in with GitHub",
+  "noAccYet": "No account yet?",
+  "signUp": "Sign Up"
 }
