@@ -19,6 +19,18 @@ declare module '@mui/material/styles' {
       grey: {
         600: string;
       };
+      success: {
+        main: string;
+      };
+      error: {
+        main: string;
+      };
+      warning: {
+        main: string;
+      };
+      info: {
+        main: string;
+      };
     };
   }
 }

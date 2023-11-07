@@ -26,6 +26,13 @@ const ModulesDialog = ({ open, onClose }: ModulesModalProps) => {
     module.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const navigateToSamePage = (moduleName: string) => {
+    const pathSegments = router.pathname.split('/').filter(Boolean);
+    const lastSegment = pathSegments[pathSegments.length - 1] || 'dashboard';
+    router.push(`/${currentSas}/${moduleName}/${lastSegment}`);
+    onClose();
+  };
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>{currentSas} modules</DialogTitle>
@@ -50,8 +57,7 @@ const ModulesDialog = ({ open, onClose }: ModulesModalProps) => {
               <ModuleCard
                 module={module}
                 onClick={() => {
-                  router.push(`/${currentSas}/${module.name}/dashboard`);
-                  onClose();
+                  navigateToSamePage(module.name);
                 }}
               />
             </Grid>
