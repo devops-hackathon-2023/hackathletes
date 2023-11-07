@@ -35,7 +35,7 @@ export const LoginOptionsCard = () => {
           {t('logWithMail')}
         </Button>
 
-        <Button variant="contained" size="large" fullWidth startIcon={<GitHubIcon />}>
+        <Button disabled variant="contained" size="large" fullWidth startIcon={<GitHubIcon />}>
           {t('logWithGitHub')}
         </Button>
 
@@ -43,7 +43,7 @@ export const LoginOptionsCard = () => {
           <Typography variant="body1" sx={{ display: 'inline' }}>
             {t('noAccYet')}{' '}
           </Typography>
-          <MUILink variant="body1" sx={{ display: 'inline', textDecoration: 'none', fontWeight: 'bold' }}>
+          <MUILink href="/auth/register" variant="body1" sx={{ display: 'inline', textDecoration: 'none', fontWeight: 'bold' }}>
             {t('signUp')}
           </MUILink>
         </Box>

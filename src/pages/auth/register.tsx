@@ -1,21 +1,21 @@
-import LoginView from '@/components/auth/LoginView';
+import RegisterView from '@/components/auth/RegisterView';
 import { SimpleLayout } from '@/components/layout';
 import Head from 'next/head';
 
-const Login = () => {
+const Register = () => {
   console.log('sdfds');
 
   return (
     <>
       <Head>
-        <title> Login | DOPO</title>
+        <title> Register | DOPO</title>
       </Head>
 
       <SimpleLayout>
-        <LoginView />
+        <RegisterView />
       </SimpleLayout>
     </>
   );
 };
 
-export default Login;
+export default Register;
