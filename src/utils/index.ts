@@ -8,30 +8,37 @@ export const getPageTitle = (path: string) => {
 
   return capitalizeFirstLetter(lastSegment);
 };
-
 export const toRelativeTime = (dateString: string): string => moment(dateString).fromNow();
+export const toRelativeTimeShort = (dateString: string): string => {
+  const relativeTimeFull = toRelativeTime(dateString);
 
-export const toRelativeTimeShort = (date: string) => {
-  const formattedDate = moment(date);
-  const diffMinutes = moment().diff(formattedDate, 'minutes');
-  const diffHours = moment().diff(formattedDate, 'hours');
-  const diffDays = moment().diff(formattedDate, 'days');
-  const diffMonths = moment().diff(formattedDate, 'months');
-  const diffYears = moment().diff(formattedDate, 'years');
+  // Use regex to extract the number and time unit from the full relative time
+  const matches = relativeTimeFull.match(/(\d+)\s(\w+)/);
+  if (!matches) {
+    return '0m'; // Return '0m' if the dateString is less than a minute ago
+  }
 
-  if (diffMinutes < 60) {
-    return `${diffMinutes}m`;
+  const [, value, unit] = matches;
+
+  // Map full unit names to their abbreviations
+  const unitAbbreviations: { [key: string]: string } = {
+    second: 's',
+    minute: 'm',
+    hour: 'h',
+    day: 'd',
+    month: 'M',
+    year: 'y',
+  };
+
+  // Plural units are just the singular + 's', so we can remove the 's' to find the unit abbreviation
+  const unitSingular = unit.endsWith('s') ? unit.slice(0, -1) : unit;
+  const abbreviatedUnit = unitAbbreviations[unitSingular];
+
+  if (!abbreviatedUnit) {
+    return relativeTimeFull; // If we can't abbreviate, return the full string
   }
-  if (diffHours < 24) {
-    return `${diffHours}h`;
-  }
-  if (diffDays < 30) {
-    return `${diffDays}d`;
-  }
-  if (diffMonths < 12) {
-    return `${diffMonths}M`;
-  }
-  return `${diffYears}y`;
+
+  return `${value}${abbreviatedUnit}`;
 };
 export const resolvePlatform = (platform: string) => {
   switch (platform) {

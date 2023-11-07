@@ -1,5 +1,14 @@
 import { useFetchLatestServersDeployments } from '@/queries';
-import { Button, Card, CardContent, Chip, Divider, Stack, styled, Typography } from '@mui/material';
+import {
+  Button,
+  Card as MuiCard,
+  CardContent,
+  Chip,
+  Divider as MuiDivider,
+  Stack,
+  styled,
+  Typography,
+} from '@mui/material';
 import SmallChip from '@/components/SmallChip';
 import { GitHub } from '@mui/icons-material';
 import { StatusDot } from '@/components/StatusDot';
@@ -14,8 +23,17 @@ const GitHubButton = styled(Button)({
   },
 });
 
+const Divider = styled(MuiDivider)(({ theme }) => ({
+  marginTop: theme.spacing(1.5),
+  marginBottom: theme.spacing(1),
+}));
+
+const Card = styled(MuiCard)({
+  width: '300px',
+});
+
 export const DeploymentCard = ({ deploymentUnitVersion }: any) => {
-  const { data: latestDeployments } = useFetchLatestServersDeployments(deploymentUnitVersion.id);
+  const { data: latestDeployments } = useFetchLatestServersDeployments(deploymentUnitVersion.deploymentUnitId);
   const { name, gitBranch, repositoryUrl } = deploymentUnitVersion;
 
   const handleClick = () => {
@@ -23,7 +41,7 @@ export const DeploymentCard = ({ deploymentUnitVersion }: any) => {
   };
 
   return (
-    <Card sx={{ width: '300px' }}>
+    <Card>
       <CardContent>
         <Stack direction="row" spacing={2} alignItems="center" mb={1}>
           <Typography variant="h3">{name}</Typography>
@@ -39,7 +57,7 @@ export const DeploymentCard = ({ deploymentUnitVersion }: any) => {
             </Stack>
           ))}
         </Stack>
-        <Divider sx={{ mt: 1.5, mb: 1 }} />
+        <Divider />
         <GitHubButton size="large" startIcon={<GitHub />} onClick={handleClick}>
           {gitBranch}
         </GitHubButton>

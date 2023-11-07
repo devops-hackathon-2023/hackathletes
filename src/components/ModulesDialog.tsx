@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTitle, Grid, TextField, InputAdornment } f
 import SearchIcon from '@mui/icons-material/Search';
 import { useRouter } from 'next/router';
 import { useFetchAllSasses, useFetchSasModules } from '@/queries';
-import ModuleCard from '@/components/ModuleCard';
+import ModuleButton from '@/components/ModuleButton';
 
 interface ModulesModalProps {
   open: boolean;
@@ -31,10 +31,21 @@ const ModulesDialog = ({ open, onClose }: ModulesModalProps) => {
     const lastSegment = pathSegments[pathSegments.length - 1] || 'dashboard';
     router.push(`/${currentSas}/${moduleName}/${lastSegment}`);
     onClose();
+    setSearchTerm('');
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      TransitionProps={{
+        onExited: () => {
+          setSearchTerm('');
+        },
+      }}
+      fullWidth
+      maxWidth="sm"
+    >
       <DialogTitle>{currentSas} modules</DialogTitle>
       <div style={{ padding: '10px' }}>
         <TextField
@@ -50,11 +61,11 @@ const ModulesDialog = ({ open, onClose }: ModulesModalProps) => {
           }}
         />
       </div>
-      <DialogContent dividers style={{ height: 'calc(400px - 68px)', overflowY: 'auto' }}>
+      <DialogContent dividers style={{ height: '200px', overflowY: 'auto' }}>
         <Grid container spacing={2}>
           {filteredModules?.map((module: any) => (
-            <Grid item key={module.id} xs={12} sm={6} md={4} lg={3}>
-              <ModuleCard
+            <Grid item key={module.id} xs={6} sm={4} md={4} lg={4}>
+              <ModuleButton
                 module={module}
                 onClick={() => {
                   navigateToSamePage(module.name);

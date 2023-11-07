@@ -99,11 +99,6 @@ export const DeploymentsHistory = () => {
               const selectedUnit = deploymentUnits?.page.find((unit: DeploymentUnit) => unit.id === selected);
               return selectedUnit ? selectedUnit.name : <em>All Units</em>;
             }}
-            endAdornment={
-              selectedUnitId ? (
-                <ClearIcon onClick={() => setSelectedUnitId(null)} sx={{ cursor: 'pointer', mr: 2 }} />
-              ) : null
-            }
           >
             <MenuItem value="">
               <em>All Units</em> {/* Option to clear selection */}

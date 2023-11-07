@@ -23,7 +23,7 @@ const DrawerButton = ({ onClick }: DrawerButtonProps) => {
       sx={{
         gap: 2,
         flexGrow: 0,
-        color: 'white',
+        color: 'common.white',
       }}
       onClick={onClick}
     >
@@ -34,7 +34,7 @@ const DrawerButton = ({ onClick }: DrawerButtonProps) => {
           {sas}
         </Typography>
       </Stack>
-      <UnfoldMoreIcon />
+      <UnfoldMoreIcon sx={{ marginLeft: 'auto' }} />
     </ListItemButton>
   );
 };

@@ -67,16 +67,16 @@ export const useFetchDeploymentUnitVersion = (deploymentUnitVersionId: string): 
     return response.data;
   });
 
-export const useFetchDeploymentUnitVersions = (deploymentUnitId: string): UseQueryResult<any, AxiosError> =>
-  useQuery<any, AxiosError>(['deploymentUnitVersions', deploymentUnitId], async () => {
-    const response = await fetchDeploymentUnitVersions(deploymentUnitId);
-    return response.data;
+export const useFetchDeploymentsByDeploymentUnitId = (deploymentUnitId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deployments', deploymentUnitId], async () => {
+    const response = await axios.get(
+      `${API_URL}/deployments?page=0&size=30&sort=createdAt&order=desc&deploymentUnitId=${deploymentUnitId}`,
+      apiConfig
+    );
+    {
+      return response.data;
+    }
   });
-export const useFetchLatestDeploymentUnitVersion = (deploymentUnitId: string) => {
-  const { data } = useFetchDeploymentUnitVersions(deploymentUnitId);
-  const deploymentUnitVersions = data?.page;
-  return deploymentUnitVersions ? deploymentUnitVersions[deploymentUnitVersions.length - 1] : null;
-};
 
 const fetchDeploymentUnitVersions = async (deploymentUnitId: string) =>
   axios.get(`${API_URL}/deployment-units/${deploymentUnitId}/deployment-unit-versions`, apiConfig);
@@ -159,10 +159,10 @@ export const useFetchDeploymentsByVersionId = (versionId: string): UseQueryResul
     return Object.values(latestDeploymentsByEnvironment);
   });
 
-export const useFetchLatestServersDeployments = (versionId: string): UseQueryResult<Deployment[], AxiosError> =>
-  useQuery<Deployment[], AxiosError>(['latestServersDeployments', versionId], async () => {
+export const useFetchLatestServersDeployments = (deploymentUnitId: string): UseQueryResult<Deployment[], AxiosError> =>
+  useQuery<Deployment[], AxiosError>(['latestServersDeployments', deploymentUnitId], async () => {
     const response = await axios.get(
-      `${API_URL}/deployments?size=100&versionId=${versionId}&sort=startedAt&order=desc`,
+      `${API_URL}/deployments?size=100&deploymentUnitId=${deploymentUnitId}&sort=startedAt&order=desc`,
       apiConfig
     );
     const deployments = response.data.page;
