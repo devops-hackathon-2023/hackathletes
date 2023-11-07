@@ -1,15 +1,19 @@
-import { Avatar, Stack, Typography, ListItemButton } from '@mui/material';
+import { Avatar, ListItemButton, Skeleton, Stack, Typography } from '@mui/material';
+
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { useFetchUser } from '@/queries';
 
 const USER_ID = '1';
+const DEFAULT_USER = {
+  name: 'User not found',
+  role: 'Role not found'
+}
 
 export const CustomAvatar = () => {
-  const { data: user, isLoading, isError } = useFetchUser(USER_ID);
-
-  if (isLoading) return <div>Loading...</div>;
-
-  if (isError) return <div>Error fetching user</div>;
+  const { data, isLoading } = useFetchUser(USER_ID);
+  const user = data || DEFAULT_USER;
+  
+  if(isLoading) return <Skeleton  animation="wave" width={248} height={58} />
 
   return (
     <ListItemButton

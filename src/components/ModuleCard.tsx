@@ -1,5 +1,5 @@
 import { Card, CardContent, CardMedia, Stack, Typography } from '@mui/material';
-import { useFetchAppModuleDeploymentUnits, useFetchDeployment } from '@/queries';
+import { useFetchAppModuleDeploymentUnits } from '@/queries';
 import ModuleDeployments from '@/components/ModuleDeployments';
 
 interface ModuleCardProps {
@@ -7,7 +7,6 @@ interface ModuleCardProps {
   onClick?: () => void;
 }
 
-// todo - udělat všechny karty stejné velikosti
 const ModuleCard = ({ module, onClick }: ModuleCardProps) => {
   const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(module.id);
   return (

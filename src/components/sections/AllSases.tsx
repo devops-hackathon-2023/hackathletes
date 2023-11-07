@@ -1,16 +1,23 @@
-import { Stack, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Stack, Typography } from '@mui/material';
 import AllItemsGrid from '@/components/AllItemsGrid';
 import Menubar from '@/components/main-page/Menubar';
+import { SasesSearchBox } from './SasesSearchBox';
 
-const AllSases = () => (
-  <>
-    <Typography>Všechny moduly</Typography>
-    <TextField fullWidth label="Vyhledávání modulů" />
-    <Stack direction="row" spacing={3}>
-      <Menubar />
-      <AllItemsGrid />
-    </Stack>
-  </>
-);
+const AllSases = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSasId, setSelectedSasId] = useState('all');
+
+  return (
+    <>
+      <Typography>Všechny moduly</Typography>
+      <SasesSearchBox placeholder="Vyhledat modul" onSearchChange={setSearchTerm} />
+      <Stack direction="row" spacing={3}>
+        <Menubar setSelectedSasId={setSelectedSasId} selectedSasId={selectedSasId} />
+        <AllItemsGrid selectedSasId={selectedSasId} searchTerm={searchTerm} />
+      </Stack>
+    </>
+  );
+};
 
 export default AllSases;
