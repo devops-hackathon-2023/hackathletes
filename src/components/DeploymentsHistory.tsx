@@ -68,7 +68,6 @@ export const DeploymentsHistory = () => {
   const moduleId = useGetCurrentModuleId();
   const { data: deployments } = useFetchDeploymentsByAppModuleId(moduleId);
   const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(moduleId);
-
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
 
   const handleUnitChange = (event: any) => {
