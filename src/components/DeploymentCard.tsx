@@ -5,7 +5,7 @@ import { GitHub } from '@mui/icons-material';
 import { StatusDot } from '@/components/StatusDot';
 import { resolvePlatform, toRelativeTimeShort } from '@/utils';
 import { Deployment } from '@/types';
-import { DeploymentVersionChip } from '@/components/DeploymentVersionChip';
+import DeploymentVersionChip from '@/components/DeploymentVersionChip';
 
 const GitHubButton = styled(Button)({
   textTransform: 'none',
