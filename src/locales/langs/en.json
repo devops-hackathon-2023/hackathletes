@@ -1,3 +1,20 @@
 {
-  "example": "Example"
+  "alreadyAcc": "Already have an account?",
+  "createAccount" : "Create account",
+  "emailAddress": "Email Address",
+  "emailValidation": "Please provide valid email address",
+  "passwordValidation": "Password is required",
+  "passwordMatch": "Password and password confirmation must match",
+  "logIn": "Log In",
+  "logInDopo": "Loggin in to the DOPO System",
+  "username": "Username",
+  "logWithMail": "Log in with Email",
+  "logWithGitHub": "Log in with GitHub",
+  "requiredField": "This field is required",
+  "noAccYet": "No account yet?",
+  "newUser": "New user?",
+  "signUp": "Register",
+  "submit": "Submit",
+  "password": "Password",
+  "passwordConfirm": "Password Confirm"
 }
