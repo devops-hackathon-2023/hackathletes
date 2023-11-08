@@ -57,7 +57,8 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
                 <Typography>{moduleName}</Typography>
                 <Typography>4 Aps</Typography>
                 <Chip label={sasName}/>
-                <IconButton sx={{color: 'orange'}} onClick={() => updateFavourites({name: moduleName, id})}>
+                <IconButton sx={{color: 'orange'}}
+                            onClick={() => updateFavourites({moduleId: id, moduleName, sasName})}>
                     <StarOutlineIcon/>
                 </IconButton>
             </Stack>
