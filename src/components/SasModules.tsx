@@ -54,7 +54,15 @@ export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
 
   return filteredData.map(({ name: moduleName, id }: AppModule) => (
     <Grid item xs={12} key={id}>
-      <Card sx={{ cursor: 'pointer' }} onClick={() => onNavigate(sasItem, moduleName)}>
+      <Card
+        sx={{
+          cursor: 'pointer',
+          '&:hover': {
+            backgroundColor: 'action.hover', // Change this to the color you want on hover
+          },
+        }}
+        onClick={() => onNavigate(sasItem, moduleName)}
+      >
         <Stack>
           <Grid container spacing={1} columns={10} alignItems="center">
             <Grid item xs={2}>
