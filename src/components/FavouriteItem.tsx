@@ -1,7 +1,8 @@
-import { Card, CardContent, CardMedia, Stack, Typography, Chip, IconButton } from '@mui/material';
-import { SasItem as SasItemType } from '@/constants/types';
+import {Card, CardContent, CardMedia, Stack, Typography, Chip, IconButton, Box} from '@mui/material';
+import {SasItem as SasItemType} from '@/constants/types';
 import StarIcon from '@mui/icons-material/Star';
 import {useFetchAppModuleImage} from "@/queries";
+import Image from "next/image";
 
 interface SasItemProps {
     item: SasItemType;
@@ -9,30 +10,44 @@ interface SasItemProps {
     onStarClick: any;
 }
 
-export const FavouriteItem = ({ item, onItemClick, onStarClick }: SasItemProps) => {
-    const fetchData = useFetchAppModuleImage('','');
+export const FavouriteItem = ({item, onItemClick, onStarClick}: SasItemProps) => {
+    const {data: image} = useFetchAppModuleImage('', '');
 
     return (
         <Card sx={{maxWidth: 368}}>
             <CardMedia>
                 <Stack
-                    bgcolor="primary.main"
-                    height="100px"
                     alignItems="center"
                     justifyContent="center"
+                    bgcolor="primary.main"
+                    direction="row"
+                    position="relative"
                 >
-                    img
+                    <Image
+                        alt="Module logo"
+                        src={image?.src ?? '/app-module-images/placeholder.png'}
+                        width="100"
+                        height="100"
+                    />
+                    <Box
+                        position="absolute"
+                        top="0"
+                        right="0"
+                    >
+                        <IconButton>
+                            <StarIcon sx={{color: 'orange'}}/>
+                        </IconButton>
+                    </Box>
                 </Stack>
             </CardMedia>
             <CardContent>
-                <IconButton>
-                    <StarIcon sx={{color: 'orange'}}/>
-                </IconButton>
-                <Stack spacing={1}>
-                    <Typography paddingLeft={0.5}>{item.moduleName}</Typography>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                        <Chip label={item.sasName}/>
-                        <Typography>4 Aps</Typography>
+                <Stack>
+                    <Stack spacing={1}>
+                        <Typography paddingLeft={0.5}>{item.moduleName}</Typography>
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                            <Chip label={item.sasName}/>
+                            <Typography>4 Aps</Typography>
+                        </Stack>
                     </Stack>
                 </Stack>
             </CardContent>
