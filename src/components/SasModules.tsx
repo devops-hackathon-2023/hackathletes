@@ -1,56 +1,66 @@
-import { useAtom } from 'jotai';
-import { atomRecentSases } from '@/constants/state/atoms';
-import { useRouter } from 'next/router';
-import { useFetchSasModules } from '@/queries';
-import { AppModule, SasItem } from '@/constants/types';
-import { Chip, Grid, Stack, Typography } from '@mui/material';
+import {useAtom} from 'jotai';
+import {useRouter} from 'next/router';
+import {updateUser, useFetchSasModules, useFetchUser} from '@/queries';
+import {AppModule, SasItem} from '@/constants/types';
+import {Chip, Grid, IconButton, Stack, Typography} from '@mui/material';
+import {loggedUserAtom} from "@/state/atoms";
+import {DEFAULT_USER} from "@/constants";
+import {toggleItemInArray} from "@/actions";
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 
 interface SasModulesProps {
-  sasItem: SasItem;
-  searchTerm: string;
+    sasItem: SasItem;
+    searchTerm: string;
 }
 
-export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
-  const { isLoading, error, data } = useFetchSasModules(sasItem.id);
+export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
 
-  const [, setRecentSases] = useAtom(atomRecentSases);
+    const [loggedUser] = useAtom(loggedUserAtom);
+    const fetchedData = useFetchUser(loggedUser.id);
+    const user = fetchedData.data;
+    const {favourites} = user || DEFAULT_USER;
 
-  const { name: sasName } = sasItem;
+    const updateFavourites = (item: any) => {
+        if (user) {
+            toggleItemInArray(user.favourites, item);
+            updateUser(user.id, user);
+        }
+    };
 
-  const { push } = useRouter();
+    const {isLoading, error, data} = useFetchSasModules(sasItem.id);
 
-  const onClick = async (item: SasItem, moduleName: string) => {
-    await push(`/${sasName}/${moduleName}/dashboard`);
+    const {name: sasName} = sasItem;
 
-    setRecentSases((prev: SasItem[]) => {
-      if (prev.filter((prevItem: SasItem) => prevItem.name === sasName).length > 0) {
-        return prev;
-      }
-      return [...prev, item];
-    });
-  };
+    const {push} = useRouter();
 
-  const filteredData = searchTerm ? data?.page.filter(({ name }: AppModule) => name.includes(searchTerm)) : data?.page;
+    const onClick = async (item: SasItem, moduleName: string) => {
+        await push(`/${sasName}/${moduleName}/dashboard`);
+    };
 
-  if (isLoading) return <h2>Loading...</h2>;
+    const filteredData = searchTerm ? data?.page.filter(({name}: AppModule) => name.includes(searchTerm)) : data?.page;
 
-  if (error) return <h2>{error.message}</h2>;
+    if (isLoading) return <h2>Loading...</h2>;
 
-  return filteredData.map(({ name: moduleName, id }: AppModule) => (
-    <Grid item xs={12} key={id}>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        onClick={() => onClick(sasItem, moduleName)}
-      >
-        <Stack bgcolor="primary.main" height="100px" alignItems="center" justifyContent="center" width={150}>
-          img
-        </Stack>
-        <Typography>{moduleName}</Typography>
-        <Typography>4 Aps</Typography>
-        <Chip label={sasName} />
-      </Stack>
-    </Grid>
-  ));
+    if (error) return <h2>{error.message}</h2>;
+
+    return filteredData.map(({name: moduleName, id}: AppModule) => (
+        <Grid item xs={12} key={id}>
+            <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                onClick={() => onClick(sasItem, moduleName)}
+            >
+                <Stack bgcolor="primary.main" height="100px" alignItems="center" justifyContent="center" width={150}>
+                    img
+                </Stack>
+                <Typography>{moduleName}</Typography>
+                <Typography>4 Aps</Typography>
+                <Chip label={sasName}/>
+                <IconButton sx={{color: 'orange'}} onClick={() => updateFavourites({name: moduleName, id})}>
+                    <StarOutlineIcon/>
+                </IconButton>
+            </Stack>
+        </Grid>
+    ));
 };

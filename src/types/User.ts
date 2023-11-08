@@ -4,10 +4,7 @@ interface User {
   role: string;
   password: string;
   profilePicture: string;
-  sases: Array<{
-    id: string;
-    name: string;
-  }>;
+  favourites: any[]
 }
 
 export default User;

@@ -1,27 +1,28 @@
 import AllSases from '@/components/sections/AllSases';
-import { AppBar } from '@/components/main-page/AppBar';
-import RecentSases from '@/components/sections/RecentSases';
-import { Stack } from '@mui/material';
-import { atomRecentSases } from '@/constants/state/atoms';
+import Favourites from '@/components/sections/Favourites';
 import { useAtom } from 'jotai';
+import { useFetchUser } from '@/queries';
+import { useEffect } from 'react';
+import { DEFAULT_LOGIN_USER_ID } from '@/constants';
+import {loggedUserAtom} from "@/state/atoms";
+import MainPageLayout from "@/components/main-page/MainPageLayout";
 
 const Home = () => {
-  const [, setRecentSasess] = useAtom(atomRecentSases);
+    const [user, setUser] = useAtom(loggedUserAtom);
+    const fetchData = useFetchUser(DEFAULT_LOGIN_USER_ID);
 
-  const clearRecentSases = () => setRecentSasess([]);
+    useEffect(() => {
+        if (fetchData.data) {
+            setUser(fetchData.data);
+        }
+    }, [fetchData.data, setUser]);
 
-  return (
-    <>
-      <AppBar />
-      <button type="button" onClick={clearRecentSases}>
-        clear recent sases
-      </button>
-      <Stack paddingX={15} spacing={2} paddingTop={2}>
-        <RecentSases />
-        <AllSases />
-      </Stack>
-    </>
-  );
+    return (
+        <MainPageLayout>
+            <Favourites />
+            <AllSases />
+        </MainPageLayout>
+    );
 };
 
 export default Home;
