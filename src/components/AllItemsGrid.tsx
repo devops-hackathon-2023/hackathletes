@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import { SasItem } from '@/constants/types';
 import { useFetchAllSasses } from '@/queries';
 import { SasModules } from '@/components/SasModules';
@@ -18,14 +18,14 @@ const AllItemsGrid = ({ selectedSasId, searchTerm }: AllItemsGridProps) => {
   if (isError) return <h2>{error.message}</h2>;
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography>Název modulu</Typography>
+    <Stack>
+      <Grid container spacing={2}>
+        <Grid item xs={12} />
+        {sasesList.map((sItem: SasItem, idx: number) => (
+            <SasModules key={idx} sasItem={sItem} searchTerm={searchTerm} />
+        ))}
       </Grid>
-      {sasesList.map((sItem: SasItem, idx: number) => (
-        <SasModules key={idx} sasItem={sItem} searchTerm={searchTerm} />
-      ))}
-    </Grid>
+    </Stack>
   );
 };
 

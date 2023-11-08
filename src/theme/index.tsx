@@ -21,7 +21,8 @@ const ThemeProvider = ({ children }: PropsWithChildren) => {
 
   theme.components = componentsOverrides(theme);
 
-  const themeWithLocale = useMemo(() => createTheme(theme, currentLang.systemValue), [currentLang.systemValue, theme]);
+  // @ts-ignore // TODO: remove and fix
+    const themeWithLocale = useMemo(() => createTheme(theme, currentLang.systemValue), [currentLang.systemValue, theme]);
 
   return <MuiThemeProvider theme={themeWithLocale}>{children}</MuiThemeProvider>;
 };

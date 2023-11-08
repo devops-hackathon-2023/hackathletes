@@ -1,13 +1,14 @@
 import {useAtom} from 'jotai';
 import {useRouter} from 'next/router';
-import {updateUser, useFetchSasModules, useFetchUser} from '@/queries';
+import {updateUser, useFetchAppModuleImage, useFetchSasModules, useFetchUser} from '@/queries';
 import {AppModule, SasItem} from '@/constants/types';
-import {Chip, Grid, IconButton, Stack, Typography} from '@mui/material';
+import {Box, Card, Chip, Grid, IconButton, Stack, Typography} from '@mui/material';
 import {loggedUserAtom} from "@/state/atoms";
 import {DEFAULT_USER} from "@/constants";
 import {toggleItemInArray} from "@/actions";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import {useQueryClient} from "react-query";
+import Image from "next/image";
 
 interface SasModulesProps {
     sasItem: SasItem;
@@ -15,31 +16,26 @@ interface SasModulesProps {
 }
 
 export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
-
     const [loggedUser] = useAtom(loggedUserAtom);
-    const fetchedData = useFetchUser(loggedUser.id);
-    const user = fetchedData.data;
-    const {favourites} = user || DEFAULT_USER;
     const queryClient = useQueryClient()
+    const {push} = useRouter();
+    const {data: user} = useFetchUser(loggedUser.id);
+    const {data: image} = useFetchAppModuleImage('', '')
+    const {isLoading, error, data} = useFetchSasModules(sasItem.id);
+    const {name: sasName} = sasItem;
 
-    const updateFavourites = (item: any) => {
+    const filteredData = searchTerm ? data?.page.filter(({name}: AppModule) => name.includes(searchTerm)) : data?.page;
+    const onUpdateFavourites = (event: any, item: any) => {
+        event.stopPropagation();
         if (user) {
             toggleItemInArray(user.favourites, item);
             updateUser(user.id, user, queryClient);
         }
     };
 
-    const {isLoading, error, data} = useFetchSasModules(sasItem.id);
-
-    const {name: sasName} = sasItem;
-
-    const {push} = useRouter();
-
-    const onClick = async (item: SasItem, moduleName: string) => {
+    const onNavigate = async (item: SasItem, moduleName: string) => {
         await push(`/${sasName}/${moduleName}/dashboard`);
     };
-
-    const filteredData = searchTerm ? data?.page.filter(({name}: AppModule) => name.includes(searchTerm)) : data?.page;
 
     if (isLoading) return <h2>Loading...</h2>;
 
@@ -47,23 +43,38 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
 
     return filteredData.map(({name: moduleName, id}: AppModule) => (
         <Grid item xs={12} key={id}>
-            <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                onClick={() => onClick(sasItem, moduleName)}
-            >
-                <Stack bgcolor="primary.main" height="100px" alignItems="center" justifyContent="center" width={150}>
-                    img
+            <Card onClick={() => onNavigate(sasItem, moduleName)}>
+                <Stack>
+                    <Grid container spacing={1} columns={10} alignItems="center">
+                        <Grid item xs={2}>
+                            <Image
+                                alt="Module logo"
+                                src={image?.src ?? '/app-module-images/placeholder.png'}
+                                width="100"
+                                height="100"
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Box paddingLeft={1}>
+                                <Typography>{moduleName}</Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Stack spacing={1} direction="row" alignItems="center">
+                                <Typography>4 Aps</Typography>
+                                <Chip label={sasName}/>
+                            </Stack>
+                        </Grid>
+
+                        <Grid item xs={1}>
+                            <IconButton sx={{color: 'orange'}}
+                                        onClick={(event) => onUpdateFavourites(event, {moduleId: id, moduleName, sasName})}>
+                                <StarOutlineIcon/>
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 </Stack>
-                <Typography>{moduleName}</Typography>
-                <Typography>4 Aps</Typography>
-                <Chip label={sasName}/>
-                <IconButton sx={{color: 'orange'}}
-                            onClick={() => updateFavourites({moduleId: id, moduleName, sasName})}>
-                    <StarOutlineIcon/>
-                </IconButton>
-            </Stack>
+            </Card>
         </Grid>
     ));
 };
