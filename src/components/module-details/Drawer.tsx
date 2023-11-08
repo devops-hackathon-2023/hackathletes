@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { ListItemButton } from '@/components/module-details/ListItemButton';
 import DrawerButton from '@/components/module-details//DrawerButton';
 import ModulesDialog from '@/components/ModulesDialog';
+import Link from 'next/link';
 
 const menuItems = [
   {
@@ -40,7 +41,7 @@ const Drawer = styled(MuiDrawer)(({ theme }) => ({
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   width: '85%',
-  backgroundColor: theme.palette.primary.light,
+  backgroundColor: theme.palette.primary[800],
   marginLeft: 'auto',
   marginRight: 'auto',
 }));
@@ -69,7 +70,9 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
 
   return (
     <Drawer anchor="left" variant={isMobile ? 'temporary' : 'permanent'} open={open} onClose={onClose}>
-      <Image alt="img" src="/ceska_sporitelna.png" width={114} height={51} style={{ margin: '20px 30px 10px' }} />
+      <Link href="/dashboard">
+        <Image alt="img" src="/ceska_sporitelna.png" width={114} height={51} style={{ margin: '20px 30px 10px' }} />
+      </Link>
       <DrawerButton onClick={() => setIsModalOpen(true)} />
       <ModulesDialog open={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <Divider />
@@ -80,13 +83,6 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
             <ListItemText primary={name} sx={{ color: 'white' }} />
           </ListItemButton>
         ))}
-        <Divider />
-        <ListItemButton key="Home" onClick={() => router.push('/')}>
-          <ListItemIconStyled>
-            <HomeIcon />
-          </ListItemIconStyled>
-          <ListItemText primary="Home" sx={{ color: 'white' }} />
-        </ListItemButton>
       </List>
     </Drawer>
   );

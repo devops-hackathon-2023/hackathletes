@@ -1,13 +1,12 @@
-import {useFetchAppModuleDeploymentUnits} from "@/queries";
-import {Stack, Typography} from "@mui/material";
+import { useFetchAppModuleDeploymentUnits } from '@/queries';
+import { Typography } from '@mui/material';
 
-const NumberOfAppsIndicator = ({moduleId}: any) => {
-    const {data, isLoading} = useFetchAppModuleDeploymentUnits(moduleId)
-
-    return (
-        <Stack>
-            <Typography noWrap fontSize={{'xs': 10, 'sm': '1rem'}}>{isLoading ? 'loading' : `${data.page.length} Apps`}</Typography>
-        </Stack>
-    )
-}
-export default NumberOfAppsIndicator
+const NumberOfAppsIndicator = ({ moduleId }: any) => {
+  const { data, isLoading } = useFetchAppModuleDeploymentUnits(moduleId);
+  return (
+    <Typography color={(theme) => theme.palette.grey[600]} fontSize={14} sx={{ whiteSpace: 'nowrap' }}>
+      {isLoading ? 'loading' : `${data.page.length} modules`}
+    </Typography>
+  );
+};
+export default NumberOfAppsIndicator;
