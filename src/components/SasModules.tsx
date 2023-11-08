@@ -1,7 +1,7 @@
 import {useAtom} from 'jotai';
 import {useRouter} from 'next/router';
 import {
-    updateUser, useFetchAppModuleDeploymentUnits,
+    updateUser,
     useFetchAppModuleImage,
     useFetchSasModules,
     useFetchUser
@@ -14,6 +14,7 @@ import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import {useQueryClient} from "react-query";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
+import NumberOfAppsIndicator from "@/components/main-page/atoms/NumberOfAppsIndicator";
 
 interface SasModulesProps {
     sasItem: SasItem;
@@ -68,7 +69,7 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
                         </Grid>
                         <Grid item xs={3}>
                             <Stack spacing={1} direction="row" alignItems="center">
-                                <NumberOfApps moduleId={id}/>
+                                <NumberOfAppsIndicator moduleId={id}/>
                                 <Chip label={sasName}/>
                             </Stack>
                         </Grid>
@@ -89,9 +90,3 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
         </Grid>
     ));
 };
-
-const NumberOfApps = ({moduleId}: any) => {
-    const {data, isLoading} = useFetchAppModuleDeploymentUnits(moduleId)
-    return <Typography>{isLoading ? 'loading' : `${data.page.length} Apps`}</Typography>
-
-}

@@ -16,13 +16,17 @@ const AllSases = () => {
         }
     };
 
+    const scrollAndSetSelectedSasId = (id: string) => {
+        scrollToElement()
+        setSelectedSasId(id)
+    }
     return (
         <>
-            <Typography ref={targetElementRef}>Všechny moduly</Typography>
+            <Typography ref={targetElementRef} fontWeight="bold">Všechny moduly</Typography>
             <SasesSearchBox placeholder="Vyhledávání modulů" onSearchChange={setSearchTerm}
                             onTextFieldClick={scrollToElement}/>
             <Stack direction="row" spacing={3} height="700px">
-                <Menubar setSelectedSasId={setSelectedSasId} selectedSasId={selectedSasId}/>
+                <Menubar setSelectedSasId={scrollAndSetSelectedSasId} selectedSasId={selectedSasId}/>
                 <AllItemsGrid selectedSasId={selectedSasId} searchTerm={searchTerm}/>
             </Stack>
         </>

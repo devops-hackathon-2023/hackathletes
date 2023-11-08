@@ -1,11 +1,11 @@
 import {Card, CardContent, CardMedia, Stack, Typography, Chip, IconButton, Box} from '@mui/material';
-import {SasItem as SasItemType} from '@/constants/types';
 import StarIcon from '@mui/icons-material/Star';
 import {useFetchAppModuleImage} from "@/queries";
 import Image from "next/image";
+import NumberOfAppsIndicator from "@/components/main-page/atoms/NumberOfAppsIndicator";
 
 interface IFavouriteItemProps {
-    item: SasItemType;
+    item: { moduleId: string, moduleName: string, sasName: string };
 
     onItemClick(sasName: string, moduleName: string): any
 
@@ -13,7 +13,7 @@ interface IFavouriteItemProps {
 }
 
 export const FavouriteItem = ({item, onItemClick, onStarClick}: IFavouriteItemProps) => {
-    const {sasName, moduleName} = item;
+    const {sasName, moduleName, moduleId} = item;
     const {data: image} = useFetchAppModuleImage(sasName, moduleName);
 
     return (
@@ -49,7 +49,7 @@ export const FavouriteItem = ({item, onItemClick, onStarClick}: IFavouriteItemPr
                         <Typography paddingLeft={0.5}>{moduleName}</Typography>
                         <Stack direction="row" alignItems="center" spacing={1}>
                             <Chip label={sasName}/>
-                            <Typography>4 Aps</Typography>
+                            <NumberOfAppsIndicator moduleId={moduleId}/>
                         </Stack>
                     </Stack>
                 </Stack>
