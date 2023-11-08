@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { useQueries, useQuery, UseQueryResult } from 'react-query';
+import {QueryClient, useQueries, useQuery, useQueryClient, UseQueryResult} from 'react-query';
 import { Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
 import { useRouter } from 'next/router';
 
@@ -46,11 +46,9 @@ export const useFetchUser = (userId: string): UseQueryResult<any, AxiosError> =>
     return response.data;
   });
 
-export const updateUser = async (userId: string, updatedUser: object) => {
+export const updateUser = async (userId: string, updatedUser: object, queryClient: QueryClient) => {
     const response = await axios.patch(`${MOCK_API_URL}/users/${userId}`, {userId, updatedUser});
-    console.log(userId, updatedUser)
-    // TODO: update logged user
-    // TODO: invalidate
+    await queryClient.invalidateQueries(['user', userId]);
     return response.data;
 }
 

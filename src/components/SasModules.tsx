@@ -7,6 +7,7 @@ import {loggedUserAtom} from "@/state/atoms";
 import {DEFAULT_USER} from "@/constants";
 import {toggleItemInArray} from "@/actions";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import {useQueryClient} from "react-query";
 
 interface SasModulesProps {
     sasItem: SasItem;
@@ -19,11 +20,12 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
     const fetchedData = useFetchUser(loggedUser.id);
     const user = fetchedData.data;
     const {favourites} = user || DEFAULT_USER;
+    const queryClient = useQueryClient()
 
     const updateFavourites = (item: any) => {
         if (user) {
             toggleItemInArray(user.favourites, item);
-            updateUser(user.id, user);
+            updateUser(user.id, user, queryClient);
         }
     };
 

@@ -4,6 +4,7 @@ import {useAtom} from 'jotai';
 import {DEFAULT_USER} from '@/constants';
 import {loggedUserAtom} from "@/state/atoms";
 import {toggleItemInArray} from "@/actions";
+import {useQueryClient} from "react-query";
 import {FavouriteItem} from '../FavouriteItem';
 
 const Favourites = () => {
@@ -11,11 +12,12 @@ const Favourites = () => {
     const fetchedData = useFetchUser(loggedUser.id);
     const user = fetchedData.data;
     const {favourites} = user || DEFAULT_USER;
+    const queryClient = useQueryClient()
 
     const updateFavourites = (item: any) => {
         if (user) {
             toggleItemInArray(user.favourites, item);
-            updateUser(user.id, user);
+            updateUser(user.id, user, queryClient);
         }
     };
 
