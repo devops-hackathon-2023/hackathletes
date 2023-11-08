@@ -6,52 +6,55 @@ import Image from "next/image";
 
 interface IFavouriteItemProps {
     item: SasItemType;
-    onItemClick: any;
-    onStarClick: any;
+
+    onItemClick(sasName: string, moduleName: string): any
+
+    onStarClick(item: any): any
 }
 
 export const FavouriteItem = ({item, onItemClick, onStarClick}: IFavouriteItemProps) => {
-    const {data: image} = useFetchAppModuleImage(item.sasName, item.moduleName);
+    const {sasName, moduleName} = item;
+    const {data: image} = useFetchAppModuleImage(sasName, moduleName);
 
     return (
-            <Card sx={{maxWidth: 368}} onClick={() => onItemClick(item)}>
-                <CardMedia>
-                    <Stack
-                        alignItems="center"
-                        justifyContent="center"
-                        bgcolor="primary.main"
-                        direction="row"
-                        position="relative"
+        <Card sx={{maxWidth: 368}} onClick={() => onItemClick(sasName, moduleName)}>
+            <CardMedia>
+                <Stack
+                    alignItems="center"
+                    justifyContent="center"
+                    bgcolor="primary.main"
+                    direction="row"
+                    position="relative"
+                >
+                    <Image
+                        alt="Module logo"
+                        src={image?.src ?? '/app-module-images/placeholder.png'}
+                        width="100"
+                        height="100"
+                    />
+                    <Box
+                        position="absolute"
+                        top="0"
+                        right="0"
                     >
-                        <Image
-                            alt="Module logo"
-                            src={image?.src ?? '/app-module-images/placeholder.png'}
-                            width="100"
-                            height="100"
-                        />
-                        <Box
-                            position="absolute"
-                            top="0"
-                            right="0"
-                        >
-                            <IconButton onClick={() => onStarClick(item)}>
-                                <StarIcon sx={{color: 'orange'}}/>
-                            </IconButton>
-                        </Box>
-                    </Stack>
-                </CardMedia>
-                <CardContent>
-                    <Stack>
-                        <Stack spacing={1}>
-                            <Typography paddingLeft={0.5}>{item.moduleName}</Typography>
-                            <Stack direction="row" alignItems="center" spacing={1}>
-                                <Chip label={item.sasName}/>
-                                <Typography>4 Aps</Typography>
-                            </Stack>
+                        <IconButton onClick={() => onStarClick(item)}>
+                            <StarIcon sx={{color: 'orange'}}/>
+                        </IconButton>
+                    </Box>
+                </Stack>
+            </CardMedia>
+            <CardContent>
+                <Stack>
+                    <Stack spacing={1}>
+                        <Typography paddingLeft={0.5}>{moduleName}</Typography>
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                            <Chip label={sasName}/>
+                            <Typography>4 Aps</Typography>
                         </Stack>
                     </Stack>
-                </CardContent>
-            </Card>
+                </Stack>
+            </CardContent>
+        </Card>
     )
 };
 
