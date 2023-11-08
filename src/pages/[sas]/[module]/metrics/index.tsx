@@ -6,7 +6,18 @@ import {
   useFetchQualityGatesByDeploymentUnitVersionId,
   useGetCurrentModuleId,
 } from '@/queries';
-import { Card, CardContent, FormControl, Grid, MenuItem, Select as MuiSelect, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select as MuiSelect,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { DeploymentUnit, DeploymentUnitVersion } from '@/types';
 import { styled } from '@mui/material/styles';
 import { QualityMetricsTable } from '@/components';
@@ -31,7 +42,11 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
     return selectedDeploymentUnitVersion?.id;
   }, [deploymentUnitVersions?.page, selectedVersion]);
 
-  const { data: qualityGate } = useFetchQualityGatesByDeploymentUnitVersionId(selectedDeploymentUnitVersionId);
+  const {
+    data: qualityGate,
+    isLoading: qualityGateIsLoading,
+    isSuccess: qualityGateIsSuccess,
+  } = useFetchQualityGatesByDeploymentUnitVersionId(selectedDeploymentUnitVersionId);
 
   useEffect(() => {
     if (deploymentUnitVersions?.page?.length > 0 && selectedVersion === '') {
@@ -59,7 +74,13 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
               </Select>
             </FormControl>
           </Stack>
-          <QualityMetricsTable qualityGates={qualityGate?.page} />
+          {qualityGateIsSuccess && <QualityMetricsTable qualityGates={qualityGate?.page} />}
+
+          {qualityGateIsLoading && (
+              Array.from({ length: 8 }).map((_, idx) => (
+                <Skeleton key={idx} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
+              ))
+          )}
         </CardContent>
       </Card>
     </Grid>
