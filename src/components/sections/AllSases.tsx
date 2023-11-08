@@ -11,7 +11,7 @@ const AllSases = () => {
   return (
     <>
       <Typography>Všechny moduly</Typography>
-      <SasesSearchBox placeholder="Vyhledat modul" onSearchChange={setSearchTerm} />
+      <SasesSearchBox placeholder="Vyhledávání modulů" onSearchChange={setSearchTerm} />
       <Stack direction="row" spacing={3}>
         <Menubar setSelectedSasId={setSelectedSasId} selectedSasId={selectedSasId} />
         <AllItemsGrid selectedSasId={selectedSasId} searchTerm={searchTerm} />
