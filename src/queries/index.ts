@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import {QueryClient, useQueries, useQuery, useQueryClient, UseQueryResult} from 'react-query';
+import { QueryClient, useQueries, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
 import { useRouter } from 'next/router';
 
@@ -47,10 +47,10 @@ export const useFetchUser = (userId: string): UseQueryResult<any, AxiosError> =>
   });
 
 export const updateUser = async (userId: string, updatedUser: object, queryClient: QueryClient) => {
-    const response = await axios.patch(`${MOCK_API_URL}/users/${userId}`, {userId, updatedUser});
-    await queryClient.invalidateQueries(['user', userId]);
-    return response.data;
-}
+  const response = await axios.patch(`${MOCK_API_URL}/users/${userId}`, { userId, updatedUser });
+  await queryClient.invalidateQueries(['user', userId]);
+  return response.data;
+};
 
 export const useFetchAppModuleImage = (sas: string, moduleName: string): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['appModuleImage', sas, moduleName], async () => {
@@ -84,8 +84,33 @@ export const useFetchDeploymentsByDeploymentUnitId = (deploymentUnitId: string):
     }
   });
 
+export const useFetchDeploymentUnitVersionsByDeploymentUnitId = (
+  deploymentUnitId: string
+): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deploymentUnitVersions', deploymentUnitId], async () => {
+    const response = await fetchDeploymentUnitVersions(deploymentUnitId);
+    return response.data;
+  });
+
 const fetchDeploymentUnitVersions = async (deploymentUnitId: string) =>
-  axios.get(`${API_URL}/deployment-units/${deploymentUnitId}/deployment-unit-versions`, apiConfig);
+  axios.get(`${API_URL}/deployment-units/${deploymentUnitId}/deployment-unit-versions?order=desc&size=100`, apiConfig);
+
+export const useFetchQualityGatesByDeploymentUnitVersionId = (
+  deploymentUnitVersionId: string
+): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['qualityGates', deploymentUnitVersionId], async () => {
+    const response = await axios.get(
+      `${API_URL}/quality-gates?versionId=${deploymentUnitVersionId}&sort=percent&order=desc`,
+      apiConfig
+    );
+    return response.data;
+  });
+
+export const useFetchQualityGatesByAppModuleId = (appModuleId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['qualityGates', appModuleId], async () => {
+    const response = await axios.get(`${API_URL}/quality-gates?appModuleId=${appModuleId}&size=100`, apiConfig);
+    return response.data;
+  });
 
 export const fetchLatestDeploymentUnitVersion = async (deploymentUnitId: string) => {
   const response = await fetchDeploymentUnitVersions(deploymentUnitId);
