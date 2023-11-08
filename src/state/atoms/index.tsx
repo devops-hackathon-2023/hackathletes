@@ -1,4 +1,4 @@
 import { DEFAULT_USER } from "@/constants";
-import { atom } from "jotai";
+import { atomWithStorage } from 'jotai/utils'
 
-export const loggedUserAtom = atom(DEFAULT_USER);
+export const loggedUserAtom = atomWithStorage('loggedUser',DEFAULT_USER);
