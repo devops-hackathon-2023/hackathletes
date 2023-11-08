@@ -1,8 +1,13 @@
 import {useFetchAppModuleDeploymentUnits} from "@/queries";
-import {Typography} from "@mui/material";
+import {Stack, Typography} from "@mui/material";
 
 const NumberOfAppsIndicator = ({moduleId}: any) => {
     const {data, isLoading} = useFetchAppModuleDeploymentUnits(moduleId)
-    return <Typography>{isLoading ? 'loading' : `${data.page.length} Apps`}</Typography>
+
+    return (
+        <Stack>
+            <Typography noWrap fontSize={{'xs': 10, 'sm': '1rem'}}>{isLoading ? 'loading' : `${data.page.length} Apps`}</Typography>
+        </Stack>
+    )
 }
 export default NumberOfAppsIndicator

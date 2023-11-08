@@ -12,7 +12,7 @@ export const AppBar = () => (
     color="primary"
   >
     <Toolbar>
-      <Box sx={{ flexGrow: 1, ml: 12 }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Image alt="img" src="/ceska_sporitelna.png" width={114} height={51} />
       </Box>
       <CustomAvatar />

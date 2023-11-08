@@ -60,9 +60,14 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
                                 src={image?.src ?? '/app-module-images/placeholder.png'}
                                 width="100"
                                 height="100"
+                                style={{
+                                    maxWidth: '100%',
+                                    height: 'auto'
+                                }}
+
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3} sm={4}>
                             <Box paddingLeft={1}>
                                 <Typography>{moduleName}</Typography>
                             </Box>
@@ -74,13 +79,14 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
                             </Stack>
                         </Grid>
 
-                        <Grid item xs={1}>
-                            <IconButton sx={{color: 'orange'}}
-                                        onClick={(event) => onUpdateFavourites(event, {
-                                            moduleId: id,
-                                            moduleName,
-                                            sasName
-                                        })}>
+                        <Grid item xs={1} sm={1}>
+                            <IconButton
+                                sx={{color: 'orange'}}
+                                onClick={(event) => onUpdateFavourites(event, {
+                                    moduleId: id,
+                                    moduleName,
+                                    sasName
+                                })}>
                                 {isItemInFavourites({moduleName}) ? <StarIcon/> : <StarOutlineIcon/>}
                             </IconButton>
                         </Grid>

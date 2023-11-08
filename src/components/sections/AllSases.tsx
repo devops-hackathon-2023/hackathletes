@@ -25,7 +25,7 @@ const AllSases = () => {
             <Typography ref={targetElementRef} fontWeight="bold">Všechny moduly</Typography>
             <SasesSearchBox placeholder="Vyhledávání modulů" onSearchChange={setSearchTerm}
                             onTextFieldClick={scrollToElement}/>
-            <Stack direction="row" spacing={3} height="700px">
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} height="700px">
                 <Menubar setSelectedSasId={scrollAndSetSelectedSasId} selectedSasId={selectedSasId}/>
                 <AllItemsGrid selectedSasId={selectedSasId} searchTerm={searchTerm}/>
             </Stack>

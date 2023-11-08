@@ -32,9 +32,9 @@ const Favourites = () => {
         <>
             <Typography fontWeight="bold">Oblíbené moduly:</Typography>
             <Stack>
-                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
+                <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 9, md: 16}}>
                     {favourites?.map((item: any, idx: number) => (
-                        <Grid item key={idx} xs={2} sm={4} md={4}>
+                        <Grid item key={idx} xs={2} sm={3} md={4}>
                             <FavouriteItem key={idx} item={item} onItemClick={onNavigateToDetails}
                                            onStarClick={onUpdateFavourites}/>
                         </Grid>

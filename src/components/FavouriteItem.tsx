@@ -17,7 +17,7 @@ export const FavouriteItem = ({item, onItemClick, onStarClick}: IFavouriteItemPr
     const {data: image} = useFetchAppModuleImage(sasName, moduleName);
 
     return (
-        <Card sx={{maxWidth: 368, cursor: 'pointer'}} onClick={() => onItemClick(sasName, moduleName)}>
+        <Card sx={{ cursor: 'pointer'}} onClick={() => onItemClick(sasName, moduleName)}>
             <CardMedia>
                 <Stack
                     alignItems="center"
