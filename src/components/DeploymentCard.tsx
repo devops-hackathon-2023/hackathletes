@@ -8,6 +8,7 @@ import {
   Stack,
   styled,
   Typography,
+  CardHeader,
 } from '@mui/material';
 import SmallChip from '@/components/SmallChip';
 import { GitHub } from '@mui/icons-material';
@@ -45,18 +46,17 @@ export const DeploymentCard = ({ deploymentUnitVersion }: any) => {
   };
 
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h4" mb={1}>
-          {name}
-        </Typography>
+    <Card sx={{ minWidth: '17rem' }}>
+      <CardHeader title={name} titleTypographyProps={{ variant: 'h4' }} />
 
+      <CardContent>
         <Stack spacing={isLoading ? 0 : 1} my={isLoading ? '-40px' : undefined}>
           {isLoading ? (
             <Skeleton animation="wave" width="100%" height="220px" />
           ) : (
             latestDeployments?.map((deployment: Deployment) => {
               const { environment, status, platform, startedAt } = deployment;
+              
               return (
                 <Stack key={environment} direction="row" spacing={2} alignItems="center">
                   <StatusDot status={status} />

@@ -18,7 +18,7 @@ export const AppBar = ({ title, onMenuClick }: CustomAppBarProps) => {
     <MuiAppBar
       sx={{
         width: {
-          sm: `calc(100% - ${drawerWidth}px)`,
+          md: `calc(100% - ${drawerWidth}px)`,
           backgroundColor: 'white',
           color: 'black',
           boxShadow: '0 2px 4px -1px rgba(0,0,0,0.2)',

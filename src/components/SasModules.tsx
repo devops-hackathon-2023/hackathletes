@@ -39,7 +39,7 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
         }
     };
 
-    const isItemInFavourites = (item: any) => user.favourites.find((fav: SasItem) => fav.moduleName === item.moduleName)
+    const isItemInFavourites = (item: any) => user.favourites?.find((fav: SasItem) => fav.moduleName === item.moduleName)
 
     const onNavigate = async (item: SasItem, moduleName: string) => {
         await push(`/${sasName}/${moduleName}/dashboard`);

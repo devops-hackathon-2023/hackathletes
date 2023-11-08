@@ -5,24 +5,24 @@ import { DeploymentCard, DeploymentsHistory } from '@/components';
 
 const DeploymentsPage = () => {
   const moduleId = useGetCurrentModuleId();
+
   const { data: deploymentUnitVersions, isLoading } = useFetchAppModuleLatestDeploymentUnits(moduleId);
+
   return (
     <Layout>
-      <Stack direction="row" spacing={2} alignItems="flex-start">
-        <Stack spacing={2}>
-          {isLoading ? (
-            <Skeleton animation="wave" width="300px" height="500px" sx={{ marginTop: '-100px !important' }} />
-          ) : (
-            deploymentUnitVersions?.map((deploymentUnit: any) => (
-              <DeploymentCard key={deploymentUnit.id} deploymentUnitVersion={deploymentUnit} />
+      <Stack direction="row" spacing={2} sx={{ mb: 3, overflowY: 'auto', p: 0.5 }}>
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, idx: number) => (
+              <Skeleton key={idx} animation="wave" width="300px" height="550px" sx={{ my: '-100px !important' }} />
             ))
-          )}
-        </Stack>
-        <Stack direction="column" flexGrow={1}>
-          <DeploymentsHistory />
-        </Stack>
+          : deploymentUnitVersions.map((deploymentUnit: any) => (
+              <DeploymentCard key={deploymentUnit.id} deploymentUnitVersion={deploymentUnit} />
+            ))}
       </Stack>
+
+      <DeploymentsHistory />
     </Layout>
   );
 };
+
 export default DeploymentsPage;
