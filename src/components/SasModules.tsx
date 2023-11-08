@@ -1,14 +1,19 @@
 import {useAtom} from 'jotai';
 import {useRouter} from 'next/router';
-import {updateUser, useFetchAppModuleImage, useFetchSasModules, useFetchUser} from '@/queries';
+import {
+    updateUser, useFetchAppModuleDeploymentUnits,
+    useFetchAppModuleImage,
+    useFetchSasModules,
+    useFetchUser
+} from '@/queries';
 import {AppModule, SasItem} from '@/constants/types';
 import {Box, Card, Chip, Grid, IconButton, Stack, Typography} from '@mui/material';
 import {loggedUserAtom} from "@/state/atoms";
-import {DEFAULT_USER} from "@/constants";
 import {toggleItemInArray} from "@/actions";
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import {useQueryClient} from "react-query";
 import Image from "next/image";
+import StarIcon from "@mui/icons-material/Star";
 
 interface SasModulesProps {
     sasItem: SasItem;
@@ -33,6 +38,8 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
         }
     };
 
+    const isItemInFavourites = (item: any) => user.favourites.find((fav: SasItem) => fav.moduleName === item.moduleName)
+
     const onNavigate = async (item: SasItem, moduleName: string) => {
         await push(`/${sasName}/${moduleName}/dashboard`);
     };
@@ -43,7 +50,7 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
 
     return filteredData.map(({name: moduleName, id}: AppModule) => (
         <Grid item xs={12} key={id}>
-            <Card onClick={() => onNavigate(sasItem, moduleName)}>
+            <Card sx={{cursor: 'pointer'}} onClick={() => onNavigate(sasItem, moduleName)}>
                 <Stack>
                     <Grid container spacing={1} columns={10} alignItems="center">
                         <Grid item xs={2}>
@@ -61,15 +68,19 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
                         </Grid>
                         <Grid item xs={3}>
                             <Stack spacing={1} direction="row" alignItems="center">
-                                <Typography>4 Aps</Typography>
+                                <NumberOfApps moduleId={id}/>
                                 <Chip label={sasName}/>
                             </Stack>
                         </Grid>
 
                         <Grid item xs={1}>
                             <IconButton sx={{color: 'orange'}}
-                                        onClick={(event) => onUpdateFavourites(event, {moduleId: id, moduleName, sasName})}>
-                                <StarOutlineIcon/>
+                                        onClick={(event) => onUpdateFavourites(event, {
+                                            moduleId: id,
+                                            moduleName,
+                                            sasName
+                                        })}>
+                                {isItemInFavourites({moduleName}) ? <StarIcon/> : <StarOutlineIcon/>}
                             </IconButton>
                         </Grid>
                     </Grid>
@@ -78,3 +89,9 @@ export const SasModules = ({sasItem, searchTerm}: SasModulesProps) => {
         </Grid>
     ));
 };
+
+const NumberOfApps = ({moduleId}: any) => {
+    const {data, isLoading} = useFetchAppModuleDeploymentUnits(moduleId)
+    return <Typography>{isLoading ? 'loading' : `${data.page.length} Apps`}</Typography>
+
+}

@@ -16,8 +16,9 @@ const Favourites = () => {
     const {favourites} = user || DEFAULT_USER;
     const queryClient = useQueryClient()
 
-    const onUpdateFavourites = (item: any) => {
+    const onUpdateFavourites = (event: any, item: any) => {
         if (user) {
+            event.stopPropagation();
             toggleItemInArray(user.favourites, item);
             updateUser(user.id, user, queryClient);
         }

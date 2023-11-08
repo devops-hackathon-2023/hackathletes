@@ -4,7 +4,7 @@ import { AppBar } from './AppBar';
 const MainPageLayout = ({children}:any) => (
     <>
         <AppBar />
-        <Stack paddingX={15} spacing={2} paddingTop={2}>{children}</Stack>
+        <Stack paddingX={15} spacing={2} paddingTop={2} paddingBottom={5}>{children}</Stack>
     </>
 );
 export default MainPageLayout;

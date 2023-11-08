@@ -19,8 +19,7 @@ const AllItemsGrid = ({ selectedSasId, searchTerm }: AllItemsGridProps) => {
 
   return (
     <Stack>
-      <Grid container spacing={2}>
-        <Grid item xs={12} />
+      <Grid container spacing={2} sx={{ overflow: 'scroll', overflowX: 'hidden'}} paddingX={0.5} paddingBottom={0.5}>
         {sasesList.map((sItem: SasItem, idx: number) => (
             <SasModules key={idx} sasItem={sItem} searchTerm={searchTerm} />
         ))}

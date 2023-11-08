@@ -9,7 +9,7 @@ interface IFavouriteItemProps {
 
     onItemClick(sasName: string, moduleName: string): any
 
-    onStarClick(item: any): any
+    onStarClick(event: any, item: any): any
 }
 
 export const FavouriteItem = ({item, onItemClick, onStarClick}: IFavouriteItemProps) => {
@@ -17,7 +17,7 @@ export const FavouriteItem = ({item, onItemClick, onStarClick}: IFavouriteItemPr
     const {data: image} = useFetchAppModuleImage(sasName, moduleName);
 
     return (
-        <Card sx={{maxWidth: 368}} onClick={() => onItemClick(sasName, moduleName)}>
+        <Card sx={{maxWidth: 368, cursor: 'pointer'}} onClick={() => onItemClick(sasName, moduleName)}>
             <CardMedia>
                 <Stack
                     alignItems="center"
@@ -37,7 +37,7 @@ export const FavouriteItem = ({item, onItemClick, onStarClick}: IFavouriteItemPr
                         top="0"
                         right="0"
                     >
-                        <IconButton onClick={() => onStarClick(item)}>
+                        <IconButton onClick={(event) => onStarClick(event, item)}>
                             <StarIcon sx={{color: 'orange'}}/>
                         </IconButton>
                     </Box>
