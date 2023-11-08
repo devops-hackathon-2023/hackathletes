@@ -35,7 +35,7 @@ const Favourites = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: 6 }}>
       <Container maxWidth="lg">
         <Typography variant="h4">Oblíbené moduly</Typography>
-        <Stack>
+        <Stack mt={2}>
           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {fetchedData?.isLoading && (
               <>

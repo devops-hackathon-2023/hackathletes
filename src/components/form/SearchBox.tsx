@@ -6,18 +6,12 @@ import { TextField, InputAdornment } from '@mui/material';
 export interface SearchBoxProps {
   debounce?: number;
   onSearchChange?: (value: string) => void;
-  onTextFieldClick: any;
   placeholder?: string;
-  width?: number;
+  label?: string;
+  onTextFieldClick?: () => void;
 }
 
-export const SasesSearchBox = ({
-  width,
-  onSearchChange,
-  placeholder,
-  debounce = 300,
-  onTextFieldClick,
-}: SearchBoxProps) => {
+export const SearchBox = ({ onSearchChange, placeholder, label, debounce = 300, onTextFieldClick }: SearchBoxProps) => {
   const [search, setSearch] = useState<string | null>(null);
   const { debouncedValue } = useDebounce<string | null>(search, debounce);
 
@@ -34,7 +28,9 @@ export const SasesSearchBox = ({
   return (
     <TextField
       fullWidth
-      label="Search"
+      onClick={onTextFieldClick}
+      placeholder={placeholder}
+      label={label}
       onChange={handleSearchChange}
       InputProps={{
         startAdornment: (

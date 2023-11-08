@@ -27,6 +27,7 @@ export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
   const { name: sasName } = sasItem;
 
   const filteredData = searchTerm ? data?.page.filter(({ name }: AppModule) => name.includes(searchTerm)) : data?.page;
+  
   const onUpdateFavourites = (event: any, item: any) => {
     event.stopPropagation();
     if (user) {
@@ -63,41 +64,37 @@ export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
         }}
         onClick={() => onNavigate(sasItem, moduleName)}
       >
-        <Stack>
-          <Grid container spacing={1} columns={10} alignItems="center">
-            <Grid item xs={2}>
-              <Image
-                alt={`${moduleName} logo`}
-                src={image?.src ?? '/app-module-images/placeholder.png'}
-                width="100"
-                height="100"
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <Box paddingLeft={1}>
-                <Typography textTransform="capitalize">{moduleName}</Typography>
-              </Box>
-            </Grid>
+        <Stack direction="row" justifyContent="space-between">
+          <Stack direction="row" alignItems="center" gap={3}>
+            <Image
+              alt={`${moduleName} logo`}
+              src={image?.src ?? '/app-module-images/placeholder.png'}
+              width="100"
+              height="100"
+            />
+            <Box paddingLeft={1}>
+              <Typography textTransform="capitalize" fontWeight="bold">
+                {moduleName}
+              </Typography>
+            </Box>
+          </Stack>
 
-            <Grid item xs={4} sx={{ display: 'flex', alignItems: 'end', justifyContent: 'end', pr: 2 }}>
-              <Stack spacing={2} direction="row" alignItems="center">
-                <NumberOfAppsIndicator moduleId={id} />
-                <Chip label={sasName} />
-                <IconButton
-                  sx={{ color: 'orange' }}
-                  onClick={(event) =>
-                    onUpdateFavourites(event, {
-                      moduleId: id,
-                      moduleName,
-                      sasName,
-                    })
-                  }
-                >
-                  {isItemInFavourites({ moduleName }) ? <StarIcon /> : <StarOutlineIcon />}
-                </IconButton>
-              </Stack>
-            </Grid>
-          </Grid>
+          <Stack spacing={5} direction="row" alignItems="center">
+            <NumberOfAppsIndicator moduleId={id} />
+            <Chip label={sasName} />
+            <IconButton
+              sx={{ color: 'orange' }}
+              onClick={(event) =>
+                onUpdateFavourites(event, {
+                  moduleId: id,
+                  moduleName,
+                  sasName,
+                })
+              }
+            >
+              {isItemInFavourites({ moduleName }) ? <StarIcon /> : <StarOutlineIcon />}
+            </IconButton>
+          </Stack>
         </Stack>
       </Card>
     </Grid>
