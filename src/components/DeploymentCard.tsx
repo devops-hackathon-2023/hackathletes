@@ -1,5 +1,14 @@
 import { useFetchLatestServersDeployments } from '@/queries';
-import { Button, Card as MuiCard, CardContent, Divider as MuiDivider, Stack, styled, Typography } from '@mui/material';
+import {
+  Button,
+  Card as MuiCard,
+  CardContent,
+  Divider as MuiDivider,
+  Skeleton,
+  Stack,
+  styled,
+  Typography,
+} from '@mui/material';
 import SmallChip from '@/components/SmallChip';
 import { GitHub } from '@mui/icons-material';
 import { StatusDot } from '@/components/StatusDot';
@@ -26,7 +35,9 @@ const Card = styled(MuiCard)({
 });
 
 export const DeploymentCard = ({ deploymentUnitVersion }: any) => {
-  const { data: latestDeployments } = useFetchLatestServersDeployments(deploymentUnitVersion.deploymentUnitId);
+  const { data: latestDeployments, isLoading } = useFetchLatestServersDeployments(
+    deploymentUnitVersion.deploymentUnitId
+  );
   const { name, gitBranch, repositoryUrl } = deploymentUnitVersion;
 
   const handleClick = () => {
@@ -40,19 +51,23 @@ export const DeploymentCard = ({ deploymentUnitVersion }: any) => {
           {name}
         </Typography>
 
-        <Stack spacing={1}>
-          {latestDeployments?.map((deployment: Deployment) => {
-            const { environment, status, platform, startedAt } = deployment;
-            return (
-              <Stack key={environment} direction="row" spacing={2} alignItems="center">
-                <StatusDot status={status} />
-                <Typography fontWeight="bold">{environment.toLowerCase()}</Typography>
-                <DeploymentVersionChip deployment={deployment} />
-                <SmallChip label={resolvePlatform(platform)} />
-                <Typography color="text.secondary">{toRelativeTimeShort(startedAt)}</Typography>
-              </Stack>
-            );
-          })}
+        <Stack spacing={isLoading ? 0 : 1} my={isLoading ? '-40px' : undefined}>
+          {isLoading ? (
+            <Skeleton animation="wave" width="100%" height="220px" />
+          ) : (
+            latestDeployments?.map((deployment: Deployment) => {
+              const { environment, status, platform, startedAt } = deployment;
+              return (
+                <Stack key={environment} direction="row" spacing={2} alignItems="center">
+                  <StatusDot status={status} />
+                  <Typography fontWeight="bold">{environment.toLowerCase()}</Typography>
+                  <DeploymentVersionChip deployment={deployment} />
+                  <SmallChip label={resolvePlatform(platform)} />
+                  <Typography color="text.secondary">{toRelativeTimeShort(startedAt)}</Typography>
+                </Stack>
+              );
+            })
+          )}
         </Stack>
         <Divider />
         <GitHubButton size="large" startIcon={<GitHub />} onClick={handleClick}>
