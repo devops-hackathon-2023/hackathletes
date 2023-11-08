@@ -7,7 +7,6 @@ import {
   useGetCurrentModuleId,
 } from '@/queries';
 import {
-  Box,
   Card,
   CardContent,
   FormControl,
@@ -24,13 +23,14 @@ import { QualityMetricsTable } from '@/components';
 
 interface VersionSelectProps {
   deploymentUnit: DeploymentUnit;
+  fullWidth?: boolean;
 }
 
 const Select = styled(MuiSelect)({
   width: '300px',
 });
 
-const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
+const VersionSelect = ({ deploymentUnit, fullWidth }: VersionSelectProps) => {
   const { data: deploymentUnitVersions } = useFetchDeploymentUnitVersionsByDeploymentUnitId(deploymentUnit.id);
 
   const [selectedVersion, setSelectedVersion] = useState(deploymentUnitVersions?.page?.[0]?.version || '');
@@ -59,7 +59,7 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
   };
 
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} md={fullWidth ? 12 : 6}>
       <Card>
         <CardContent>
           <Stack direction="row" alignItems="center" spacing={2} mb={2}>
@@ -76,11 +76,10 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
           </Stack>
           {qualityGateIsSuccess && <QualityMetricsTable qualityGates={qualityGate?.page} />}
 
-          {qualityGateIsLoading && (
-              Array.from({ length: 8 }).map((_, idx) => (
-                <Skeleton key={idx} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
-              ))
-          )}
+          {qualityGateIsLoading &&
+            Array.from({ length: 8 }).map((_, idx) => (
+              <Skeleton key={idx} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
+            ))}
         </CardContent>
       </Card>
     </Grid>
@@ -94,7 +93,11 @@ const MetricsPage = () => {
     <Layout>
       <Grid container spacing={2}>
         {deploymentUnits?.page?.map((deploymentUnit: DeploymentUnit) => (
-          <VersionSelect key={deploymentUnit.id} deploymentUnit={deploymentUnit} />
+          <VersionSelect
+            key={deploymentUnit.id}
+            deploymentUnit={deploymentUnit}
+            fullWidth={deploymentUnits?.page?.length === 1}
+          />
         ))}
       </Grid>
     </Layout>
