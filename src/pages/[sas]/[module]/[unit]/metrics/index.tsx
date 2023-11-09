@@ -50,12 +50,6 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
     }
   }, [deploymentUnitVersions, selectedVersion]);
 
-  // Quality all passed
-
-  const numberOfPassedGates = useMemo(() => {
-    if (qualityGate?.page?.length === 0) return 0;
-    return qualityGate?.page?.filter((metric: any) => metric.result === 'PASSED').length;
-  }, [qualityGate?.page]);
 
   const numberOfNotPassedGates = useMemo(() => {
     if (qualityGate?.page?.length === 0) return 0;
@@ -151,9 +145,7 @@ const DashboardPage = () => {
   const router = useRouter();
   const { unit } = router.query;
   const {
-    isLoading: isUnitLoading,
     data: unitsData,
-    error: unitError,
   } = useFetchDeploymentUnits({
     name: unit as string,
   });
