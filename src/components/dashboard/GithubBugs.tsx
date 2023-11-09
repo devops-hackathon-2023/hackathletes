@@ -77,7 +77,7 @@ export const GithubBugs = () => {
     maintainAspectRatio: false,
   };
 
-  return false ? (
+  return isLoading ? (
     <Skeleton width={250} height={290} sx={{ my: '-20px' }} />
   ) : (
     <Stack style={{ width: '280px', height: '250px', alignSelf: 'flex-start', position: 'relative' }}>
