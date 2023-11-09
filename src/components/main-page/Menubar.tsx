@@ -46,7 +46,7 @@ const MenuBar = ({ selectedSasId, setSelectedSasId, onSearchBoxClick }: MenuBarP
       >
         <ToggleButton value="all" sx={{ border: 'none', alignItems: 'start', justifyContent: 'start' }}>
           <Typography sx={{ textTransform: 'none' }} textAlign="left" noWrap>
-            Všechny aplikace
+            All applications
           </Typography>
         </ToggleButton>
         <Divider sx={{ backgroundColor: (theme) => theme.palette.grey[200] }} />

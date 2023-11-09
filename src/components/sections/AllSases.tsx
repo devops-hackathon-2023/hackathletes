@@ -24,7 +24,7 @@ const AllSases = () => {
     <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: 6 }}>
       <Container maxWidth="lg">
         <Typography ref={targetElementRef} variant="h4">
-          Všechny moduly
+          All modules
         </Typography>
         <Box sx={{ marginTop: 2 }}>
           <SearchBox placeholder="Search module..." onSearchChange={setSearchTerm} onTextFieldClick={scrollToElement} />
