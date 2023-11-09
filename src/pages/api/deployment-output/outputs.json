@@ -1,0 +1,14 @@
+[
+  {
+    "status": "SUCCESS",
+    "output": "Build started at 2023-11-09T10:00:00\nCloning repository...\nCloning into 'my-app'...\nRepository cloned successfully.\nRunning build scripts...\nnpm install --production\nnpm run build\nBuild script executed successfully.\nDeploying to server...\nDeployment complete.\nBuild finished successfully at 2023-11-09T10:05:30"
+  },
+    {
+        "status": "FAILED",
+        "output": "Build started at 2023-11-09T11:00:00\nCloning repository...\nCloning into 'my-app'...\nError: Repository not found.\nBuild script execution failed.\nDeployment failed.\nError details:\n- Failed to clone repository 'my-app'.\n- No such repository exists or you do not have permission.\nBuild failed at 2023-11-09T11:01:15"
+    },
+  {
+    "status": "STARTED",
+    "output": "Build initiated at 2023-11-09T12:00:00\nPreparing to clone repository...\nThis may take a few minutes.\nPlease wait..."
+  }
+]

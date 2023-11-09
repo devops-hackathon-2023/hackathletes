@@ -75,6 +75,12 @@ export const useFetchAppModuleImage = (sas: string, moduleName: string): UseQuer
     return response.data;
   });
 
+export const useFetchDeploymentOutput = (status: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deploymentOutput', status], async () => {
+    const response = await axios.get(`${MOCK_API_URL}/deployment-output/${status}`);
+    return response.data;
+  });
+
 export const useFetchAppModuleDeploymentUnits = (moduleId: string): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['appModuleDeploymentUnits', moduleId], async () => {
     const response = await axios.get(`${API_URL}/app-modules/${moduleId}/deployment-units`, apiConfig);
