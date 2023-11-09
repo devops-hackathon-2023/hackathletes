@@ -1,5 +1,5 @@
 import { MOCK_API_URL, useFetchAppModuleDeploymentUnits, useGetCurrentModuleId } from '@/queries';
-import { Stack, Typography, useTheme } from '@mui/material';
+import { Skeleton, Stack, Typography, useTheme } from '@mui/material';
 import { useQueries } from 'react-query';
 import { DeploymentUnit } from '@/types';
 import axios from 'axios';
@@ -25,7 +25,7 @@ interface BugPriorityCount {
 
 export const GithubBugs = () => {
   const moduleId = useGetCurrentModuleId();
-  const { data: deploymentUnits, isFetching: isFetchingUnits } = useFetchAppModuleDeploymentUnits(moduleId);
+  const { data: deploymentUnits, isLoading } = useFetchAppModuleDeploymentUnits(moduleId);
   const theme = useTheme();
   const bugQueries = useQueries(
     deploymentUnits?.page?.map((unit: DeploymentUnit) => ({
@@ -77,7 +77,9 @@ export const GithubBugs = () => {
     maintainAspectRatio: false,
   };
 
-  return (
+  return false ? (
+    <Skeleton width={250} height={290} sx={{ my: '-20px' }} />
+  ) : (
     <Stack style={{ width: '280px', height: '250px', alignSelf: 'flex-start', position: 'relative' }}>
       <Doughnut data={data} options={options} />
       <Stack

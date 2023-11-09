@@ -211,13 +211,10 @@ export const useFetchAppModuleLatestDeploymentUnits = (moduleId: string) => {
   return { data: enhancedDeploymentUnits, isLoading, isError };
 };
 
-export const useFetchDeploymentsByAppModuleId = (
-  appModuleId: string,
-  size: number = 100
-): UseQueryResult<any, AxiosError> =>
+export const useFetchDeploymentsByAppModuleId = (appModuleId: string): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['deployments', appModuleId], async () => {
     const response = await axios.get(
-      `${API_URL}/deployments?size=${size}&appModuleId=${appModuleId}&sort=startedAt&order=desc`,
+      `${API_URL}/deployments?size=100&appModuleId=${appModuleId}&sort=startedAt&order=desc`,
       apiConfig
     );
     return response.data;

@@ -1,6 +1,7 @@
 import { Deployment } from '@/types';
 import { useFetchDeploymentUnitVersion } from '@/queries';
 import { Typography } from '@mui/material';
+import { formatVersion } from '@/utils';
 
 const resolveDeploymentResultMesage = (version: string, deploymentResult: string, environment: string) => {
   if (deploymentResult === 'SUCCESS') {
@@ -18,7 +19,7 @@ const DeploymentResultText = ({ deployment }: { deployment: Deployment }) => {
   return (
     <Typography color="primary.main">
       {resolveDeploymentResultMesage(
-        deploymentUnitVersion?.version || '',
+        formatVersion(deploymentUnitVersion?.version || ''),
         deploymentResult,
         deployment.environment.toLowerCase()
       )}

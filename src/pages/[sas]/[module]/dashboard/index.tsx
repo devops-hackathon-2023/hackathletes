@@ -9,13 +9,15 @@ Chart.register(ArcElement, Tooltip, Legend);
 
 const DashboardPage = () => {
   const moduleId = useGetCurrentModuleId();
-  const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(moduleId);
+  const { data: deploymentUnits, isLoading } = useFetchAppModuleDeploymentUnits(moduleId);
+
+  const deploymentUnitsArr = deploymentUnits?.page;
   return (
     <Layout>
       <Stack>
         <Grid container spacing={10} mb={2}>
-          {deploymentUnits?.page?.map((deploymentUnit: any) => (
-            <Grid item sm={6} md={5} lg={3} key={deploymentUnit.id}>
+          {deploymentUnitsArr?.map((deploymentUnit: any) => (
+            <Grid item sm={6} md={5} lg={deploymentUnitsArr.length === 1 ? 6 : 3} key={deploymentUnit.id}>
               <DeploymentCard deploymentUnit={deploymentUnit} />
             </Grid>
           ))}
@@ -31,7 +33,14 @@ const DashboardPage = () => {
               <RecentActivity />
             </Stack>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              mt: { xs: 2, md: 0 }, // applies margin-top of 2 on xs screens and resets it to 0 on md screens and up
+            }}
+          >
             <Stack>
               <Typography variant="h4">Code quality tests</Typography>
               <CodeMetricsSummary />

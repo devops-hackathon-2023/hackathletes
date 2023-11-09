@@ -62,3 +62,10 @@ export const resolveStatusColor = (status: string) => {
   }
   return 'info';
 };
+export const formatVersion = (version: string): string => {
+  const parts = version.split('.');
+  while (parts.length < 3) {
+    parts.push('0');
+  }
+  return parts.slice(0, 3).join('.');
+};
