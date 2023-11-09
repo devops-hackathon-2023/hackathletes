@@ -3,6 +3,7 @@ import {
   useFetchDeployments,
   useFetchDeploymentUnitVersion,
   useFetchDeploymentUnitVersionsByDeploymentUnitId,
+  useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit,
   useGetCurrentModuleId,
 } from '@/queries';
 import { useMemo, useState } from 'react';
@@ -36,7 +37,15 @@ type VersionsHistoryProps = {
   unitId: string;
 };
 export const VersionsHistory = ({ unitId }: VersionsHistoryProps) => {
-  const { data: deploymentUnitVersions } = useFetchDeploymentUnitVersionsByDeploymentUnitId(unitId);
+  const { data: deploymentUnitVersions, isLoading: areVersionsLoading } =
+    useFetchDeploymentUnitVersionsByDeploymentUnitId(unitId);
+
+  // Version per environment
+  const { data: latestSuccessfulDeployments, isLoading } =
+    useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit(unitId);
+
+  const findLatestDeployment = (versionId: string) =>
+    latestSuccessfulDeployments?.find((deployment: Deployment) => deployment.versionId === versionId);
 
   return (
     <div>
@@ -51,6 +60,9 @@ export const VersionsHistory = ({ unitId }: VersionsHistoryProps) => {
                       <Typography fontWeight="bold">{version?.version}</Typography>
 
                       <Typography color="text.secondary">{version.createdAt || '2 days ago'}</Typography>
+                      {findLatestDeployment(version.id) && (
+                        <SmallChip label={findLatestDeployment(version.id).environment} />
+                      )}
                     </Stack>
                   </Stack>
                 </TableCell>
