@@ -36,7 +36,6 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-<<<<<<< HEAD
 const ScrollableTableContainer = styled('div')({
   overflowX: 'auto',
 });
@@ -47,19 +46,6 @@ const SuccessIcon = styled(CheckCircleOutlineIcon)(({ theme }) => ({
 const ErrorIcon = styled(ErrorOutlineIcon)(({ theme }) => ({
   color: theme.palette.error.main,
 }));
-=======
-interface VersionSelectProps {
-  deploymentUnit: DeploymentUnit;
-  fullWidthCard?: boolean;
-}
-
-const Select = styled(MuiSelect)({
-  width: '300px',
-});
-
-const VersionSelect = ({ deploymentUnit, fullWidthCard }: VersionSelectProps) => {
-  const { data: deploymentUnitVersions } = useFetchDeploymentUnitVersionsByDeploymentUnitId(deploymentUnit.id);
->>>>>>> 5c96ed40eed234be97180cbe746e7a415355c617
 
 const resolveResultIcon = (result: string) => (result === 'PASSED' ? <SuccessIcon /> : <ErrorIcon />);
 
@@ -114,7 +100,6 @@ const QualityGateTableRow = ({
   }
 
   return (
-<<<<<<< HEAD
     <>
       {qualityGates?.page.map((qualityGate: QualityGate) => (
         <TableRow key={`${qualityGate.id}_${unit.id}`}>
@@ -137,24 +122,6 @@ const QualityGateTableRow = ({
     </>
   );
 };
-=======
-    <Grid item xs={12} md={fullWidthCard ? 12 : 6}>
-      <Card>
-        <CardContent>
-          <Stack direction="row" alignItems="center" spacing={2} mb={2}>
-            <Typography variant="h4">{deploymentUnit?.name}</Typography>
-            <FormControl>
-              <Select size="small" onChange={handleVersionChange} value={selectedVersion}>
-                {deploymentUnitVersions?.page?.map((deploymentUnitVersion: DeploymentUnitVersion) => (
-                  <MenuItem key={deploymentUnitVersion.id} value={deploymentUnitVersion.version}>
-                    {deploymentUnitVersion.version}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Stack>
-          {qualityGateIsSuccess && <QualityMetricsTable qualityGates={qualityGate?.page} />}
->>>>>>> 5c96ed40eed234be97180cbe746e7a415355c617
 
 interface QualityMetricsTableProps {
   environment: (typeof ENVIRONMENTS)[number];
@@ -221,7 +188,6 @@ const MetricsPage = () => {
   return (
     <Layout>
       <Grid container spacing={2}>
-<<<<<<< HEAD
         <Grid item xs={12} md={3}>
           <Stack spacing={2}>
             <ToggleButtonGroup
@@ -273,15 +239,6 @@ const MetricsPage = () => {
               <Skeleton key={idx} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
             ))} */}
         </Grid>
-=======
-        {deploymentUnits?.page?.map((deploymentUnit: DeploymentUnit) => (
-          <VersionSelect
-            key={deploymentUnit.id}
-            deploymentUnit={deploymentUnit}
-            fullWidthCard={deploymentUnits?.page?.length === 1}
-          />
-        ))}
->>>>>>> 5c96ed40eed234be97180cbe746e7a415355c617
       </Grid>
     </Layout>
   );
