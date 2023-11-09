@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { QueryClient, useQueries, useQuery, useQueryClient, UseQueryResult } from 'react-query';
 import { ApiMultipleResults, Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
 import { useRouter } from 'next/router';
+import { QUALITY_GATE_TYPES } from '@/constants';
 
 export const apiConfig = {
   headers: {
@@ -148,6 +149,36 @@ export const useFetchQualityGatesByDeploymentUnitVersionId = (
     return response.data;
   });
 
+type FetchQualityGatesParams = {
+  page?: string;
+  size?: string;
+  sort?: string;
+  order?: string;
+  type?: (typeof QUALITY_GATE_TYPES)[number];
+  result?: 'PASSED' | 'FAILED';
+  versionId?: string;
+  deploymentUnitId?: string;
+  appModuleId?: string;
+  sasId?: string;
+  ratign?: 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
+};
+export const useFetchQualityGates = (
+  params: FetchQualityGatesParams
+): UseQueryResult<ApiMultipleResults<QualityGate>, AxiosError> =>
+  useQuery<any, AxiosError>(['deployments', params], async () => {
+    const defaultParams: FetchDeploymentsParams = {
+      page: '0',
+      size: '30',
+      sort: 'id',
+      order: 'asc',
+      ...params,
+    };
+    const query = `?${new URLSearchParams(defaultParams).toString()}`;
+    const response = await axios.get(`${API_URL}/quality-gates${query}`, apiConfig);
+
+    return response.data;
+  });
+
 export const useFetchQualityGatesByAppModuleId = (appModuleId: string): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['qualityGates', appModuleId], async () => {
     const response = await axios.get(`${API_URL}/quality-gates?appModuleId=${appModuleId}&size=100`, apiConfig);
@@ -177,7 +208,7 @@ export const useFetchLatestDeploymentForGivenEnvironmentByDeploymentUnitId = (
 
 export const useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit = (
   deploymentUnitId: string
-): UseQueryResult<any, AxiosError> =>
+): UseQueryResult<Deployment[], AxiosError> =>
   useQuery(['latestSuccessfulDeployments', deploymentUnitId], async () => {
     const response = await axios.get(
       `${API_URL}/deployments?size=100&deploymentUnitId=${deploymentUnitId}&sort=startedAt&order=desc&status=SUCCESS`,
