@@ -50,7 +50,7 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
   } = useFetchQualityGatesByDeploymentUnitVersionId(selectedVersion);
 
   useEffect(() => {
-    if (deploymentUnitVersions?.page?.length > 0 && selectedVersion === '') {
+    if (deploymentUnitVersions?.page && deploymentUnitVersions.page.length > 0 && selectedVersion === '') {
       setSelectedVersion(deploymentUnitVersions.page[0].id);
     }
   }, [deploymentUnitVersions, selectedVersion]);

@@ -31,6 +31,8 @@ export type DeploymentUnitVersion = {
   deploymentUnitId: string;
   appModuleId: string;
   sasId: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type QualityGate = {
@@ -42,4 +44,13 @@ export type QualityGate = {
   rating: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type ApiMultipleResults<T> = {
+  pageNumber: number;
+  pageCount: number;
+  nextPage: number;
+  pageSize: number;
+  itemsTotalCount: number;
+  page: T[];
 };

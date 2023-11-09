@@ -5,7 +5,7 @@ import { PropsWithChildren, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AppBar } from './AppBar';
 
-type AvailableTab = 'dashboard' | 'deployments' | 'metrics';
+type AvailableTab = 'dashboard' | 'deployments' | 'metrics' | 'versions';
 
 export const UnitLayout = ({
   children,
@@ -43,6 +43,7 @@ export const UnitLayout = ({
           {/* <Tab label="Dashboard" color="white" value="dashboard" /> */}
           <Tab label="Deployments" value="deployments" />
           <Tab label="Metrics" value="metrics" />
+          <Tab label="Versions" value="versions" />
         </Tabs>
       </Box>
       <Stack paddingX={{ xs: 5, md: 15 }} spacing={2} paddingTop={2} paddingBottom={5}>

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { QueryClient, useQueries, useQuery, useQueryClient, UseQueryResult } from 'react-query';
-import { Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
+import { ApiMultipleResults, Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
 import { useRouter } from 'next/router';
 
 const apiConfig = {
@@ -104,7 +104,7 @@ export const useFetchDeploymentUnitVersion = (deploymentUnitVersionId: string): 
 
 export const useFetchDeploymentUnitVersionsByDeploymentUnitId = (
   deploymentUnitId: string
-): UseQueryResult<any, AxiosError> =>
+): UseQueryResult<ApiMultipleResults<DeploymentUnitVersion>, AxiosError> =>
   useQuery<any, AxiosError>(['deploymentUnitVersions', deploymentUnitId], async () => {
     const response = await fetchDeploymentUnitVersions(deploymentUnitId);
     return response.data;
