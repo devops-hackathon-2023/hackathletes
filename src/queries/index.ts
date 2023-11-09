@@ -3,13 +3,13 @@ import { QueryClient, useQueries, useQuery, useQueryClient, UseQueryResult } fro
 import { ApiMultipleResults, Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
 import { useRouter } from 'next/router';
 
-const apiConfig = {
+export const apiConfig = {
   headers: {
     Authorization: 'Basic ZG9wbzpEZXZPcHMyMDIz',
   },
 };
 
-const API_URL = 'https://dopo.fly.dev/api/v1/dopo';
+export const API_URL = 'https://dopo.fly.dev/api/v1/dopo';
 export const MOCK_API_URL = 'http://localhost:3000/api';
 
 export const useFetchAllSasses = (): UseQueryResult<any, AxiosError> =>
