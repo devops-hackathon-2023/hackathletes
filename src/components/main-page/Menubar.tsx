@@ -41,7 +41,7 @@ const MenuBar = ({ selectedSasId, setSelectedSasId, onSearchBoxClick }: MenuBarP
         orientation="vertical"
         value={selectedSasId}
         exclusive
-        onChange={handleChange}
+        onChange={(e, val) => handleChange(e, val || selectedSasId)}
         sx={{ overflowX: 'auto' }}
       >
         <ToggleButton value="all" sx={{ border: 'none', alignItems: 'start', justifyContent: 'start' }}>

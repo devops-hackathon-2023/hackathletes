@@ -32,6 +32,8 @@ import { resolvePlatform, toRelativeTime } from '@/utils';
 import GitBranch from '@/icons/GitBranch';
 import DeploymentResultText from '@/components/DeploymentResultText';
 import { ActionButton } from '@/components/ActionButton';
+import TerminalDialog from '@/components/TerminalDialog';
+import OutputButton from '@/components/OutputButton';
 
 const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -64,10 +66,22 @@ export const BranchAndTime = ({ deployment }: { deployment: Deployment }) => (
   </>
 );
 
-export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, unitId = 0 }) => {
+interface DeploymentsHistoryProps {
+  showUnitSelect?: boolean;
+  showTitle?: boolean;
+  unitId?: string;
+}
+
+export const DeploymentsHistory = ({
+  showUnitSelect = true,
+  showTitle = true,
+  unitId = 0,
+}: DeploymentsHistoryProps) => {
   const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
   const [message, setMessage] = useState('');
+  const [isTerminalDialogOpen, setIsTerminalDialogOpen] = useState(false);
+  const [output, setOutput] = useState('');
   const moduleId = useGetCurrentModuleId();
   const {
     data: deployments,
@@ -148,6 +162,12 @@ export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, un
           {message}
         </Alert>
       </Snackbar>
+      <TerminalDialog
+        output={output}
+        open={isTerminalDialogOpen}
+        onClose={() => setIsTerminalDialogOpen(false)}
+        onExited={() => setOutput('')}
+      />
 
       <Divider sx={{ my: 2 }} />
       <TableContainer
@@ -195,6 +215,11 @@ export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, un
                       </Stack>
                     </TableCell>
                     <TableCell>
+                      <OutputButton
+                        onClick={() => setIsTerminalDialogOpen(true)}
+                        onOutputFetch={(outputArg: string) => setOutput(outputArg)}
+                        deployment={deployment}
+                      />
                       <ActionButton
                         deployment={deployment}
                         deploymentUnit={deploymentUnit}
