@@ -194,7 +194,7 @@ const MetricsPage = () => {
               orientation="vertical"
               value={selectedQualityGate}
               exclusive
-              onChange={(e, val) => setSelectedQualityGate(val)}
+              onChange={(e, val) => setSelectedQualityGate(val || selectedQualityGate)}
               sx={{ overflowX: 'auto', width: '100%' }}
             >
               {QUALITY_GATE_TYPES?.map((qualityGateType: string) => (
@@ -215,7 +215,7 @@ const MetricsPage = () => {
               orientation="vertical"
               value={selectedEnvironment}
               exclusive
-              onChange={(e, val) => setSelectedEnvironment(val)}
+              onChange={(e, val) => setSelectedEnvironment(val || selectedEnvironment)}
               sx={{ overflowX: 'auto', width: '100%' }}
             >
               {ENVIRONMENTS?.map((environment: string) => (

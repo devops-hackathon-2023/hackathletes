@@ -1,15 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { UnitLayout } from '@/components/unit-details/UnitLayout';
-import {
-  Box,
-  Divider,
-  Grid,
-  Skeleton,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, Grid, Skeleton, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { QualityMetricsTable } from '@/components';
 import {
   useFetchDeploymentUnitVersionsByDeploymentUnitId,
@@ -35,8 +26,9 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
   };
 
   // Version per environment
-  const { data: latestSuccessfulDeployments } =
-    useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit(deploymentUnit.id);
+  const { data: latestSuccessfulDeployments } = useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit(
+    deploymentUnit.id
+  );
 
   const {
     data: qualityGate,
@@ -49,7 +41,6 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
       setSelectedVersion(deploymentUnitVersions.page[0].id);
     }
   }, [deploymentUnitVersions, selectedVersion]);
-
 
   const numberOfNotPassedGates = useMemo(() => {
     if (qualityGate?.page?.length === 0) return 0;
@@ -96,7 +87,7 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
           orientation="vertical"
           value={selectedVersion}
           exclusive
-          onChange={(e, val) => handleVersionChange(val)}
+          onChange={(e, val) => handleVersionChange(val || selectedVersion)}
           sx={{ overflowX: 'auto', width: '100%' }}
         >
           {latestSuccessfulDeployments?.map((deployment: Deployment) => {
@@ -120,7 +111,7 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
           orientation="vertical"
           value={selectedVersion}
           exclusive
-          onChange={(e, val) => handleVersionChange(val)}
+          onChange={(e, val) => handleVersionChange(val || selectedVersion)}
           sx={{ overflowX: 'auto', width: '100%' }}
         >
           {deploymentUnitVersions?.page?.map((deploymentUnitVersion: DeploymentUnitVersion) => (
@@ -144,9 +135,7 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
 const DashboardPage = () => {
   const router = useRouter();
   const { unit } = router.query;
-  const {
-    data: unitsData,
-  } = useFetchDeploymentUnits({
+  const { data: unitsData } = useFetchDeploymentUnits({
     name: unit as string,
   });
 
