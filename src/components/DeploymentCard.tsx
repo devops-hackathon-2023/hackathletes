@@ -3,7 +3,7 @@ import { Card as MuiCard, CardContent, IconButton, Skeleton, Stack, styled, Typo
 import SmallChip from '@/components/SmallChip';
 import { GitHub } from '@mui/icons-material';
 import { StatusDot } from '@/components/StatusDot';
-import { capitalizeFirstLetter, resolvePlatform, toRelativeTimeShort } from '@/utils';
+import { capitalizeFirstLetter, resolvePlatform } from '@/utils';
 import { Deployment } from '@/types';
 import DeploymentVersionChip from '@/components/DeploymentVersionChip';
 import { useRouter } from 'next/router';

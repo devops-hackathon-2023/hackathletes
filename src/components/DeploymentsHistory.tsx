@@ -14,6 +14,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Skeleton,
   Snackbar,
   Stack,
   styled,
@@ -63,12 +64,16 @@ export const BranchAndTime = ({ deployment }: { deployment: Deployment }) => (
   </>
 );
 
-export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, unitId }) => {
+export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, unitId = 0 }) => {
   const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
   const [message, setMessage] = useState('');
   const moduleId = useGetCurrentModuleId();
-  const { data: deployments } = useFetchDeployments({
+  const {
+    data: deployments,
+    isLoading: isLoadingDeployments,
+    isSuccess: isSuccessDeployments,
+  } = useFetchDeployments({
     appModuleId: moduleId,
   });
   const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(moduleId);
@@ -95,9 +100,9 @@ export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, un
 
   const filteredDeployments = useMemo(
     () =>
-      unitIdToFilter
+      (unitIdToFilter
         ? deployments?.page.filter((deployment: Deployment) => deployment.deploymentUnitId === unitIdToFilter)
-        : deployments?.page,
+        : deployments?.page) ?? [],
     [unitIdToFilter, deployments]
   );
 
@@ -145,53 +150,63 @@ export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, un
       </Snackbar>
 
       <Divider sx={{ my: 2 }} />
-      <TableContainer sx={{ maxHeight: '73vh', overflow: 'auto' }} component={Paper}>
-        <Table>
-          <TableBody>
-            {(filteredDeployments || [])?.map((deployment: Deployment) => {
-              const deploymentUnit = deploymentUnits?.page?.find(
-                (unit: DeploymentUnit) => unit.id === deployment.deploymentUnitId
-              );
-              const { status, id: deploymentId, deployer } = deployment;
-              return (
-                <TableRow key={deploymentId}>
-                  <TableCell>
-                    <Stack direction="column">
+      <TableContainer
+        sx={{ maxHeight: '73vh', overflow: 'auto', pt: isLoadingDeployments ? '1.5rem' : 0 }}
+        component={Paper}
+      >
+        {isLoadingDeployments &&
+          Array.from({ length: 15 }).map((_, idx: number) => (
+            <Skeleton key={idx} animation="wave" height="7rem" sx={{ my: -3.7, mx: 2 }} />
+          ))}
+
+        {isSuccessDeployments && (
+          <Table>
+            <TableBody>
+              {filteredDeployments?.map((deployment: Deployment) => {
+                const deploymentUnit = deploymentUnits?.page?.find(
+                  (unit: DeploymentUnit) => unit.id === deployment.deploymentUnitId
+                );
+                const { status, id: deploymentId, deployer } = deployment;
+                return (
+                  <TableRow key={deploymentId}>
+                    <TableCell>
+                      <Stack direction="column">
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Typography fontWeight="bold">{deploymentUnit?.name}</Typography>
+                          <StatusDot status={status} />
+                          <Typography color="text.secondary">{capitalizeFirstLetter(status.toLowerCase())}</Typography>
+                        </Stack>
+                        <DeploymentResultText deployment={deployment} />
+                      </Stack>
+                    </TableCell>
+                    <TableCell>
+                      <EnvironmentAndPlatform deployment={deployment} />
+                    </TableCell>
+                    <TableCell>
+                      <BranchAndTime deployment={deployment} />
+                    </TableCell>
+                    <TableCell>
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography fontWeight="bold">{deploymentUnit?.name}</Typography>
-                        <StatusDot status={status} />
-                        <Typography color="text.secondary">{capitalizeFirstLetter(status.toLowerCase())}</Typography>
+                        <Stack>
+                          <DeployedByText color="text.secondary">Deployed by</DeployedByText>
+                          <Typography>{deployer}</Typography>
+                        </Stack>
+                        <Avatar src={deployer} />
                       </Stack>
-                      <DeploymentResultText deployment={deployment} />
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <EnvironmentAndPlatform deployment={deployment} />
-                  </TableCell>
-                  <TableCell>
-                    <BranchAndTime deployment={deployment} />
-                  </TableCell>
-                  <TableCell>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <Stack>
-                        <DeployedByText color="text.secondary">Deployed by</DeployedByText>
-                        <Typography>{deployer}</Typography>
-                      </Stack>
-                      <Avatar src={deployer} />
-                    </Stack>
-                  </TableCell>
-                  <TableCell>
-                    <ActionButton
-                      deployment={deployment}
-                      deploymentUnit={deploymentUnit}
-                      handleOpenSnackbar={handleOpenSnackbar}
-                    />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+                    </TableCell>
+                    <TableCell>
+                      <ActionButton
+                        deployment={deployment}
+                        deploymentUnit={deploymentUnit}
+                        handleOpenSnackbar={handleOpenSnackbar}
+                      />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        )}
       </TableContainer>
     </div>
   );

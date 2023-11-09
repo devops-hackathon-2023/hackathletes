@@ -14,6 +14,12 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useBoolean } from '@/hooks';
 import { useRouter } from 'next/router';
+import { useQueryClient } from 'react-query';
+import { loginUser } from '@/queries';
+import { useAtom } from 'jotai';
+import { loggedUserAtom } from '@/state/atoms';
+import User from '@/types/User';
+import { useSearchParams } from 'next/navigation';
 
 type FormValuesProps = {
   email: string;
@@ -21,11 +27,19 @@ type FormValuesProps = {
 };
 
 const LoginView = () => {
+  const [, setLoggedUser] = useAtom(loggedUserAtom);
+
+  const queryClient = useQueryClient();
+
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  const returnTo = searchParams.get('returnTo');
 
   const { t } = useLocales();
 
-  const [errorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const password = useBoolean();
 
@@ -44,12 +58,24 @@ const LoginView = () => {
     defaultValues,
   });
 
-  const {  handleSubmit } = methods;
+  const { handleSubmit } = methods;
 
-  const onSubmit = useCallback((data: FormValuesProps) => {
-    // TODO: implement login logic
-    router.push('/dashboard')
-  }, [router]);
+  const onSubmit = useCallback(
+    async (data: FormValuesProps) => {
+      const user = await loginUser(data.email, data.password, queryClient);
+
+      if ((user as User).email === data.email) {
+        setLoggedUser(user);
+
+        sessionStorage.setItem('user', JSON.stringify(user));
+
+        await router.push(returnTo || '/dashboard');
+      } else {
+        setErrorMsg('Email nebo heslo je nesprávné');
+      }
+    },
+    [router, queryClient, setLoggedUser, returnTo]
+  );
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5 }}>
@@ -58,7 +84,7 @@ const LoginView = () => {
       <Stack direction="row" spacing={0.5}>
         <Typography variant="body1">{t('noAccYet')}</Typography>
 
-        <Link href="/auth/register" variant="subtitle1" sx={{textDecoration: 'none'}}>
+        <Link href="/auth/register" variant="subtitle1" sx={{ textDecoration: 'none' }}>
           {t('signUp')}
         </Link>
       </Stack>

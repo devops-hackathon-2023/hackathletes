@@ -1,6 +1,6 @@
 import { useFetchAppModuleDeploymentUnits, useGetCurrentModuleId } from '@/queries';
 import { Skeleton, Stack } from '@mui/material';
-import { CodeMetricsCard } from '@/components';
+import { CodeMetricsCard } from '@/components/dashboard/CodeMetricsCard';
 import React from 'react';
 
 export const CodeMetricsSummary = () => {

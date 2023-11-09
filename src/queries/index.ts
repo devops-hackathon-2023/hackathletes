@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios';
-import { QueryClient, useQueries, useQuery, useQueryClient, UseQueryResult } from 'react-query';
-import { ApiMultipleResults, Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
+import { QueryClient, useQueries, useQuery, UseQueryResult } from 'react-query';
+import { ApiMultipleResults, Deployment, DeploymentUnit, DeploymentUnitVersion } from '@/types';
 import { useRouter } from 'next/router';
 import { QUALITY_GATE_TYPES } from '@/constants';
+import User from '@/types/User';
 
 export const apiConfig = {
   headers: {
@@ -40,14 +41,27 @@ export const useGetCurrentModuleId = (): string => {
   return data?.page?.find((module: any) => module.name === moduleName)?.id;
 };
 
-export const useFetchUser = (userId: string): UseQueryResult<any, AxiosError> =>
+export const registerUser = async (user: User, queryClient: QueryClient) => {
+  const response = await axios.post(`${MOCK_API_URL}/users/register`, user);
+
+  return response.data;
+};
+
+export const loginUser = async (email: string, password: string, queryClient: QueryClient) => {
+  const response = await axios.post(`${MOCK_API_URL}/users/login`, { email, password });
+
+  return response.data;
+};
+
+export const useGetUser = (userId: string): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['user', userId], async () => {
     const response = await axios.get(`${MOCK_API_URL}/users/${userId}`);
+
     return response.data;
   });
 
-export const updateUser = async (userId: string, updatedUser: object, queryClient: QueryClient) => {
-  const response = await axios.patch(`${MOCK_API_URL}/users/${userId}`, { userId, updatedUser });
+export const updateUser = async (userId: string, favourites: object, queryClient: QueryClient) => {
+  const response = await axios.patch(`${MOCK_API_URL}/users/update`, { userId, favourites });
   await queryClient.invalidateQueries(['user', userId]);
   return response.data;
 };
@@ -120,8 +134,7 @@ export const useFetchLatestDeploymentUnitVersionByDeploymentUnitId = (
   useQuery<any, AxiosError>(['latestDeploymentUnitVersion', deploymentUnitId], async () => {
     const response = await fetchDeploymentUnitVersions(deploymentUnitId);
     const deploymentUnitVersions = response.data?.page;
-    console.log('deploymentUnitVersions: ', JSON.stringify(deploymentUnitVersions));
-    console.log('returning this one: ', JSON.stringify(deploymentUnitVersions[0]));
+
     return deploymentUnitVersions[0];
   });
 

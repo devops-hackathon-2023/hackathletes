@@ -1,4 +1,4 @@
-import { Grid, Paper, Stack } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import { SasItem } from '@/constants/types';
 import { useFetchAllSasses } from '@/queries';
 import { SasModules } from '@/components/SasModules';

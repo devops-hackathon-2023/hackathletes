@@ -1,7 +1,5 @@
-import { Box, Container, Stack, Tab, Tabs } from '@mui/material';
-import Image from 'next/image';
-import Link from 'next/link';
-import { PropsWithChildren, useState } from 'react';
+import { Box, Stack, Tab, Tabs } from '@mui/material';
+import { PropsWithChildren } from 'react';
 import { useRouter } from 'next/router';
 import { AppBar } from './AppBar';
 

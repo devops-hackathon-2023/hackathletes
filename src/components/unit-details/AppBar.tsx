@@ -1,9 +1,7 @@
-import { AppBar as MuiAppBar, Toolbar, Box, Theme, Button, Typography, Skeleton } from '@mui/material';
-import Image from 'next/image';
+import { AppBar as MuiAppBar, Toolbar, Box, Theme, Button, Typography } from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useFetchDeploymentUnits } from '@/queries';
 import { CustomAvatar } from '../CustomAvatar';
 
 export const AppBar = () => {
@@ -30,7 +28,6 @@ export const AppBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, ml: 3 }}>
             <>{unit}</>
           </Typography>
-          {/* <Image alt="img" src="/ceska_sporitelna.png" width={114} height={51} /> */}
         </Box>
         <CustomAvatar />
       </Toolbar>

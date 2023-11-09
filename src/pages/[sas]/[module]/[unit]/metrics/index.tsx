@@ -2,20 +2,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { UnitLayout } from '@/components/unit-details/UnitLayout';
 import {
   Box,
-  Card,
-  CardContent,
   Divider,
-  FormControl,
   Grid,
-  MenuItem,
   Skeleton,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
-  styled,
 } from '@mui/material';
-import { CodeMetricsCard, QualityMetricsTable } from '@/components';
+import { QualityMetricsTable } from '@/components';
 import {
   useFetchDeploymentUnitVersionsByDeploymentUnitId,
   useFetchDeploymentUnits,
@@ -40,7 +35,7 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
   };
 
   // Version per environment
-  const { data: latestSuccessfulDeployments, isLoading } =
+  const { data: latestSuccessfulDeployments } =
     useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit(deploymentUnit.id);
 
   const {
@@ -55,12 +50,6 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
     }
   }, [deploymentUnitVersions, selectedVersion]);
 
-  // Quality all passed
-
-  const numberOfPassedGates = useMemo(() => {
-    if (qualityGate?.page?.length === 0) return 0;
-    return qualityGate?.page?.filter((metric: any) => metric.result === 'PASSED').length;
-  }, [qualityGate?.page]);
 
   const numberOfNotPassedGates = useMemo(() => {
     if (qualityGate?.page?.length === 0) return 0;
@@ -156,9 +145,7 @@ const DashboardPage = () => {
   const router = useRouter();
   const { unit } = router.query;
   const {
-    isLoading: isUnitLoading,
     data: unitsData,
-    error: unitError,
   } = useFetchDeploymentUnits({
     name: unit as string,
   });

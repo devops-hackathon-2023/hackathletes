@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Stack, Typography, Chip, IconButton, Box, Skeleton } from '@mui/material';
+import { Card, CardContent, CardMedia, Stack, Skeleton } from '@mui/material';
 
 export const FavouriteItemSkeleton = () => (
   <Card sx={{ maxWidth: 368, cursor: 'pointer' }}>

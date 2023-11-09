@@ -1,12 +1,12 @@
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import { updateUser, useFetchAppModuleImage, useFetchSasModules, useFetchUser } from '@/queries';
+import { updateUser, useFetchAppModuleImage, useFetchSasModules, useGetUser } from '@/queries';
 import { AppModule, SasItem } from '@/constants/types';
 import { Card, Chip, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { loggedUserAtom } from '@/state/atoms';
-import { toggleItemInArray } from '@/actions';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { useQueryClient } from 'react-query';
+import { toggleItemInArray } from '@/utils';
 import Image from 'next/image';
 import StarIcon from '@mui/icons-material/Star';
 import { SasModuleSkeleton } from './SasModuleSkeleton';
@@ -21,22 +21,25 @@ export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
   const [loggedUser] = useAtom(loggedUserAtom);
   const queryClient = useQueryClient();
   const { push } = useRouter();
-  const { data: user } = useFetchUser(loggedUser.id);
+  const { data: user } = useGetUser(loggedUser?.id ?? '');
   const { data: image } = useFetchAppModuleImage('', '');
   const { isLoading, error, data } = useFetchSasModules(sasItem.id);
   const { name: sasName } = sasItem;
 
   const filteredData = searchTerm ? data?.page.filter(({ name }: AppModule) => name.includes(searchTerm)) : data?.page;
-  
+
   const onUpdateFavourites = (event: any, item: any) => {
     event.stopPropagation();
     if (user) {
-      toggleItemInArray(user.favourites, item);
-      updateUser(user.id, user, queryClient);
+      const newFavourites = user.favourites;
+
+      toggleItemInArray(newFavourites, item);
+      updateUser(user.id, newFavourites, queryClient);
     }
   };
 
-  const isItemInFavourites = (item: any) => user.favourites?.find((fav: SasItem) => fav.moduleName === item.moduleName);
+  const isItemInFavourites = (item: any) =>
+    user?.favourites?.find((fav: SasItem) => fav.moduleName === item.moduleName);
 
   const onNavigate = async (item: SasItem, moduleName: string) => {
     await push(`/${sasName}/${moduleName}/dashboard`);

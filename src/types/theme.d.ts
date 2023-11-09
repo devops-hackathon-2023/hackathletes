@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { PaletteColorOptions } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {

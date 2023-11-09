@@ -4,6 +4,9 @@ import { useFinishDeploymentMutation, useStartDeploymentMutation } from '@/mutat
 import { useFetchDeploymentUnitVersion } from '@/queries';
 import { IconButton, Skeleton } from '@mui/material';
 import { Pause, Replay } from '@mui/icons-material';
+import { useAtom } from 'jotai';
+import { loggedUserAtom } from '@/state/atoms';
+import { useLocales } from '@/locales';
 
 interface ActionButtonProps {
   deployment: Deployment;
@@ -12,6 +15,10 @@ interface ActionButtonProps {
 }
 
 export const ActionButton = ({ deployment, deploymentUnit, handleOpenSnackbar }: ActionButtonProps) => {
+  const [loggedUser] = useAtom(loggedUserAtom);
+
+  const { t } = useLocales();
+
   const queryClient = useQueryClient();
 
   const { mutate: mutateStartDeployment } = useStartDeploymentMutation();
@@ -22,7 +29,7 @@ export const ActionButton = ({ deployment, deploymentUnit, handleOpenSnackbar }:
     return <Skeleton variant="circular" height={40} width={40} />;
   }
 
-  const { environment, changeTicketId, deployer, platform, status } = deployment;
+  const { environment, changeTicketId, platform, status } = deployment;
   const { name: deploymentUnitName } = deploymentUnit;
 
   return (
@@ -52,7 +59,7 @@ export const ActionButton = ({ deployment, deploymentUnit, handleOpenSnackbar }:
               version: deploymentUnitVersion?.version,
               deploymentUnitName,
               changeTicketId,
-              deployer: 'Dominik Vít',
+              deployer: loggedUser?.name ?? t('unkown'),
               platform,
             },
             {

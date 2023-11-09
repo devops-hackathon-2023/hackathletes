@@ -1,3 +1,4 @@
+import { SasItem } from '@/constants/types';
 import moment from 'moment';
 
 export const capitalizeFirstLetter = (input: string) => input.charAt(0).toUpperCase() + input.slice(1);
@@ -62,10 +63,33 @@ export const resolveStatusColor = (status: string) => {
   }
   return 'info';
 };
+
 export const formatVersion = (version: string): string => {
   const parts = version.split('.');
   while (parts.length < 3) {
     parts.push('0');
   }
   return parts.slice(0, 3).join('.');
+};
+
+export const toggleItemInArray = (array: SasItem[], item: SasItem) => {
+  const itemIndex = array.findIndex(({ moduleName }) => moduleName === item.moduleName);
+  if (itemIndex !== -1) {
+    array.splice(itemIndex, 1);
+  } else {
+    array.push(item);
+  }
+};
+
+export const getItemFromSessionStorage = (key: string) => {
+  try {
+    const retreivedItem = sessionStorage.getItem(key);
+    if (retreivedItem) {
+      return JSON.parse(retreivedItem);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  return null;
 };

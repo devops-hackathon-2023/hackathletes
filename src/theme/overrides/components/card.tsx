@@ -4,6 +4,7 @@ import { Theme } from '@mui/material/styles';
 
 export function card(theme: Theme) {
   return {
+    // eslint-disable-next-line spaced-comment
     /* MuiCard: {
       styleOverrides: {
         root: {

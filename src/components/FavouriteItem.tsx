@@ -40,7 +40,9 @@ export const FavouriteItem = ({ item, onItemClick, onStarClick }: IFavouriteItem
       <CardContent>
         <Stack>
           <Stack spacing={1}>
-            <Typography paddingLeft={0.5} fontWeight="bold">{moduleName}</Typography>
+            <Typography paddingLeft={0.5} fontWeight="bold">
+              {moduleName}
+            </Typography>
             <Stack direction="row" alignItems="center" spacing={1}>
               <Chip label={sasName} />
               <NumberOfAppsIndicator moduleId={moduleId} />
