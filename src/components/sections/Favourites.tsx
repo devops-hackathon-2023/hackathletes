@@ -13,16 +13,14 @@ const Favourites = () => {
   const [loggedUser] = useAtom(loggedUserAtom);
   const fetchedData = useGetUser(loggedUser?.id || '');
   const user = fetchedData.data;
-  const { favourites } = user ?? {};
   const queryClient = useQueryClient();
 
   const onUpdateFavourites = (event: any, item: any) => {
     if (user) {
       event.stopPropagation();
       const newFavourites = user.favourites;
-
       toggleItemInArray(newFavourites, item);
-      updateUser(user.id, newFavourites, queryClient);
+      updateUser(user.id, newFavourites, queryClient)
     }
   };
 

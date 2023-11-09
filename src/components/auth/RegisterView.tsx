@@ -84,7 +84,7 @@ const RegisterView = () => {
       if ((response as User).email === data.email) {
         setLoggedUser(response);
 
-        router.push('/dashboard');
+        await router.push('/dashboard');
       }
     },
     [queryClient, setLoggedUser, router]

@@ -69,7 +69,7 @@ const LoginView = () => {
 
         sessionStorage.setItem('user', JSON.stringify(user));
 
-        router.push(returnTo || '/dashboard');
+        await router.push(returnTo || '/dashboard');
       } else {
         setErrorMsg('Email nebo heslo je nesprávné');
       }
