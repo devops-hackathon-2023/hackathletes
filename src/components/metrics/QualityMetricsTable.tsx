@@ -18,7 +18,7 @@ const THeadCell = styled(TableCell)({
 
 export const QualityMetricsTable = ({ qualityGates }: QualityMetricsTableProps) => (
   <ScrollableTableContainer>
-    <Table stickyHeader sx={{tableLayout: 'fixed'}}>
+    <Table stickyHeader sx={{ tableLayout: 'fixed' }}>
       <TableHead>
         <TableRow>
           <THeadCell>Test</THeadCell>

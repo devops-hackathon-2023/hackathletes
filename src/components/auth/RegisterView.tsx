@@ -15,15 +15,28 @@ import { useBoolean } from '@/hooks';
 import { RHFTextField, FormProvider } from '@/components/form';
 import { useLocales } from '@/locales';
 import { Button, Card, CardContent } from '@mui/material';
+import { registerUser } from '@/queries';
+import { useQueryClient } from 'react-query';
+import { useAtom } from 'jotai';
+import { loggedUserAtom } from '@/state/atoms';
+import { useRouter } from 'next/router';
+import User from '@/types/User';
 
 type FormValuesProps = {
   email: string;
+  role: string;
   password: string;
   passwordConfirm: string;
-  userName: string;
+  name: string;
 };
 
 const RegisterView = () => {
+  const router = useRouter();
+
+  const [, setLoggedUser] = useAtom(loggedUserAtom);
+
+  const queryClient = useQueryClient();
+
   const { t } = useLocales();
 
   const [errorMsg] = useState('');
@@ -31,7 +44,8 @@ const RegisterView = () => {
   const password = useBoolean();
 
   const RegisterSchema = Yup.object().shape({
-    userName: Yup.string().required(t('requiredField')),
+    name: Yup.string().required(t('requiredField')),
+    role: Yup.string().required(t('requiredField')),
     email: Yup.string().required(t('requiredField')).email(t('emailValidation')),
     password: Yup.string().required(t('requiredField')),
     passwordConfirm: Yup.string()
@@ -40,8 +54,9 @@ const RegisterView = () => {
   });
 
   const defaultValues = {
-    userName: '',
+    name: '',
     email: '',
+    role: '',
     password: '',
     passwordConfirm: '',
   };
@@ -51,13 +66,29 @@ const RegisterView = () => {
     defaultValues,
   });
 
-  const {
-    handleSubmit,
-  } = methods;
+  const { handleSubmit } = methods;
 
-  const onSubmit = useCallback((data: FormValuesProps) => {
-    // TODO: implement register logic
-  }, []);
+  const onSubmit = useCallback(
+    async (data: FormValuesProps) => {
+      // TODO: implement register logic
+      const response = await registerUser(
+        {
+          ...data,
+          favourites: [],
+          id: String(Math.floor(Math.random() * 1000)),
+          profilePicture: '/profile-pictures/fousek.jpg',
+        },
+        queryClient
+      );
+
+      if ((response as User).email === data.email) {
+        setLoggedUser(response);
+
+        router.push('/dashboard');
+      }
+    },
+    [queryClient, setLoggedUser, router]
+  );
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
@@ -66,7 +97,7 @@ const RegisterView = () => {
       <Stack direction="row" spacing={0.5}>
         <Typography variant="body1">{t('alreadyAcc')}</Typography>
 
-        <Link href="/auth/login" component={NextLink} variant="subtitle1" sx={{textDecoration: 'none'}}>
+        <Link href="/auth/login" component={NextLink} variant="subtitle1" sx={{ textDecoration: 'none' }}>
           {t('logIn')}
         </Link>
       </Stack>
@@ -78,9 +109,11 @@ const RegisterView = () => {
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-        <RHFTextField name="userName" label={t('username')} />
+        <RHFTextField name="name" label={t('name')} />
 
         <RHFTextField name="email" label={t('emailAddress')} />
+
+        <RHFTextField name="role" label={t('role')} />
 
         <RHFTextField
           name="password"

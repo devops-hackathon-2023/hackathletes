@@ -1,10 +1,11 @@
 interface User {
   id: string;
   name: string;
+  email: string;
   role: string;
   password: string;
   profilePicture: string;
-  favourites: any[]
+  favourites: any[];
 }
 
 export default User;

@@ -2,16 +2,18 @@ import React from 'react';
 import { Layout } from '@/components/module-details/Layout';
 import { Grid, Stack, Typography } from '@mui/material';
 import { useFetchAppModuleDeploymentUnits, useGetCurrentModuleId } from '@/queries';
-import { CodeMetricsSummary, DeploymentCard, GithubBugs, RecentActivity } from '@/components';
+import { DeploymentCard, GithubBugs, RecentActivity } from '@/components';
+import { CodeMetricsSummary } from '@/components/dashboard/CodeMetricsSummary';
 import { ArcElement, Chart, Legend, Tooltip } from 'chart.js';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
 const DashboardPage = () => {
   const moduleId = useGetCurrentModuleId();
-  const { data: deploymentUnits, isLoading } = useFetchAppModuleDeploymentUnits(moduleId);
+  const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(moduleId);
 
   const deploymentUnitsArr = deploymentUnits?.page;
+
   return (
     <Layout>
       <Stack>

@@ -23,14 +23,14 @@ import { QualityMetricsTable } from '@/components';
 
 interface VersionSelectProps {
   deploymentUnit: DeploymentUnit;
-  fullWidth?: boolean;
+  fullWidthCard?: boolean;
 }
 
 const Select = styled(MuiSelect)({
   width: '300px',
 });
 
-const VersionSelect = ({ deploymentUnit, fullWidth }: VersionSelectProps) => {
+const VersionSelect = ({ deploymentUnit, fullWidthCard }: VersionSelectProps) => {
   const { data: deploymentUnitVersions } = useFetchDeploymentUnitVersionsByDeploymentUnitId(deploymentUnit.id);
 
   const [selectedVersion, setSelectedVersion] = useState(deploymentUnitVersions?.page?.[0]?.version || '');
@@ -59,7 +59,7 @@ const VersionSelect = ({ deploymentUnit, fullWidth }: VersionSelectProps) => {
   };
 
   return (
-    <Grid item xs={12} md={fullWidth ? 12 : 6}>
+    <Grid item xs={12} md={fullWidthCard ? 12 : 6}>
       <Card>
         <CardContent>
           <Stack direction="row" alignItems="center" spacing={2} mb={2}>
@@ -96,7 +96,7 @@ const MetricsPage = () => {
           <VersionSelect
             key={deploymentUnit.id}
             deploymentUnit={deploymentUnit}
-            fullWidth={deploymentUnits?.page?.length === 1}
+            fullWidthCard={deploymentUnits?.page?.length === 1}
           />
         ))}
       </Grid>

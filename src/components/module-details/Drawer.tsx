@@ -3,7 +3,6 @@ import { styled, Drawer as MuiDrawer, List, ListItemIcon, ListItemText, Divider 
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LoopIcon from '@mui/icons-material/Loop';
 import InsightsIcon from '@mui/icons-material/Insights';
-import HomeIcon from '@mui/icons-material/Home';
 import { useRouter } from 'next/router';
 import { useIsMobile, usePageTitle } from '@/hooks';
 import Image from 'next/image';
@@ -64,6 +63,7 @@ export const PersistentDrawer: React.FC<PersistentDrawerProps> = ({ open, onClos
 
   const pageTitle = usePageTitle();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const navigateTo = (path: string) => {
     router.push(`/${sas}/${module}/${path}`);
   };

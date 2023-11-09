@@ -1,6 +1,6 @@
 {
   "alreadyAcc": "Already have an account?",
-  "createAccount" : "Create account",
+  "createAccount": "Create account",
   "emailAddress": "Email Address",
   "emailValidation": "Please provide valid email address",
   "passwordValidation": "Password is required",

@@ -6,16 +6,22 @@ import path from 'path';
 const dataFilePath = path.join(process.cwd(), 'src/pages/api/users/users.json');
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  // GET USER
-  if (req.method === 'GET') {
+  // REGISTER USER
+  if (req.method === 'PATCH') {
+    const { userId, favourites } = req.body;
+
     const jsonData: any = await fsPromises.readFile(dataFilePath);
+
     const users = JSON.parse(jsonData);
-    const { userId } = req.query;
 
-    const foundUser = users.find((user: User) => user.id === userId);
+    const userIndex = users.findIndex((user: User) => user.id === userId);
+    const foundUser: User = users.find((user: User) => user.id === userId);
 
-    if (foundUser) {
-      res.status(200).json(foundUser);
+    if (userIndex !== -1) {
+      users[userIndex] = { ...foundUser, favourites };
+
+      await fsPromises.writeFile(dataFilePath, JSON.stringify(users));
+      res.status(200).json(users[userIndex]);
     } else {
       res.status(201).json({ message: 'User not found' });
     }

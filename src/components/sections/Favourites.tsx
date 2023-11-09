@@ -1,9 +1,8 @@
 import { Typography, Stack, Grid, Container, Box } from '@mui/material';
-import { updateUser, useFetchUser } from '@/queries';
+import { updateUser, useGetUser } from '@/queries';
 import { useAtom } from 'jotai';
-import { DEFAULT_USER } from '@/constants';
 import { loggedUserAtom } from '@/state/atoms';
-import { toggleItemInArray } from '@/actions';
+import { toggleItemInArray } from '@/utils';
 import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 import { FavouriteItem } from '../FavouriteItem';
@@ -12,16 +11,18 @@ import { FavouriteItemSkeleton } from '../FavouriteItemSkeleton';
 const Favourites = () => {
   const { push } = useRouter();
   const [loggedUser] = useAtom(loggedUserAtom);
-  const fetchedData = useFetchUser(loggedUser.id);
+  const fetchedData = useGetUser(loggedUser?.id || '');
   const user = fetchedData.data;
-  const { favourites } = user || DEFAULT_USER;
+  const { favourites } = user ?? {};
   const queryClient = useQueryClient();
 
   const onUpdateFavourites = (event: any, item: any) => {
     if (user) {
       event.stopPropagation();
-      toggleItemInArray(user.favourites, item);
-      updateUser(user.id, user, queryClient);
+      const newFavourites = user.favourites;
+
+      toggleItemInArray(newFavourites, item);
+      updateUser(user.id, newFavourites, queryClient);
     }
   };
 

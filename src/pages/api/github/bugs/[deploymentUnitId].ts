@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import User from '@/types/User';
 import fsPromises from 'fs/promises';
 import path from 'path';
 

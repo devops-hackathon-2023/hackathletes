@@ -27,8 +27,15 @@ const MenuBar = ({ selectedSasId, setSelectedSasId, onSearchBoxClick }: MenuBarP
   if (error) return <h2>{error.message}</h2>;
 
   return (
-    <Stack bgcolor="primary.lighter" padding={1} borderRadius={1} spacing={1} width={isMobile ? '100%' : 200} flexShrink={0}>
-      <SearchBox placeholder="Search SAS..." onSearchChange={setSearchTerm} onTextFieldClick={onSearchBoxClick}/>
+    <Stack
+      bgcolor="primary.lighter"
+      padding={1}
+      borderRadius={1}
+      spacing={1}
+      width={isMobile ? '100%' : 200}
+      flexShrink={0}
+    >
+      <SearchBox placeholder="Search SAS..." onSearchChange={setSearchTerm} onTextFieldClick={onSearchBoxClick} />
 
       <ToggleButtonGroup
         orientation="vertical"

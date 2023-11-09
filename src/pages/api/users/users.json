@@ -1,1 +1,26 @@
-[{"id":"1","name":"Dominik Vít","role":"DevOps","password":"password123","profilePicture":"/profile-pictures/fousek.jpg","favourites":[{"moduleId":"1ee77266-66f7-6011-89b8-819b6af11171","moduleName":"loan-link","sasName":"loans"},{"moduleId":"1ee77266-6522-6cdc-89b8-819b6af11171","moduleName":"ci","sasName":"devops"},{"moduleId":"1ee77266-64b7-6092-89b8-819b6af11171","moduleName":"cd","sasName":"devops"}]},{"id":"2","name":"Petr Žďárek","role":"DevOps","password":"password123","profilePicture":"/profile-pictures/fousek.jpg","favourites":[]}]
+[
+  {
+    "name": "kamil",
+    "email": "petr8kratochvil@seznam.cz",
+    "role": "Programmer",
+    "password": "heslo123",
+    "passwordConfirm": "heslo123",
+    "favourites": [],
+    "id": "974",
+    "profilePicture": "/profile-pictures/fousek.jpg"
+  },
+  {
+    "name": "vlastik",
+    "email": "cratas@seznam.cz",
+    "role": "DevOps",
+    "password": "heslo123",
+    "passwordConfirm": "heslo123",
+    "favourites": [
+      { "moduleId": "1ee77266-6522-6cdc-89b8-819b6af11171", "moduleName": "ci", "sasName": "devops" },
+      { "moduleId": "1ee77266-64e3-61b4-89b8-819b6af11171", "moduleName": "artifactory", "sasName": "devops" },
+      { "moduleId": "1ee77266-6677-6871-89b8-819b6af11171", "moduleName": "card-guardian", "sasName": "payments" }
+    ],
+    "id": "239",
+    "profilePicture": "/profile-pictures/fousek.jpg"
+  }
+]
