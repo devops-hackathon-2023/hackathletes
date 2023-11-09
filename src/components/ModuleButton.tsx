@@ -1,5 +1,5 @@
 import { ListItemButton as MuiListItemButton, Stack, Typography } from '@mui/material';
-import { useFetchAppModuleDeploymentUnits, useFetchAppModuleImage } from '@/queries';
+import { useFetchAppModuleImage } from '@/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { styled } from '@mui/material/styles';

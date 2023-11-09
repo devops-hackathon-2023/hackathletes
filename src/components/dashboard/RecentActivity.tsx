@@ -1,4 +1,4 @@
-import { useFetchAppModuleDeploymentUnits, useFetchDeploymentsByAppModuleId, useGetCurrentModuleId } from '@/queries';
+import { useFetchAppModuleDeploymentUnits, useFetchDeployments, useGetCurrentModuleId } from '@/queries';
 import {
   Stack,
   Table,
@@ -9,6 +9,7 @@ import {
   Typography,
   Skeleton as MuiSkeleton,
 } from '@mui/material';
+
 import { Deployment } from '@/types';
 import { StatusDot } from '@/components/StatusDot';
 import DeploymentResultText from '@/components/DeploymentResultText';
@@ -24,7 +25,12 @@ const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
 
 export const RecentActivity = () => {
   const moduleId = useGetCurrentModuleId();
-  const { data: deploymentsRes, isLoading } = useFetchDeploymentsByAppModuleId(moduleId);
+
+  const { data: deploymentsRes, isLoading } = useFetchDeployments({
+    appModuleId: moduleId,
+    size: '3',
+  });
+
   const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(moduleId);
 
   const deployments = deploymentsRes?.page?.slice(0, 3);

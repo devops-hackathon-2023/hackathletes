@@ -1,6 +1,6 @@
 import {
   useFetchAppModuleDeploymentUnits,
-  useFetchDeploymentsByAppModuleId,
+  useFetchDeployments,
   useFetchDeploymentUnitVersion,
   useGetCurrentModuleId,
 } from '@/queries';
@@ -60,9 +60,16 @@ export const BranchAndTime = ({ deployment }: { deployment: Deployment }) => (
   </>
 );
 
-export const DeploymentsHistory = () => {
+type DeploymentsHistoryProps = {
+  unitId?: string;
+  showUnitSelect?: boolean;
+  showTitle?: boolean;
+};
+export const DeploymentsHistory = ({ showUnitSelect = true, showTitle = true, unitId }: DeploymentsHistoryProps) => {
   const moduleId = useGetCurrentModuleId();
-  const { data: deployments } = useFetchDeploymentsByAppModuleId(moduleId);
+  const { data: deployments } = useFetchDeployments({
+    appModuleId: moduleId,
+  });
   const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(moduleId);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
 
@@ -70,42 +77,48 @@ export const DeploymentsHistory = () => {
     setSelectedUnitId(event.target.value === '' ? null : (event.target.value as string));
   };
 
+  const unitIdToFilter = unitId || selectedUnitId;
+
   const filteredDeployments = useMemo(
     () =>
-      selectedUnitId
-        ? deployments?.page.filter((deployment: Deployment) => deployment.deploymentUnitId === selectedUnitId)
+      unitIdToFilter
+        ? deployments?.page.filter((deployment: Deployment) => deployment.deploymentUnitId === unitIdToFilter)
         : deployments?.page,
-    [selectedUnitId, deployments]
+    [unitIdToFilter, deployments]
   );
 
   return (
     <div>
-      <Stack direction="row" spacing={2} alignItems="center">
-        <Typography variant="h4">Recent activity</Typography>
-        <FormControl>
-          <Select
-            size="small"
-            sx={{ width: 300 }}
-            value={selectedUnitId ?? ''}
-            displayEmpty
-            onChange={handleUnitChange}
-            renderValue={(selected) => {
-              if (!selected) return <em>All Units</em>;
-              const selectedUnit = deploymentUnits?.page.find((unit: DeploymentUnit) => unit.id === selected);
-              return selectedUnit ? selectedUnit.name : <em>All Units</em>;
-            }}
-          >
-            <MenuItem value="">
-              <em>All Units</em>
-            </MenuItem>
-            {deploymentUnits?.page.map((unit: DeploymentUnit) => (
-              <MenuItem key={unit.id} value={unit.id}>
-                {unit.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Stack>
+      {showTitle && (
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Typography variant="h4">Recent activity</Typography>
+          {showUnitSelect && (
+            <FormControl>
+              <Select
+                size="small"
+                sx={{ width: 300 }}
+                value={unitIdToFilter ?? ''}
+                displayEmpty
+                onChange={handleUnitChange}
+                renderValue={(selected) => {
+                  if (!selected) return <em>All Units</em>;
+                  const selectedUnit = deploymentUnits?.page.find((unit: DeploymentUnit) => unit.id === selected);
+                  return selectedUnit ? selectedUnit.name : <em>All Units</em>;
+                }}
+              >
+                <MenuItem value="">
+                  <em>All Units</em>
+                </MenuItem>
+                {deploymentUnits?.page.map((unit: DeploymentUnit) => (
+                  <MenuItem key={unit.id} value={unit.id}>
+                    {unit.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        </Stack>
+      )}
       <Divider sx={{ my: 2 }} />
       <TableContainer sx={{ maxHeight: '73vh', overflow: 'auto' }} component={Paper}>
         <Table>

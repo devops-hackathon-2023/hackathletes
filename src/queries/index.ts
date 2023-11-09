@@ -66,6 +66,36 @@ export const useFetchAppModuleDeploymentUnits = (moduleId: string): UseQueryResu
     return response.data;
   });
 
+export const useFetchDeploymentUnit = (deploymentUnitId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deploymentUnitId', deploymentUnitId], async () => {
+    const response = await axios.get(`${API_URL}/deployment-units/${deploymentUnitId}`, apiConfig);
+    return response.data;
+  });
+
+type DeploymentUnitsQueryParams = {
+  page?: number;
+  size?: number;
+  sort?: string;
+  order?: string;
+  id?: string;
+  name?: string;
+};
+export const useFetchDeploymentUnits = (params: DeploymentUnitsQueryParams): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deploymentUnitId', JSON.stringify(params)], async () => {
+    const response = await axios.get(`${API_URL}/deployment-units`, {
+      ...apiConfig,
+
+      params: {
+        page: params.page || 0,
+        size: params.size || 30,
+        sort: params.sort || 'name',
+        order: params.order || 'asc',
+        ...params,
+      },
+    });
+    return response.data;
+  });
+
 export const useFetchDeploymentUnitVersion = (deploymentUnitVersionId: string): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['deploymentUnitVersion', deploymentUnitVersionId], async () => {
     const response = await axios.get(`${API_URL}/deployment-unit-versions/${deploymentUnitVersionId}`, apiConfig);
@@ -169,6 +199,12 @@ export const fetchLatestDeploymentUnitVersion = async (deploymentUnitId: string)
   return deploymentUnitVersions[deploymentUnitVersions.length - 1];
 };
 
+export const useFetchAppModule = (moduleId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['moduleId', moduleId], async () => {
+    const response = await axios.get(`${API_URL}/app-modules/${moduleId}`, apiConfig);
+    return response.data;
+  });
+
 export const useFetchAppModuleLatestDeploymentUnits = (moduleId: string) => {
   // --------- 1. Fetch deployment units for the module
   const {
@@ -211,12 +247,33 @@ export const useFetchAppModuleLatestDeploymentUnits = (moduleId: string) => {
   return { data: enhancedDeploymentUnits, isLoading, isError };
 };
 
-export const useFetchDeploymentsByAppModuleId = (appModuleId: string): UseQueryResult<any, AxiosError> =>
-  useQuery<any, AxiosError>(['deployments', appModuleId], async () => {
-    const response = await axios.get(
-      `${API_URL}/deployments?size=100&appModuleId=${appModuleId}&sort=startedAt&order=desc`,
-      apiConfig
-    );
+type FetchDeploymentsParams = {
+  page?: string;
+  size?: string;
+  sort?: string;
+  order?: string;
+  environment?: 'DEV' | 'INT' | 'PRS' | 'PRED' | 'PROD';
+  status?: 'SUCCESS' | 'FAILED' | 'STARTED';
+  changeTicketId?: string;
+  deployer?: string;
+  platform?: 'OPEN_SHIFT' | 'AZURE' | 'WEB_LOGIC';
+  versionId?: string;
+  deploymentUnitId?: string;
+  appModuleId?: string;
+  sasId?: string;
+};
+export const useFetchDeployments = (params: FetchDeploymentsParams): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deployments', params], async () => {
+    const defaultParams: FetchDeploymentsParams = {
+      page: '0',
+      size: '30',
+      sort: 'startedAt',
+      order: 'desc',
+      ...params,
+    };
+    const query = `?${new URLSearchParams(defaultParams).toString()}`;
+    const response = await axios.get(`${API_URL}/deployments${query}`, apiConfig);
+
     return response.data;
   });
 
