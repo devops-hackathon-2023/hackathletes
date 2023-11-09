@@ -8,9 +8,10 @@ import { SearchBox } from '../form/SearchBox';
 interface MenuBarProps {
   selectedSasId: string;
   setSelectedSasId: (id: string) => void;
+  onSearchBoxClick?: () => void;
 }
 
-const MenuBar = ({ selectedSasId, setSelectedSasId }: MenuBarProps) => {
+const MenuBar = ({ selectedSasId, setSelectedSasId, onSearchBoxClick }: MenuBarProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const { isLoading, error, data } = useFetchAllSasses();
@@ -26,8 +27,8 @@ const MenuBar = ({ selectedSasId, setSelectedSasId }: MenuBarProps) => {
   if (error) return <h2>{error.message}</h2>;
 
   return (
-    <Stack bgcolor="primary.lighter" padding={1} borderRadius={1} spacing={1} width={isMobile ? '100%' : 300} flexShrink={0}>
-      <SearchBox placeholder="Search SAS..." onSearchChange={setSearchTerm} />
+    <Stack bgcolor="primary.lighter" padding={1} borderRadius={1} spacing={1} width={isMobile ? '100%' : 200} flexShrink={0}>
+      <SearchBox placeholder="Search SAS..." onSearchChange={setSearchTerm} onTextFieldClick={onSearchBoxClick}/>
 
       <ToggleButtonGroup
         orientation="vertical"

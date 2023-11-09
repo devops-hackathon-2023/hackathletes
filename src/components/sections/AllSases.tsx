@@ -29,7 +29,7 @@ const AllSases = () => {
         <Box sx={{ marginTop: 2 }}>
           <SearchBox placeholder="Search module..." onSearchChange={setSearchTerm} onTextFieldClick={scrollToElement} />
           <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} height="700px" marginTop={3}>
-            <Menubar setSelectedSasId={scrollAndSetSelectedSasId} selectedSasId={selectedSasId} />
+            <Menubar setSelectedSasId={scrollAndSetSelectedSasId} selectedSasId={selectedSasId} onSearchBoxClick={scrollToElement}/>
 
             <AllItemsGrid selectedSasId={selectedSasId} searchTerm={searchTerm} />
           </Stack>

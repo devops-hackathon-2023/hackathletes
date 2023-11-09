@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { updateUser, useFetchAppModuleImage, useFetchSasModules, useFetchUser } from '@/queries';
 import { AppModule, SasItem } from '@/constants/types';
-import { Box, Card, Chip, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Card, Chip, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { loggedUserAtom } from '@/state/atoms';
 import { toggleItemInArray } from '@/actions';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
@@ -65,32 +65,30 @@ export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
         onClick={() => onNavigate(sasItem, moduleName)}
       >
         <Stack direction="row" justifyContent="space-between">
-          <Stack direction="row" alignItems="center" gap={3}>
+          <Stack direction="row" alignItems="center" spacing={{xs: 1, sm: 3}}>
             <Image
               alt={`${moduleName} logo`}
               src={image?.src ?? '/app-module-images/placeholder.png'}
               width="100"
               height="100"
             />
-            <Box paddingLeft={1}>
               <Typography textTransform="capitalize" fontWeight="bold">
                 {moduleName}
               </Typography>
-            </Box>
           </Stack>
 
-          <Stack spacing={5} direction="row" alignItems="center">
+          <Stack spacing={{xs: 1, sm: 5}} direction={{sx: 'column', sm: 'row'}} paddingRight={{xs: 2, xm: 0}} alignItems="center">
             <NumberOfAppsIndicator moduleId={id} />
             <Chip label={sasName} />
             <IconButton
-              sx={{ color: 'orange' }}
-              onClick={(event) =>
-                onUpdateFavourites(event, {
-                  moduleId: id,
-                  moduleName,
-                  sasName,
-                })
-              }
+                sx={{ color: 'orange' }}
+                onClick={(event) =>
+                    onUpdateFavourites(event, {
+                      moduleId: id,
+                      moduleName,
+                      sasName,
+                    })
+                }
             >
               {isItemInFavourites({ moduleName }) ? <StarIcon /> : <StarOutlineIcon />}
             </IconButton>

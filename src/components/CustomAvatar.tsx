@@ -11,8 +11,6 @@ export const CustomAvatar = () => {
   const { data, isLoading } = useFetchUser(loggedUser.id);
   const user = data || DEFAULT_USER;
 
-  console.log(loggedUser)
-
   if(isLoading) return <Skeleton  animation="wave" width={248} height={58} />
 
   return (

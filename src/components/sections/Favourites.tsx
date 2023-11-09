@@ -34,21 +34,21 @@ const Favourites = () => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: 6 }}>
       <Container maxWidth="lg">
-        <Typography variant="h4">Oblíbené moduly</Typography>
+        <Typography variant="h4">Favourite modules</Typography>
         <Stack mt={2}>
-          <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+          <Grid container spacing={{ xs: 2, md: 3 }}>
             {fetchedData?.isLoading && (
               <>
                 {Array(3).map((_, idx) => (
-                  <Grid item key={idx} xs={2} sm={4} md={4}>
+                  <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
                     <FavouriteItemSkeleton />
                   </Grid>
                 ))}
               </>
             )}
 
-            {favourites?.map((item: any, idx: number) => (
-              <Grid item key={idx} xs={2} sm={4} md={4}>
+            {user?.favourites?.map((item: any, idx: number) => (
+              <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
                 <FavouriteItem
                   key={idx}
                   item={item}
