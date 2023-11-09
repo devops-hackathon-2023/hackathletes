@@ -1,23 +1,13 @@
-import { useFetchLatestServersDeployments } from '@/queries';
-import {
-  Button,
-  Card as MuiCard,
-  CardContent,
-  Divider as MuiDivider,
-  Skeleton,
-  Stack,
-  styled,
-  Typography,
-  CardHeader,
-} from '@mui/material';
+import { useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit } from '@/queries';
+import { Card as MuiCard, CardContent, IconButton, Skeleton, Stack, styled, Typography } from '@mui/material';
 import SmallChip from '@/components/SmallChip';
 import { GitHub } from '@mui/icons-material';
 import { StatusDot } from '@/components/StatusDot';
-import { resolvePlatform, toRelativeTimeShort } from '@/utils';
+import { capitalizeFirstLetter, resolvePlatform, toRelativeTimeShort } from '@/utils';
 import { Deployment } from '@/types';
 import DeploymentVersionChip from '@/components/DeploymentVersionChip';
 
-const GitHubButton = styled(Button)({
+const GitHubButton = styled(IconButton)({
   textTransform: 'none',
   backgroundColor: 'transparent',
   color: 'black',
@@ -26,53 +16,50 @@ const GitHubButton = styled(Button)({
   },
 });
 
-const Divider = styled(MuiDivider)(({ theme }) => ({
-  marginTop: theme.spacing(1.5),
-  marginBottom: theme.spacing(1),
-}));
-
 const Card = styled(MuiCard)({
   width: '300px',
 });
 
-export const DeploymentCard = ({ deploymentUnitVersion }: any) => {
-  const { data: latestDeployments, isLoading } = useFetchLatestServersDeployments(
-    deploymentUnitVersion.deploymentUnitId
-  );
-  const { name, gitBranch, repositoryUrl } = deploymentUnitVersion;
+export const DeploymentCard = ({ deploymentUnit }: any) => {
+  const { data: latestSuccessfulDeployments, isLoading } =
+    useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit(deploymentUnit.id);
+
+  const { name, repositoryUrl, language } = deploymentUnit;
 
   const handleClick = () => {
     window.open(repositoryUrl, '_blank');
   };
 
   return (
-    <Card sx={{ minWidth: '17rem' }}>
-      <CardHeader title={name} titleTypographyProps={{ variant: 'h4' }} />
-
+    <Card>
       <CardContent>
+        <Stack direction="row" alignItems="center" spacing={2} mb={2}>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <GitHubButton size="large" onClick={handleClick}>
+              <GitHub />
+            </GitHubButton>
+            <Typography variant="h4">{name}</Typography>
+          </Stack>
+          <Typography color="grey">|</Typography>
+          <Typography color="primary.main">{capitalizeFirstLetter(language.toLowerCase())}</Typography>
+        </Stack>
         <Stack spacing={isLoading ? 0 : 1} my={isLoading ? '-40px' : undefined}>
           {isLoading ? (
             <Skeleton animation="wave" width="100%" height="220px" />
           ) : (
-            latestDeployments?.map((deployment: Deployment) => {
-              const { environment, status, platform, startedAt } = deployment;
-              
+            latestSuccessfulDeployments?.map((deployment: Deployment) => {
+              const { environment, status, platform } = deployment;
               return (
                 <Stack key={environment} direction="row" spacing={2} alignItems="center">
                   <StatusDot status={status} />
                   <Typography fontWeight="bold">{environment.toLowerCase()}</Typography>
                   <DeploymentVersionChip deployment={deployment} />
                   <SmallChip label={resolvePlatform(platform)} />
-                  <Typography color="text.secondary">{toRelativeTimeShort(startedAt)}</Typography>
                 </Stack>
               );
             })
           )}
         </Stack>
-        <Divider />
-        <GitHubButton size="large" startIcon={<GitHub />} onClick={handleClick}>
-          {gitBranch}
-        </GitHubButton>
       </CardContent>
     </Card>
   );

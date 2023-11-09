@@ -52,3 +52,13 @@ export const resolvePlatform = (platform: string) => {
       return platform;
   }
 };
+
+export const resolveStatusColor = (status: string) => {
+  if (status === 'SUCCESS') {
+    return 'success';
+  }
+  if (status === 'FAILED') {
+    return 'error';
+  }
+  return 'info';
+};

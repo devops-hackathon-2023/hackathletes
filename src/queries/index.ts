@@ -10,7 +10,7 @@ const apiConfig = {
 };
 
 const API_URL = 'https://dopo.fly.dev/api/v1/dopo';
-const MOCK_API_URL = 'http://localhost:3000/api';
+export const MOCK_API_URL = 'http://localhost:3000/api';
 
 export const useFetchAllSasses = (): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>('allSas', async () => {
@@ -42,7 +42,6 @@ export const useGetCurrentModuleId = (): string => {
 export const useFetchUser = (userId: string): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['user', userId], async () => {
     const response = await axios.get(`${MOCK_API_URL}/users/${userId}`);
-
     return response.data;
   });
 
@@ -73,17 +72,6 @@ export const useFetchDeploymentUnitVersion = (deploymentUnitVersionId: string): 
     return response.data;
   });
 
-export const useFetchDeploymentsByDeploymentUnitId = (deploymentUnitId: string): UseQueryResult<any, AxiosError> =>
-  useQuery<any, AxiosError>(['deployments', deploymentUnitId], async () => {
-    const response = await axios.get(
-      `${API_URL}/deployments?page=0&size=30&sort=createdAt&order=desc&deploymentUnitId=${deploymentUnitId}`,
-      apiConfig
-    );
-    {
-      return response.data;
-    }
-  });
-
 export const useFetchDeploymentUnitVersionsByDeploymentUnitId = (
   deploymentUnitId: string
 ): UseQueryResult<any, AxiosError> =>
@@ -94,6 +82,30 @@ export const useFetchDeploymentUnitVersionsByDeploymentUnitId = (
 
 const fetchDeploymentUnitVersions = async (deploymentUnitId: string) =>
   axios.get(`${API_URL}/deployment-units/${deploymentUnitId}/deployment-unit-versions?order=desc&size=100`, apiConfig);
+
+export const useFetchLatestDeploymentUnitVersionByDeploymentUnitId = (
+  deploymentUnitId: string
+): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['latestDeploymentUnitVersion', deploymentUnitId], async () => {
+    const response = await fetchDeploymentUnitVersions(deploymentUnitId);
+    const deploymentUnitVersions = response.data?.page;
+    console.log('deploymentUnitVersions: ', JSON.stringify(deploymentUnitVersions));
+    console.log('returning this one: ', JSON.stringify(deploymentUnitVersions[0]));
+    return deploymentUnitVersions[0];
+  });
+
+export const useFetchGithubBugsByDeploymentUnitId = (deploymentUnitId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(
+    ['githubBugs', deploymentUnitId],
+    async () => {
+      const response = await axios.get(`${MOCK_API_URL}/github/bugs/${deploymentUnitId}`);
+      return response.data;
+    },
+    {
+      // Keep previous data while fetching the new one on background
+      keepPreviousData: true,
+    }
+  );
 
 export const useFetchQualityGatesByDeploymentUnitVersionId = (
   deploymentUnitVersionId: string
@@ -110,6 +122,45 @@ export const useFetchQualityGatesByAppModuleId = (appModuleId: string): UseQuery
   useQuery<any, AxiosError>(['qualityGates', appModuleId], async () => {
     const response = await axios.get(`${API_URL}/quality-gates?appModuleId=${appModuleId}&size=100`, apiConfig);
     return response.data;
+  });
+
+export const useFetchDeploymentsByDeploymentUnitId = (deploymentUnitId: string): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['deployments', deploymentUnitId], async () => {
+    const response = await axios.get(
+      `${API_URL}/deployments?size=100&deploymentUnitId=${deploymentUnitId}&sort=startedAt&order=desc`,
+      apiConfig
+    );
+    return response.data;
+  });
+
+export const useFetchLatestDeploymentForGivenEnvironmentByDeploymentUnitId = (
+  deploymentUnitId: string,
+  environment: string
+): UseQueryResult<any, AxiosError> =>
+  useQuery<any, AxiosError>(['latestDeployment', deploymentUnitId, environment], async () => {
+    const response = await axios.get(
+      `${API_URL}/deployments?size=1&deploymentUnitId=${deploymentUnitId}&environment=${environment}&sort=startedAt&order=desc`,
+      apiConfig
+    );
+    return response.data;
+  });
+
+export const useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit = (
+  deploymentUnitId: string
+): UseQueryResult<any, AxiosError> =>
+  useQuery(['latestSuccessfulDeployments', deploymentUnitId], async () => {
+    const response = await axios.get(
+      `${API_URL}/deployments?size=100&deploymentUnitId=${deploymentUnitId}&sort=startedAt&order=desc&status=SUCCESS`,
+      apiConfig
+    );
+    const deployments = response.data.page;
+    const latestDeploymentsByEnvironemnt: Deployment[] = [];
+    deployments.forEach((deployment: Deployment) => {
+      if (!latestDeploymentsByEnvironemnt.find((d) => d.environment === deployment.environment)) {
+        latestDeploymentsByEnvironemnt.push(deployment);
+      }
+    });
+    return latestDeploymentsByEnvironemnt.sort((a, b) => a.environment.localeCompare(b.environment));
   });
 
 export const fetchLatestDeploymentUnitVersion = async (deploymentUnitId: string) => {
@@ -160,34 +211,16 @@ export const useFetchAppModuleLatestDeploymentUnits = (moduleId: string) => {
   return { data: enhancedDeploymentUnits, isLoading, isError };
 };
 
-export const useFetchDeploymentsByAppModuleId = (appModuleId: string): UseQueryResult<any, AxiosError> =>
+export const useFetchDeploymentsByAppModuleId = (
+  appModuleId: string,
+  size: number = 100
+): UseQueryResult<any, AxiosError> =>
   useQuery<any, AxiosError>(['deployments', appModuleId], async () => {
     const response = await axios.get(
-      `${API_URL}/deployments?size=100&appModuleId=${appModuleId}&sort=startedAt&order=desc`,
+      `${API_URL}/deployments?size=${size}&appModuleId=${appModuleId}&sort=startedAt&order=desc`,
       apiConfig
     );
     return response.data;
-  });
-
-export const useFetchDeploymentsByVersionId = (versionId: string): UseQueryResult<Deployment[], AxiosError> =>
-  useQuery<any, AxiosError>(['deployments', versionId], async () => {
-    const response = await axios.get(
-      `${API_URL}/deployments?size=100&versionId=${versionId}&sort=startedAt&order=desc`,
-      apiConfig
-    );
-    const deployments = response.data.page;
-    const latestDeploymentsByEnvironment: { [key: string]: any } = {};
-    deployments.forEach((deployment: any) => {
-      const env = deployment.environment;
-      if (
-        !latestDeploymentsByEnvironment[env] ||
-        new Date(deployment.startedAt) > new Date(latestDeploymentsByEnvironment[env].startedAt)
-      ) {
-        latestDeploymentsByEnvironment[env] = deployment;
-      }
-    });
-
-    return Object.values(latestDeploymentsByEnvironment);
   });
 
 export const useFetchLatestServersDeployments = (deploymentUnitId: string): UseQueryResult<Deployment[], AxiosError> =>
@@ -209,10 +242,4 @@ export const useFetchLatestServersDeployments = (deploymentUnitId: string): UseQ
     });
 
     return Object.values(latestDeploymentsByEnvironment).sort((a, b) => a.environment.localeCompare(b.environment));
-  });
-
-export const useFetchQualityGate = (deploymentVersionId: string): UseQueryResult<QualityGate[], AxiosError> =>
-  useQuery<any, AxiosError>(['qualityGate', deploymentVersionId], async () => {
-    const response = await axios.get(`${API_URL}/quality-gates/${deploymentVersionId}`, apiConfig);
-    return response.data;
   });

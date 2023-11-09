@@ -22,38 +22,14 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { ClearIcon } from '@mui/x-date-pickers';
 import { StatusDot } from '@/components/StatusDot';
 import { Storage } from '@mui/icons-material';
 import SmallChip from '@/components/SmallChip';
 import { resolvePlatform, toRelativeTime } from '@/utils';
 import GitBranch from '@/icons/GitBranch';
+import DeploymentResultText from '@/components/DeploymentResultText';
 
 const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
-
-const resolveDeploymentResultMesage = (version: string, deploymentResult: string, environment: string) => {
-  if (deploymentResult === 'SUCCESS') {
-    return `Build ${version} was deployed to ${environment}`;
-  }
-  if (deploymentResult === 'FAILED') {
-    return `Build ${version} failed`;
-  }
-  return `Build ${version} is in progress`;
-};
-
-const DeploymentResultText = ({ deployment }: { deployment: Deployment }) => {
-  const { data: deploymentUnitVersion } = useFetchDeploymentUnitVersion(deployment.versionId);
-  const deploymentResult = deployment.status;
-  return (
-    <Typography color="primary.main">
-      {resolveDeploymentResultMesage(
-        deploymentUnitVersion?.version || '',
-        deploymentResult,
-        deployment.environment.toLowerCase()
-      )}
-    </Typography>
-  );
-};
 
 const DeploymentGitBranch = ({ deployment }: { deployment: Deployment }) => {
   const { data: deploymentUnitVersion } = useFetchDeploymentUnitVersion(deployment.versionId);
@@ -63,6 +39,26 @@ const DeploymentGitBranch = ({ deployment }: { deployment: Deployment }) => {
 const DeployedByText = styled(Typography)({
   fontSize: '13px',
 });
+
+export const EnvironmentAndPlatform = ({ deployment }: { deployment: Deployment }) => (
+  <>
+    <Stack direction="row" spacing={1} mb={0.5}>
+      <Storage />
+      <Typography>{deployment.environment.toLowerCase()}</Typography>
+    </Stack>
+    <SmallChip label={resolvePlatform(deployment.platform)} />
+  </>
+);
+
+export const BranchAndTime = ({ deployment }: { deployment: Deployment }) => (
+  <>
+    <Stack direction="row" alignItems="center" spacing={1}>
+      <GitBranch />
+      <DeploymentGitBranch deployment={deployment} />
+    </Stack>
+    <Typography>{toRelativeTime(deployment.startedAt)}</Typography>
+  </>
+);
 
 export const DeploymentsHistory = () => {
   const moduleId = useGetCurrentModuleId();
@@ -100,7 +96,7 @@ export const DeploymentsHistory = () => {
             }}
           >
             <MenuItem value="">
-              <em>All Units</em> {/* Option to clear selection */}
+              <em>All Units</em>
             </MenuItem>
             {deploymentUnits?.page.map((unit: DeploymentUnit) => (
               <MenuItem key={unit.id} value={unit.id}>
@@ -133,18 +129,10 @@ export const DeploymentsHistory = () => {
                     </Stack>
                   </TableCell>
                   <TableCell>
-                    <Stack direction="row" spacing={1} mb={0.5}>
-                      <Storage />
-                      <Typography>{deployment.environment.toLowerCase()}</Typography>
-                    </Stack>
-                    <SmallChip label={resolvePlatform(deployment.platform)} />
+                    <EnvironmentAndPlatform deployment={deployment} />
                   </TableCell>
                   <TableCell>
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                      <GitBranch />
-                      <DeploymentGitBranch deployment={deployment} />
-                    </Stack>
-                    <Typography>{toRelativeTime(deployment.startedAt)}</Typography>
+                    <BranchAndTime deployment={deployment} />
                   </TableCell>
                   <TableCell>
                     <Stack direction="row" alignItems="center" spacing={1}>
