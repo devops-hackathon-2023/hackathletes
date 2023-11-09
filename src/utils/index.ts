@@ -14,7 +14,7 @@ export const toRelativeTimeShort = (dateString: string): string => {
   const relativeTimeFull = toRelativeTime(dateString);
 
   // Use regex to extract the number and time unit from the full relative time
-  const matches = /(\d+)\s(\w+)/.exec(relativeTimeFull);
+  const matches = relativeTimeFull.match(/(\d+)\s(\w+)/);
   if (!matches) {
     return '0m'; // Return '0m' if the dateString is less than a minute ago
   }

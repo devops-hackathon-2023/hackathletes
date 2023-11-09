@@ -27,7 +27,7 @@ export const SearchBox = ({ onSearchChange, placeholder, label, debounce = 300, 
 
   return (
     <TextField
-      fullWidth
+        fullWidth
       onClick={onTextFieldClick}
       placeholder={placeholder}
       label={label}

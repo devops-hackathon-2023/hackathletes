@@ -70,6 +70,7 @@ const RegisterView = () => {
 
   const onSubmit = useCallback(
     async (data: FormValuesProps) => {
+      // TODO: implement register logic
       const response = await registerUser(
         {
           ...data,
@@ -144,7 +145,7 @@ const RegisterView = () => {
           }}
         />
 
-        <Button size="large" type="submit" variant="contained">
+        <Button fullWidth size="large" type="submit" variant="contained">
           {t('submit')}
         </Button>
       </Stack>

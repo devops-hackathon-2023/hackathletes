@@ -11,7 +11,6 @@ import {
 import { useRouter } from 'next/router';
 import { Deployment, DeploymentUnit, DeploymentUnitVersion } from '@/types';
 import DeploymentVersionChip from '@/components/DeploymentVersionChip';
-import { uniqueId } from 'lodash';
 
 interface VersionSelectProps {
   deploymentUnit: DeploymentUnit;
@@ -79,8 +78,8 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
         {qualityGateIsSuccess && <QualityMetricsTable qualityGates={qualityGate?.page} />}
 
         {qualityGateIsLoading &&
-          Array.from({ length: 8 }).map((_) => (
-            <Skeleton key={uniqueId()} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
+          Array.from({ length: 8 }).map((_, idx) => (
+            <Skeleton key={idx} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
           ))}
       </Grid>
       <Grid item xs={12} md={3} flexShrink={0} pl={4}>

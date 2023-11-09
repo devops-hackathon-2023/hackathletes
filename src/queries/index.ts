@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { QueryClient, useQueries, useQuery, UseQueryResult } from 'react-query';
-import { ApiMultipleResults, Deployment, DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
+import { ApiMultipleResults, Deployment, DeploymentUnit, DeploymentUnitVersion } from '@/types';
 import { useRouter } from 'next/router';
 import { QUALITY_GATE_TYPES } from '@/constants';
 import User from '@/types/User';

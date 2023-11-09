@@ -45,7 +45,7 @@ export const VersionsHistory = ({unitId}: VersionsHistoryProps) => {
                                             <Typography
                                                 color="text.secondary">{version.createdAt || '2 days ago'}</Typography>
                                             {findLatestDeployment(version.id) && (
-                                                <SmallChip label={findLatestDeployment(version.id)?.environment}/>
+                                                <SmallChip label={findLatestDeployment(version.id).environment}/>
                                             )}
                                         </Stack>
                                     </Stack>

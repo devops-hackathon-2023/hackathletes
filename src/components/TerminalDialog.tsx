@@ -1,6 +1,5 @@
 import React from 'react';
 import { styled, Dialog } from '@mui/material';
-import { uniqueId } from 'lodash';
 
 const StyledPre = styled('pre')({
   backgroundColor: '#000',
@@ -21,8 +20,8 @@ const Terminal = ({ output }: TerminalProps) => {
   const outputLines = formattedOutput.split('\n');
   return (
     <StyledPre id="terminal">
-      {outputLines.map((line: string) => (
-        <div key={uniqueId()}>{line}</div>
+      {outputLines.map((line: string, index: number) => (
+        <div key={index}>{line}</div>
       ))}
     </StyledPre>
   );

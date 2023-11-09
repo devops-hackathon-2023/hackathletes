@@ -7,7 +7,6 @@ import { loggedUserAtom } from '@/state/atoms';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { useQueryClient } from 'react-query';
 import { toggleItemInArray } from '@/utils';
-import { uniqueId } from 'lodash';
 import Image from 'next/image';
 import StarIcon from '@mui/icons-material/Star';
 import { SasModuleSkeleton } from './SasModuleSkeleton';
@@ -52,7 +51,7 @@ export const SasModules = ({ sasItem, searchTerm }: SasModulesProps) => {
     return (
       <>
         {Array(2).map((_, idx) => (
-          <SasModuleSkeleton key={uniqueId()} />
+          <SasModuleSkeleton key={idx} />
         ))}
       </>
     );
