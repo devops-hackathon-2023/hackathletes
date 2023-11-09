@@ -216,16 +216,18 @@ export const DeploymentsHistory = ({
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      <OutputButton
-                        onClick={() => setIsTerminalDialogOpen(true)}
-                        onOutputFetch={(outputArg: string) => setOutput(outputArg)}
-                        deployment={deployment}
-                      />
-                      <ActionButton
-                        deployment={deployment}
-                        deploymentUnit={deploymentUnit}
-                        handleOpenSnackbar={handleOpenSnackbar}
-                      />
+                     <Stack direction="row">
+                       <OutputButton
+                           onClick={() => setIsTerminalDialogOpen(true)}
+                           onOutputFetch={(outputArg: string) => setOutput(outputArg)}
+                           deployment={deployment}
+                       />
+                       <ActionButton
+                           deployment={deployment}
+                           deploymentUnit={deploymentUnit}
+                           handleOpenSnackbar={handleOpenSnackbar}
+                       />
+                     </Stack>
                     </TableCell>
                   </TableRow>
                 );
