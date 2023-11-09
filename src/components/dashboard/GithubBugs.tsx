@@ -64,9 +64,9 @@ export const GithubBugs = () => {
         label: 'Bug Priorities',
         data: Object.values(bugPriorities),
         backgroundColor: [
-          theme.palette.info.main, // color for low priority
-          theme.palette.warning.main, // color for medium priority
+          theme.palette.success.main, // color for low priority
           theme.palette.error.main, // color for high priority
+          theme.palette.warning.main, // color for medium priority
         ],
       },
     ],

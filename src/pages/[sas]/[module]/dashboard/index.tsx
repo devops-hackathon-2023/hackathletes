@@ -1,10 +1,12 @@
 import React from 'react';
 import { Layout } from '@/components/module-details/Layout';
-import { Grid, Stack, Typography } from '@mui/material';
+import { Grid, Stack, Typography, Card, CardContent } from '@mui/material';
 import { useFetchAppModuleDeploymentUnits, useGetCurrentModuleId } from '@/queries';
 import { DeploymentCard, GithubBugs, RecentActivity } from '@/components';
 import { CodeMetricsSummary } from '@/components/dashboard/CodeMetricsSummary';
 import { ArcElement, Chart, Legend, Tooltip } from 'chart.js';
+import { useIsMobile } from '@/hooks';
+import { DeploymentUnit } from '@/types';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -12,20 +14,27 @@ const DashboardPage = () => {
   const moduleId = useGetCurrentModuleId();
   const { data: deploymentUnits } = useFetchAppModuleDeploymentUnits(moduleId);
 
+  const isMobile = useIsMobile();
   const deploymentUnitsArr = deploymentUnits?.page;
-
   return (
     <Layout>
       <Stack>
-        <Grid container spacing={10} mb={2}>
-          {deploymentUnitsArr?.map((deploymentUnit: any) => (
-            <Grid item sm={6} md={5} lg={deploymentUnitsArr.length === 1 ? 6 : 3} key={deploymentUnit.id}>
-              <DeploymentCard deploymentUnit={deploymentUnit} />
-            </Grid>
-          ))}
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={5} mb={2}>
+          <Grid item xs={12} sm={12} md>
+            <Typography variant="h4">Deployment units</Typography>
+            <Stack direction={isMobile ? 'column' : 'row'} spacing={2}>
+              {deploymentUnitsArr?.map((deploymentUnit: DeploymentUnit) => (
+                <DeploymentCard key={deploymentUnit?.id} deploymentUnit={deploymentUnit} />
+              ))}
+            </Stack>
+          </Grid>
+          <Grid item xs={12} sm={12} md>
             <Typography variant="h4">Bugs by priority</Typography>
-            <GithubBugs />
+            <Card sx={{ width: 'min-content' }}>
+              <CardContent>
+                <GithubBugs />
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
         <Grid container alignItems="flex-start" justifyContent="flex-start" columnSpacing={10} mt={2}>
