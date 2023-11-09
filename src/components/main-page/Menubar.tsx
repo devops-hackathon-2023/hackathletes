@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Divider, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Divider, Skeleton, Stack, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { useIsMobile } from '@/hooks';
 import { useFetchAllSasses } from '@/queries';
 import { SasItem } from '@/constants/types';
@@ -22,7 +22,7 @@ const MenuBar = ({ selectedSasId, setSelectedSasId, onSearchBoxClick }: MenuBarP
 
   const isMobile = useIsMobile();
 
-  if (isLoading) return <h2>Loading ...</h2>;
+  if (isLoading) return <Skeleton width={isMobile ? '100%' : 200} height="100%" />;
 
   if (error) return <h2>{error.message}</h2>;
 

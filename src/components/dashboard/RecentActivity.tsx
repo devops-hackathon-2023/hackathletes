@@ -16,6 +16,7 @@ import DeploymentResultText from '@/components/DeploymentResultText';
 import { BranchAndTime, EnvironmentAndPlatform } from '@/components/DeploymentsHistory';
 import React from 'react';
 import { styled } from '@mui/material/styles';
+import { uniqueId } from 'lodash';
 
 const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
   width: '95%',
@@ -35,7 +36,7 @@ export const RecentActivity = () => {
 
   const deployments = deploymentsRes?.page?.slice(0, 3);
   return isLoading ? (
-    Array.from({ length: 3 }).map((_, idx) => <Skeleton key={idx} width="100%" height="7rem" />)
+    Array.from({ length: 3 }).map((_) => <Skeleton key={uniqueId()} width="100%" height="7rem" />)
   ) : (
     <TableContainer sx={{ maxHeight: '43vh', overflow: 'hidden', width: '100%' }}>
       <Table>

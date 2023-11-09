@@ -31,7 +31,6 @@ export const secondaryFont = Lora({
 });
 
 // Example of typography settings
-// TODO: customize
 export const typography = {
   fontFamily: primaryFont.style.fontFamily,
   fontWeightRegular: 400,

@@ -20,17 +20,18 @@ import {
 import { DeploymentUnit, DeploymentUnitVersion } from '@/types';
 import { styled } from '@mui/material/styles';
 import { QualityMetricsTable } from '@/components';
+import { uniqueId } from 'lodash';
 
 interface VersionSelectProps {
   deploymentUnit: DeploymentUnit;
-  fullWidth?: boolean;
+  fullwidth?: boolean;
 }
 
 const Select = styled(MuiSelect)({
   width: '300px',
 });
 
-const VersionSelect = ({ deploymentUnit, fullWidth }: VersionSelectProps) => {
+const VersionSelect = ({ deploymentUnit, fullwidth }: VersionSelectProps) => {
   const { data: deploymentUnitVersions } = useFetchDeploymentUnitVersionsByDeploymentUnitId(deploymentUnit.id);
 
   const [selectedVersion, setSelectedVersion] = useState(deploymentUnitVersions?.page?.[0]?.version || '');
@@ -46,11 +47,11 @@ const VersionSelect = ({ deploymentUnit, fullWidth }: VersionSelectProps) => {
     data: qualityGate,
     isLoading: qualityGateIsLoading,
     isSuccess: qualityGateIsSuccess,
-  } = useFetchQualityGatesByDeploymentUnitVersionId(selectedDeploymentUnitVersionId);
+  } = useFetchQualityGatesByDeploymentUnitVersionId(selectedDeploymentUnitVersionId ?? '');
 
   useEffect(() => {
-    if (deploymentUnitVersions?.page?.length > 0 && selectedVersion === '') {
-      setSelectedVersion(deploymentUnitVersions.page[0].version);
+    if (deploymentUnitVersions && deploymentUnitVersions?.page?.length > 0 && selectedVersion === '') {
+      setSelectedVersion(deploymentUnitVersions?.page[0].version ?? '');
     }
   }, [deploymentUnitVersions, selectedVersion]);
 
@@ -59,7 +60,7 @@ const VersionSelect = ({ deploymentUnit, fullWidth }: VersionSelectProps) => {
   };
 
   return (
-    <Grid item xs={12} md={fullWidth ? 12 : 6}>
+    <Grid item xs={12} md={fullwidth ? 12 : 6}>
       <Card>
         <CardContent>
           <Stack direction="row" alignItems="center" spacing={2} mb={2}>
@@ -77,8 +78,8 @@ const VersionSelect = ({ deploymentUnit, fullWidth }: VersionSelectProps) => {
           {qualityGateIsSuccess && <QualityMetricsTable qualityGates={qualityGate?.page} />}
 
           {qualityGateIsLoading &&
-            Array.from({ length: 8 }).map((_, idx) => (
-              <Skeleton key={idx} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
+            Array.from({ length: 8 }).map((_) => (
+              <Skeleton key={uniqueId()} animation="wave" width="100%" height="6rem" sx={{ my: -3.7 }} />
             ))}
         </CardContent>
       </Card>
@@ -96,7 +97,7 @@ const MetricsPage = () => {
           <VersionSelect
             key={deploymentUnit.id}
             deploymentUnit={deploymentUnit}
-            fullWidth={deploymentUnits?.page?.length === 1}
+            fullwidth={deploymentUnits?.page?.length === 1}
           />
         ))}
       </Grid>

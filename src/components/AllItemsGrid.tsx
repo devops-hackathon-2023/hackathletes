@@ -2,6 +2,7 @@ import { Grid, Stack } from '@mui/material';
 import { SasItem } from '@/constants/types';
 import { useFetchAllSasses } from '@/queries';
 import { SasModules } from '@/components/SasModules';
+import { uniqueId } from 'lodash';
 import { SasModuleSkeleton } from './SasModuleSkeleton';
 
 interface AllItemsGridProps {
@@ -22,12 +23,12 @@ const AllItemsGrid = ({ selectedSasId, searchTerm }: AllItemsGridProps) => {
         {isLoading && (
           <>
             {Array(6).map((_, idx) => (
-              <SasModuleSkeleton key={idx} />
+              <SasModuleSkeleton key={uniqueId()} />
             ))}
           </>
         )}
-        {sasesList?.map((sItem: SasItem, idx: number) => (
-          <SasModules key={idx} sasItem={sItem} searchTerm={searchTerm} />
+        {sasesList?.map((sItem: SasItem) => (
+          <SasModules key={uniqueId()} sasItem={sItem} searchTerm={searchTerm} />
         ))}
       </Grid>
     </Stack>

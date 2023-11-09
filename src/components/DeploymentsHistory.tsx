@@ -34,6 +34,7 @@ import DeploymentResultText from '@/components/DeploymentResultText';
 import { ActionButton } from '@/components/ActionButton';
 import TerminalDialog from '@/components/TerminalDialog';
 import OutputButton from '@/components/OutputButton';
+import { uniqueId } from 'lodash';
 
 const capitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -75,7 +76,7 @@ interface DeploymentsHistoryProps {
 export const DeploymentsHistory = ({
   showUnitSelect = true,
   showTitle = true,
-  unitId = 0,
+  unitId = "0",
 }: DeploymentsHistoryProps) => {
   const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
@@ -176,7 +177,7 @@ export const DeploymentsHistory = ({
       >
         {isLoadingDeployments &&
           Array.from({ length: 15 }).map((_, idx: number) => (
-            <Skeleton key={idx} animation="wave" height="7rem" sx={{ my: -3.7, mx: 2 }} />
+            <Skeleton key={uniqueId()} animation="wave" height="7rem" sx={{ my: -3.7, mx: 2 }} />
           ))}
 
         {isSuccessDeployments && (

@@ -1,5 +1,6 @@
 import {Typography, Stack, Grid, Container, Box} from '@mui/material';
 import {updateUser, useGetUser} from '@/queries';
+import { uniqueId } from 'lodash';
 import {useAtom} from 'jotai';
 import {loggedUserAtom} from '@/state/atoms';
 import {toggleItemInArray} from '@/utils';
@@ -40,18 +41,18 @@ const Favourites = () => {
                             <Grid container spacing={{xs: 2, md: 3}}>
                                 {fetchedData?.isLoading && (
                                     <>
-                                        {Array(3).map((_, idx) => (
-                                            <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
+                                        {Array(3).map((_) => (
+                                            <Grid item key={uniqueId()} xs={12} sm={6} md={4} lg={3}>
                                                 <FavouriteItemSkeleton/>
                                             </Grid>
                                         ))}
                                     </>
                                 )}
 
-                                {user?.favourites?.map((item: any, idx: number) => (
-                                    <Grid item key={idx} xs={12} sm={6} md={4} lg={3}>
+                                {user?.favourites?.map((item: any) => (
+                                    <Grid item key={uniqueId()} xs={12} sm={6} md={4} lg={3}>
                                         <FavouriteItem
-                                            key={idx}
+                                            key={uniqueId()}
                                             item={item}
                                             onItemClick={onNavigateToDetails}
                                             onStarClick={onUpdateFavourites}

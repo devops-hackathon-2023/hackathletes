@@ -1,21 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Layout } from '@/components/module-details/Layout';
 import {
   useFetchAppModuleDeploymentUnits,
-  useFetchDeploymentUnitVersionsByDeploymentUnitId,
   useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit,
   useFetchQualityGates,
-  useFetchQualityGatesByDeploymentUnitVersionId,
   useGetCurrentModuleId,
 } from '@/queries';
 import {
-  Card,
-  CardContent,
-  FormControl,
   Grid,
   LinearProgress,
-  MenuItem,
-  Select as MuiSelect,
   Skeleton,
   Stack,
   Table,
@@ -27,7 +20,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import { DeploymentUnit, DeploymentUnitVersion, QualityGate } from '@/types';
+import { DeploymentUnit, QualityGate } from '@/types';
 import { styled } from '@mui/material/styles';
 import { ENVIRONMENTS, QUALITY_GATE_TYPES } from '@/constants';
 import { formatQualityType } from '@/utils/qualityGate';
@@ -35,6 +28,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { uniqueId } from 'lodash';
 
 const ScrollableTableContainer = styled('div')({
   overflowX: 'auto',
@@ -72,7 +66,6 @@ const QualityGateTableRow = ({
   const {
     data: qualityGates,
     isLoading: qualityGateIsLoading,
-    isSuccess: qualityGateIsSuccess,
   } = useFetchQualityGates({
     versionId: deploymentOnEnv?.versionId,
     appModuleId: unit.appModuleId,
@@ -82,8 +75,8 @@ const QualityGateTableRow = ({
   if (isLoading || qualityGateIsLoading) {
     return (
       <>
-        {Array.from({ length: 8 }).map((_, idx) => (
-          <TableRow key={idx}>
+        {Array.from({ length: 8 }).map((_) => (
+          <TableRow key={uniqueId()}>
             <TableCell>
               <Skeleton variant="text" />
             </TableCell>
@@ -150,8 +143,8 @@ export const QualityMetricsTable = ({ environment, qualityGateType }: QualityMet
         <TableBody>
           {isLoading && (
             <>
-              {Array.from({ length: 8 }).map((_, idx) => (
-                <TableRow key={idx}>
+              {Array.from({ length: 8 }).map((_) => (
+                <TableRow key={uniqueId()}>
                   <TableCell>
                     <Skeleton variant="text" />
                   </TableCell>
