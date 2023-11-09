@@ -2,20 +2,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { UnitLayout } from '@/components/unit-details/UnitLayout';
 import {
   Box,
-  Card,
-  CardContent,
   Divider,
-  FormControl,
   Grid,
-  MenuItem,
   Skeleton,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
-  styled,
 } from '@mui/material';
-import { CodeMetricsCard, QualityMetricsTable } from '@/components';
+import { QualityMetricsTable } from '@/components';
 import {
   useFetchDeploymentUnitVersionsByDeploymentUnitId,
   useFetchDeploymentUnits,
@@ -40,7 +35,7 @@ const VersionSelect = ({ deploymentUnit }: VersionSelectProps) => {
   };
 
   // Version per environment
-  const { data: latestSuccessfulDeployments, isLoading } =
+  const { data: latestSuccessfulDeployments } =
     useFetchLatestSuccessfulDeploymentForEachEnvironmentByDeploymentUnit(deploymentUnit.id);
 
   const {
